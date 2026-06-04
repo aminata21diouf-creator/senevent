@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "titre": "Concert acoustique de Youssou Junior",
+    "categorie": "concert",
+    "lieu_nom": "Théâtre National Daniel Sorano",
+    "date_debut": "2026-06-12T20:00:00+00:00",
+    "prix": 5000,
+    "image_url": "https://placehold.co/400x250/1a3a5c/fff?text=Concert"
+  },
+  {
+    "id": 2,
+    "titre": "Expo photo : Dakar la nuit",
+    "categorie": "expo",
+    "lieu_nom": "Galerie le Manège",
+    "date_debut": "2026-06-15T18:00:00+00:00",
+    "prix": 0,
+    "image_url": "https://placehold.co/400x250/ea7d2b/fff?text=Expo"
+  },
+  {
+    "id": 3,
+    "titre": "Conférence IA & Société",
+    "categorie": "conference",
+    "lieu_nom": "Amphithéâtre UCAD",
+    "date_debut": "2026-06-18T09:00:00+00:00",
+    "prix": 0,
+    "image_url": "https://placehold.co/400x250/2b7a2b/fff?text=Conference"
+  },
+  {
+    "id": 4,
+    "titre": "Atelier batik traditionnel",
+    "categorie": "atelier",
+    "lieu_nom": "Centre Culturel Blaise Senghor",
+    "date_debut": "2026-06-20T10:00:00+00:00",
+    "prix": 2000,
+    "image_url": "https://placehold.co/400x250/8b2be2/fff?text=Atelier"
+  },
+  {
+    "id": 5,
+    "titre": "Soutenance de thèse — Génie Informatique",
+    "categorie": "soutenance",
+    "lieu_nom": "École Supérieure Polytechnique",
+    "date_debut": "2026-06-22T14:00:00+00:00",
+    "prix": 0,
+    "image_url": "https://placehold.co/400x250/c0392b/fff?text=Soutenance"
+  }
+]
