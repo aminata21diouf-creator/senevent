@@ -1,3 +1,4 @@
+// Composant EvenementCarte - realise par Amina Diouf
 import styles from "./EvenementCarte.module.css";
 
 const EvenementCarte = ({ ev, afficherDetails }) => {
