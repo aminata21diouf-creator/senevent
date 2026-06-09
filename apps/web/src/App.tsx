@@ -13,7 +13,7 @@ const App = () => {
     setChargement(true);
     setErreur(null);
     try {
-      const reponse = await fetch("/evenements-faux.json");
+      const reponse = await fetch("/evenements.json");
       if (!reponse.ok) {
         throw new Error(`Erreur HTTP ${reponse.status}`);
       }
@@ -26,6 +26,7 @@ const App = () => {
     }
   };
 
+  // 1er useEffect : chargement au montage (UNE SEULE FOIS)
   useEffect(() => {
     charger();
   }, []);
@@ -33,6 +34,17 @@ const App = () => {
   const evenementsFiltres = evenements.filter((ev: any) =>
     ev.titre.toLowerCase().includes(recherche.toLowerCase())
   );
+
+  // 2ème useEffect : titre de l'onglet synchronisé avec le compteur
+  useEffect(() => {
+    if (evenementsFiltres.length > 0) {
+      document.title = `(${evenementsFiltres.length}) SenEvent`;
+    } else {
+      document.title = "SenEvent";
+    }
+  }, [evenementsFiltres.length]);
+
+  
 
   return (
     <div className={styles.container}>
