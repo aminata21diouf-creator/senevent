@@ -1,3 +1,4 @@
+// Composant SearchBar - realise par Bibou Diagne
 import styles from "./SearchBar.module.css";
 
 const SearchBar = ({ recherche, onRecherche }) => {
