@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import EvenementCarte from "./components/EvenementCarte";
 import SearchBar from "./components/SearchBar";
+import EtatChargement from "./components/EtatChargement";
 import styles from "./App.module.css";
 
 const App = () => {
@@ -26,7 +27,6 @@ const App = () => {
     }
   };
 
-  // 1er useEffect : chargement au montage (UNE SEULE FOIS)
   useEffect(() => {
     charger();
   }, []);
@@ -35,7 +35,6 @@ const App = () => {
     ev.titre.toLowerCase().includes(recherche.toLowerCase())
   );
 
-  // 2ème useEffect : titre de l'onglet synchronisé avec le compteur
   useEffect(() => {
     if (evenementsFiltres.length > 0) {
       document.title = `(${evenementsFiltres.length}) SenEvent`;
@@ -44,24 +43,15 @@ const App = () => {
     }
   }, [evenementsFiltres.length]);
 
-  
-
   return (
     <div className={styles.container}>
       <h1 className={styles.titre}>SenEvent — Événements à Dakar</h1>
 
-      {chargement && (
-        <p className={styles.message}>Chargement des événements...</p>
-      )}
-
-      {erreur && (
-        <div className={styles.erreur}>
-          <p>Erreur : {erreur}</p>
-          <button className={styles.bouton} onClick={charger}>
-            Réessayer
-          </button>
-        </div>
-      )}
+      <EtatChargement
+        chargement={chargement}
+        erreur={erreur}
+        onReessayer={charger}
+      />
 
       {!chargement && !erreur && (
         <>
@@ -70,7 +60,9 @@ const App = () => {
             {evenementsFiltres.length} événement(s) trouvé(s)
           </p>
           {evenementsFiltres.length === 0 ? (
-            <p className={styles.message}>Aucun événement ne correspond.</p>
+            <p className={styles.messageVide}>
+              Aucun événement ne correspond.
+            </p>
           ) : (
             evenementsFiltres.map((ev: any) => (
               <EvenementCarte key={ev.id} ev={ev} afficherDetails={true} />

@@ -1,0 +1,29 @@
+.message {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 2rem;
+}
+
+.erreur {
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  color: #a01a1a;
+}
+
+.bouton {
+  margin-top: 0.5rem;
+  padding: 0.4rem 1rem;
+  background: #a01a1a;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.bouton:hover {
+  background: #c02020;
+}

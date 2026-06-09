@@ -47,3 +47,9 @@
 .bouton:hover {
   background: #c02020;
 }
+.messageVide {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  padding: 1rem;
+}
