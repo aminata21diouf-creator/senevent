@@ -1,5 +1,6 @@
 import { useState } from "react";
 import EvenementCarte from "./components/EvenementCarte";
+import SearchBar from "./components/SearchBar";
 import styles from "./App.module.css";
 
 const App = () => {
@@ -29,15 +30,7 @@ const App = () => {
       <button className={styles.bouton} onClick={charger} disabled={chargement}>
         {chargement ? "Chargement..." : "Charger les evenements"}
       </button>
-      <input
-        type="text"
-        placeholder="Rechercher un evenement..."
-        value={recherche}
-        onChange={e => setRecherche(e.target.value)}
-        style={{ display: "block", width: "100%", padding: "0.6rem 1rem",
-          marginTop: "1rem", fontSize: "1rem", border: "1px solid #ccc",
-          borderRadius: "6px", boxSizing: "border-box" }}
-      />
+      <SearchBar recherche={recherche} onRecherche={setRecherche} />
       <p className={styles.compteur}>
         {evenementsFiltres.length} evenement(s) trouve(s)
       </p>
