@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./EvenementCarte.module.css";
 
-const EvenementCarte = ({ ev, afficherDetails }: { ev: any; afficherDetails: boolean }) => {
+const EvenementCarte = ({ ev, afficherDetails }) => {
   const prix = ev.prix === 0 ? "Gratuit" : `${ev.prix} FCFA`;
 
   return (

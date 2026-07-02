@@ -1,0 +1,13 @@
+body {
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+.mystery {
+  visibility: hidden;
+}
+
+img {
+  width: 400px;
+  height: 400px;
+}
