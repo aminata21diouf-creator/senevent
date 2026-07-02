@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
-import EvenementCarte from "./components/EvenementCarte";
-import SearchBar from "./components/SearchBar";
-import EtatChargement from "./components/EtatChargement"; // NOUVEAU
-import styles from "./App.module.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Accueil from "./pages/Accueil";
+import NouvelEvenement from "./pages/NouvelEvenement";
+import Detail from "./pages/Detail";
+import NavBar from "./components/NavBar";
 
 const App = () => {
-  const [evenements, setEvenements] = useState([]);
+  const [evenements, setEvenements] = useState<any[]>([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState<string | null>(null);
-  const [recherche, setRecherche] = useState("");
 
   const charger = async () => {
     setChargement(true);
@@ -29,48 +29,35 @@ const App = () => {
     charger();
   }, []);
 
-  const evenementsFiltres = evenements.filter((ev: any) =>
-    ev.titre.toLowerCase().includes(recherche.toLowerCase())
-  );
-
-  // NOUVEAU : synchroniser le titre de l'onglet
-  useEffect(() => {
-    if (evenementsFiltres.length > 0) {
-      document.title = `(${evenementsFiltres.length}) SenEvent`;
-    } else {
-      document.title = "SenEvent";
-    }
-  }, [evenementsFiltres.length]);
+  const ajouterEvenement = (nouvel: any) => {
+    setEvenements(precedents => [nouvel, ...precedents]);
+  };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.titre}>SenEvent — Événements à Dakar</h1>
-
-      {/* NOUVEAU : composant dédié aux états */}
-      <EtatChargement
-        chargement={chargement}
-        erreur={erreur}
-        onReessayer={charger}
-      />
-
-      {!chargement && !erreur && (
-        <>
-          <SearchBar recherche={recherche} onRecherche={setRecherche} />
-          <p className={styles.compteur}>
-            {evenementsFiltres.length} événement(s) trouvé(s)
-          </p>
-          {evenementsFiltres.length === 0 ? (
-            <p className={styles.messageVide}>
-              Aucun événement ne correspond.
-            </p>
-          ) : (
-            evenementsFiltres.map((ev: any) => (
-              <EvenementCarte key={ev.id} ev={ev} afficherDetails={true} />
-            ))
-          )}
-        </>
-      )}
-    </div>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Accueil
+              evenements={evenements}
+              chargement={chargement}
+              erreur={erreur}
+              onReessayer={charger}
+            />
+          }
+        />
+        <Route
+          path="/nouveau"
+          element={<NouvelEvenement onAjouter={ajouterEvenement} />}
+        />
+        <Route
+          path="/evenement/:id"
+          element={<Detail evenements={evenements} />}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
