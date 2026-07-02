@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./NouvelEvenement.module.css";
 
 const NouvelEvenement = ({ onAjouter }: { onAjouter: (ev: any) => void }) => {
@@ -7,6 +8,7 @@ const NouvelEvenement = ({ onAjouter }: { onAjouter: (ev: any) => void }) => {
   const [lieu, setLieu] = useState("");
   const [prix, setPrix] = useState(0);
   const [erreurs, setErreurs] = useState<any>({});
+  const navigate = useNavigate();
 
   const valider = () => {
     const e: any = {};
@@ -39,6 +41,7 @@ const NouvelEvenement = ({ onAjouter }: { onAjouter: (ev: any) => void }) => {
       image_url: `https://placehold.co/400x250/1a3a5c/fff?text=${categorie}`,
     };
     onAjouter(nouvel);
+    navigate("/"); // redirection vers l'accueil
   };
 
   return (

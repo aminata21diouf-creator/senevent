@@ -12,3 +12,7 @@
 .titre { margin: 0 0 0.5rem 0; color: #1a3a5c; }
 .info { margin: 0.2rem 0; color: #555; }
 .prix { margin: 0.5rem 0 0 0; color: #ea7d2b; font-weight: bold; }
+.lien {
+  text-decoration: none;
+  color: inherit;
+}
