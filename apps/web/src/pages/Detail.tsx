@@ -55,6 +55,8 @@ const Detail = ({ evenements, session }: { evenements: any[]; session: any }) =>
         <dt>Lieu</dt><dd>{evenement.lieu_nom}</dd>
         <dt>Date</dt><dd>{date}</dd>
         <dt>Prix</dt><dd className={styles.prix}>{prix}</dd>
+        <dt>Organise par</dt>
+        <dd>{evenement.profiles ? evenement.profiles.nom : "Equipe SenEvent"}</dd>
       </dl>
       <BoutonInscription evenementId={evenement.id} session={session} />
       {session && session.user.id === evenement.organisateur_id && (
