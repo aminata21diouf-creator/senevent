@@ -51,10 +51,6 @@ const App = () => {
     charger();
   }, []);
 
-  const ajouterEvenement = (nouvel: any) => {
-    setEvenements(precedents => [nouvel, ...precedents]);
-  };
-
   return (
     <BrowserRouter>
       <NavBar session={session} />
@@ -72,7 +68,7 @@ const App = () => {
         />
         <Route
           path="/nouveau"
-          element={<NouvelEvenement onAjouter={ajouterEvenement} />}
+          element={<NouvelEvenement onAjoutReussi={charger} />}
         />
         <Route
           path="/evenement/:id"

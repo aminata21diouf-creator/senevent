@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../lib/supabase";
 import styles from "./NouvelEvenement.module.css";
 
-const NouvelEvenement = ({ onAjouter }: { onAjouter: (ev: any) => void }) => {
+const NouvelEvenement = ({ onAjoutReussi }: { onAjoutReussi: () => void }) => {
   const [titre, setTitre] = useState("");
   const [categorie, setCategorie] = useState("concert");
   const [lieu, setLieu] = useState("");
   const [prix, setPrix] = useState(0);
   const [erreurs, setErreurs] = useState<any>({});
+  const [erreurServeur, setErreurServeur] = useState<string | null>(null);
+  const [enCours, setEnCours] = useState(false);
   const navigate = useNavigate();
 
   const valider = () => {
@@ -24,24 +27,44 @@ const NouvelEvenement = ({ onAjouter }: { onAjouter: (ev: any) => void }) => {
     return e;
   };
 
-  const soumettre = (event: React.FormEvent) => {
+  const soumettre = async (event: React.FormEvent) => {
     event.preventDefault();
+    setErreurServeur(null);
+
     const erreursTrouvees = valider();
     if (Object.keys(erreursTrouvees).length > 0) {
       setErreurs(erreursTrouvees);
       return;
     }
-    const nouvel = {
-      id: Date.now(),
+
+    setEnCours(true);
+
+    // Recuperer l'utilisateur connecte
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      setErreurServeur("Vous devez etre connecte.");
+      setEnCours(false);
+      return;
+    }
+
+    const { error } = await supabase.from("evenements").insert({
       titre: titre.trim(),
       categorie,
       lieu_nom: lieu.trim(),
       prix: Number(prix),
       date_debut: new Date().toISOString(),
-      image_url: `https://placehold.co/400x250/1a3a5c/fff?text=${categorie}`,
-    };
-    onAjouter(nouvel);
-    navigate("/"); // redirection vers l'accueil
+      organisateur_id: user.id,
+    });
+
+    setEnCours(false);
+
+    if (error) {
+      setErreurServeur(error.message);
+    } else {
+      onAjoutReussi(); // demande a App de recharger la liste
+      navigate("/");
+    }
   };
 
   return (
@@ -90,8 +113,12 @@ const NouvelEvenement = ({ onAjouter }: { onAjouter: (ev: any) => void }) => {
         {erreurs.prix && <span className={styles.erreur}>{erreurs.prix}</span>}
       </label>
 
-      <button type="submit" className={styles.bouton}>
-        Ajouter
+      {erreurServeur && (
+        <p className={styles.erreur}>Erreur : {erreurServeur}</p>
+      )}
+
+      <button type="submit" disabled={enCours} className={styles.bouton}>
+        {enCours ? "Envoi..." : "Ajouter"}
       </button>
     </form>
   );
