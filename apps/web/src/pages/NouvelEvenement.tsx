@@ -8,6 +8,8 @@ const NouvelEvenement = ({ onAjoutReussi }: { onAjoutReussi: () => void }) => {
   const [categorie, setCategorie] = useState("concert");
   const [lieu, setLieu] = useState("");
   const [prix, setPrix] = useState(0);
+  const [dateDebut, setDateDebut] = useState("");
+  const [fichier, setFichier] = useState<File | null>(null);
   const [erreurs, setErreurs] = useState<any>({});
   const [erreurServeur, setErreurServeur] = useState<string | null>(null);
   const [enCours, setEnCours] = useState(false);
@@ -23,6 +25,9 @@ const NouvelEvenement = ({ onAjoutReussi }: { onAjoutReussi: () => void }) => {
     }
     if (prix < 0) {
       e.prix = "Le prix ne peut pas etre negatif.";
+    }
+    if (!dateDebut) {
+      e.dateDebut = "La date de l'evenement est requise.";
     }
     return e;
   };
@@ -48,13 +53,35 @@ const NouvelEvenement = ({ onAjoutReussi }: { onAjoutReussi: () => void }) => {
       return;
     }
 
+    // Upload de l'image si un fichier a ete choisi
+    let image_url: string | null = null;
+    if (fichier) {
+      const chemin = `${user.id}/${Date.now()}_${fichier.name}`;
+      const { error: eUp } = await supabase.storage
+        .from("affiches")
+        .upload(chemin, fichier);
+
+      if (eUp) {
+        setErreurServeur(eUp.message);
+        setEnCours(false);
+        return;
+      }
+
+      const { data: urlData } = supabase.storage
+        .from("affiches")
+        .getPublicUrl(chemin);
+
+      image_url = urlData.publicUrl;
+    }
+
     const { error } = await supabase.from("evenements").insert({
       titre: titre.trim(),
       categorie,
       lieu_nom: lieu.trim(),
       prix: Number(prix),
-      date_debut: new Date().toISOString(),
+      date_debut: new Date(dateDebut).toISOString(),
       organisateur_id: user.id,
+      ...(image_url ? { image_url } : {}),
     });
 
     setEnCours(false);
@@ -62,7 +89,7 @@ const NouvelEvenement = ({ onAjoutReussi }: { onAjoutReussi: () => void }) => {
     if (error) {
       setErreurServeur(error.message);
     } else {
-      onAjoutReussi(); // demande a App de recharger la liste
+      onAjoutReussi();
       navigate("/");
     }
   };
@@ -103,6 +130,16 @@ const NouvelEvenement = ({ onAjoutReussi }: { onAjoutReussi: () => void }) => {
       </label>
 
       <label className={styles.champ}>
+        Date et heure de l'evenement
+        <input
+          type="datetime-local"
+          value={dateDebut}
+          onChange={e => setDateDebut(e.target.value)}
+        />
+        {erreurs.dateDebut && <span className={styles.erreur}>{erreurs.dateDebut}</span>}
+      </label>
+
+      <label className={styles.champ}>
         Prix (FCFA, 0 pour gratuit)
         <input
           type="number"
@@ -111,6 +148,15 @@ const NouvelEvenement = ({ onAjoutReussi }: { onAjoutReussi: () => void }) => {
           onChange={e => setPrix(Number(e.target.value))}
         />
         {erreurs.prix && <span className={styles.erreur}>{erreurs.prix}</span>}
+      </label>
+
+      <label className={styles.champ}>
+        Affiche (image, optionnel)
+        <input
+          type="file"
+          accept="image/*"
+          onChange={e => setFichier(e.target.files ? e.target.files[0] : null)}
+        />
       </label>
 
       {erreurServeur && (
