@@ -60,3 +60,18 @@
   color: #ea7d2b;
   font-weight: bold;
 }
+.supprimer {
+  background-color: #c0392b;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.4rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+}
+
+.supprimer:hover {
+  background-color: #96281b;
+}
