@@ -72,7 +72,7 @@ const App = () => {
         />
         <Route
           path="/evenement/:id"
-          element={<Detail evenements={evenements} />}
+          element={<Detail evenements={evenements} session={session} />}
         />
         <Route path="/auth" element={<Auth />} />
       </Routes>
