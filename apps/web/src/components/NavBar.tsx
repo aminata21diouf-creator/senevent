@@ -1,14 +1,10 @@
 import { NavLink } from "react-router-dom";
-import { supabase } from "../lib/supabase";
+import { seDeconnecter } from "@senevent/shared";
 import styles from "./NavBar.module.css";
 
 const NavBar = ({ session }: { session: any }) => {
   const lienActif = ({ isActive }: { isActive: boolean }) =>
     isActive ? `${styles.lien} ${styles.lienActif}` : styles.lien;
-
-  const seDeconnecter = async () => {
-    await supabase.auth.signOut();
-  };
 
   return (
     <nav className={styles.nav}>
@@ -21,7 +17,7 @@ const NavBar = ({ session }: { session: any }) => {
         {session ? (
           <>
             <span className={styles.email}>{session.user.email}</span>
-            <button onClick={seDeconnecter} className={styles.deconnexion}>
+            <button onClick={() => seDeconnecter()} className={styles.deconnexion}>
               Se deconnecter
             </button>
           </>

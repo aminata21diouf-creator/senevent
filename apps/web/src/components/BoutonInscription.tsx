@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../lib/supabase";
+import { estInscrit, inscrire, desinscrire } from "@senevent/shared";
 import styles from "./BoutonInscription.module.css";
 
 const BoutonInscription = ({ evenementId, session }: { evenementId: number; session: any }) => {
@@ -13,33 +13,29 @@ const BoutonInscription = ({ evenementId, session }: { evenementId: number; sess
         setChargement(false);
         return;
       }
-      const { data } = await supabase
-        .from("inscriptions")
-        .select("id")
-        .eq("evenement_id", evenementId)
-        .eq("utilisateur_id", session.user.id);
-
-      setInscrit(!!(data && data.length > 0));
+      const dejaInscrit = await estInscrit(evenementId, session.user.id);
+      setInscrit(dejaInscrit);
       setChargement(false);
     };
     verifier();
   }, [evenementId, session]);
 
-  const sInscrire = async () => {
-    const { error } = await supabase.from("inscriptions").insert({
-      evenement_id: evenementId,
-      utilisateur_id: session.user.id,
-    });
-    if (!error) setInscrit(true);
+  const gererInscription = async () => {
+    try {
+      await inscrire(evenementId, session.user.id);
+      setInscrit(true);
+    } catch (e) {
+      // on pourrait afficher une erreur ici si besoin
+    }
   };
 
-  const seDesinscrire = async () => {
-    const { error } = await supabase
-      .from("inscriptions")
-      .delete()
-      .eq("evenement_id", evenementId)
-      .eq("utilisateur_id", session.user.id);
-    if (!error) setInscrit(false);
+  const gererDesinscription = async () => {
+    try {
+      await desinscrire(evenementId, session.user.id);
+      setInscrit(false);
+    } catch (e) {
+      // on pourrait afficher une erreur ici si besoin
+    }
   };
 
   if (!session) {
@@ -51,11 +47,11 @@ const BoutonInscription = ({ evenementId, session }: { evenementId: number; sess
   }
 
   return inscrit ? (
-    <button onClick={seDesinscrire} className={styles.desinscrire}>
+    <button onClick={gererDesinscription} className={styles.desinscrire}>
       Se desinscrire
     </button>
   ) : (
-    <button onClick={sInscrire} className={styles.inscrire}>
+    <button onClick={gererInscription} className={styles.inscrire}>
       S'inscrire
     </button>
   );

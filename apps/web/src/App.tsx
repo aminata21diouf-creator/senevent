@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { supabase } from "./lib/supabase";
+import { getSupabase, getEvenements } from "@senevent/shared";
 import Accueil from "./pages/Accueil";
 import NouvelEvenement from "./pages/NouvelEvenement";
 import Detail from "./pages/Detail";
@@ -15,12 +15,12 @@ const App = () => {
 
   useEffect(() => {
     // Recuperer la session actuelle au montage
-    supabase.auth.getSession().then(({ data }) => {
+    getSupabase().auth.getSession().then(({ data }) => {
       setSession(data.session);
     });
 
     // Ecouter tout changement de session
-    const { data: subscription } = supabase.auth.onAuthStateChange(
+    const { data: subscription } = getSupabase().auth.onAuthStateChange(
       (_event, newSession) => {
         setSession(newSession);
       }
@@ -33,18 +33,14 @@ const App = () => {
     setChargement(true);
     setErreur(null);
 
-    const { data, error } = await supabase
-      .from("evenements")
-      .select("*, profiles(nom)")
-      .order("date_debut", { ascending: true });
-
-    if (error) {
-      setErreur(error.message);
-    } else {
+    try {
+      const data = await getEvenements();
       setEvenements(data);
+    } catch (e: any) {
+      setErreur(e.message);
+    } finally {
+      setChargement(false);
     }
-
-    setChargement(false);
   };
 
   useEffect(() => {

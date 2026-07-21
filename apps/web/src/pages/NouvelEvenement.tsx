@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../lib/supabase";
+import { getSupabase, creerEvenement } from "@senevent/shared";
 import styles from "./NouvelEvenement.module.css";
 
 const NouvelEvenement = ({ onAjoutReussi }: { onAjoutReussi: () => void }) => {
@@ -44,53 +44,53 @@ const NouvelEvenement = ({ onAjoutReussi }: { onAjoutReussi: () => void }) => {
 
     setEnCours(true);
 
-    // Recuperer l'utilisateur connecte
-    const { data: { user } } = await supabase.auth.getUser();
+    try {
+      // Recuperer l'utilisateur connecte
+      const { data: { user } } = await getSupabase().auth.getUser();
 
-    if (!user) {
-      setErreurServeur("Vous devez etre connecte.");
-      setEnCours(false);
-      return;
-    }
-
-    // Upload de l'image si un fichier a ete choisi
-    let image_url: string | null = null;
-    if (fichier) {
-      const chemin = `${user.id}/${Date.now()}_${fichier.name}`;
-      const { error: eUp } = await supabase.storage
-        .from("affiches")
-        .upload(chemin, fichier);
-
-      if (eUp) {
-        setErreurServeur(eUp.message);
+      if (!user) {
+        setErreurServeur("Vous devez etre connecte.");
         setEnCours(false);
         return;
       }
 
-      const { data: urlData } = supabase.storage
-        .from("affiches")
-        .getPublicUrl(chemin);
+      // Upload de l'image si un fichier a ete choisi
+      let image_url: string | null = null;
+      if (fichier) {
+        const chemin = `${user.id}/${Date.now()}_${fichier.name}`;
+        const { error: eUp } = await getSupabase().storage
+          .from("affiches")
+          .upload(chemin, fichier);
 
-      image_url = urlData.publicUrl;
-    }
+        if (eUp) {
+          setErreurServeur(eUp.message);
+          setEnCours(false);
+          return;
+        }
 
-    const { error } = await supabase.from("evenements").insert({
-      titre: titre.trim(),
-      categorie,
-      lieu_nom: lieu.trim(),
-      prix: Number(prix),
-      date_debut: new Date(dateDebut).toISOString(),
-      organisateur_id: user.id,
-      ...(image_url ? { image_url } : {}),
-    });
+        const { data: urlData } = getSupabase().storage
+          .from("affiches")
+          .getPublicUrl(chemin);
 
-    setEnCours(false);
+        image_url = urlData.publicUrl;
+      }
 
-    if (error) {
-      setErreurServeur(error.message);
-    } else {
+      await creerEvenement({
+        titre: titre.trim(),
+        categorie: categorie as any,
+        lieu_nom: lieu.trim(),
+        prix: Number(prix),
+        date_debut: new Date(dateDebut).toISOString(),
+        organisateur_id: user.id,
+        ...(image_url ? { image_url } : {}),
+      });
+
       onAjoutReussi();
       navigate("/");
+    } catch (e: any) {
+      setErreurServeur(e.message);
+    } finally {
+      setEnCours(false);
     }
   };
 
