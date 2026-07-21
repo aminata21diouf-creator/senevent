@@ -1,21 +1,19 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "./database.types";
 
-let client: SupabaseClient | null = null;
+let client: SupabaseClient<Database> | null = null;
 
-// Initialise le client une seule fois, avec les cles fournies
-// par l'application (web ou mobile).
-export function initSupabase(url: string, anonKey: string): SupabaseClient {
+export function initSupabase(url: string, anonKey: string): SupabaseClient<Database> {
   if (!client) {
-    client = createClient(url, anonKey);
+    client = createClient<Database>(url, anonKey);
   }
   return client;
 }
 
-// Recupere le client deja initialise.
-export function getSupabase(): SupabaseClient {
+export function getSupabase(): SupabaseClient<Database> {
   if (!client) {
     throw new Error(
-      "Supabase non initialise. Appelez initSupabase(url, key) au demarrage."
+      "Supabase non initialisé. Appelez initSupabase(url, key) au démarrage."
     );
   }
   return client;
