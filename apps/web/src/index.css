@@ -1,8 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap');
+
+:root {
+  /* Palette Dakar */
+  --color-nuit: #0F2942;
+  --color-sable: #FAF6EF;
+  --color-ambre: #E8A33D;
+  --color-terre: #C1502E;
+  --color-baobab: #2F6B4F;
+  --color-encre: #16232E;
+
+  /* Typographie */
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Work Sans', sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: sans-serif;
+  background: var(--color-sable);
+  color: var(--color-encre);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
 }

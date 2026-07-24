@@ -1,35 +1,41 @@
 .inscrire {
-  background-color: #1a7a3d;
+  background-color: var(--color-baobab);
   color: #fff;
   border: none;
-  padding: 0.7rem 1.4rem;
+  padding: 0.7rem 1.5rem;
   border-radius: 6px;
   font-size: 1rem;
+  font-family: var(--font-body);
+  font-weight: 500;
   cursor: pointer;
-  margin-top: 1rem;
+  white-space: nowrap;
+  transition: background-color 0.2s;
 }
-
 .inscrire:hover {
-  background-color: #145c2e;
+  background-color: #244F3A;
 }
 
 .desinscrire {
-  background-color: #d97706;
+  background-color: var(--color-terre);
   color: #fff;
   border: none;
-  padding: 0.7rem 1.4rem;
+  padding: 0.7rem 1.5rem;
   border-radius: 6px;
   font-size: 1rem;
+  font-family: var(--font-body);
+  font-weight: 500;
   cursor: pointer;
-  margin-top: 1rem;
+  white-space: nowrap;
+  transition: background-color 0.2s;
 }
-
 .desinscrire:hover {
-  background-color: #b45c05;
+  background-color: #9C3F24;
 }
 
 .info {
-  color: #666;
+  color: var(--color-encre);
+  opacity: 0.6;
   font-style: italic;
-  margin-top: 1rem;
+  font-family: var(--font-body);
+  margin: 0;
 }

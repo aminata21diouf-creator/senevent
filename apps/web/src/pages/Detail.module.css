@@ -5,73 +5,139 @@
 }
 
 .retour {
-  background: none;
-  border: 1px solid #1a3a5c;
-  color: #1a3a5c;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
+  background: var(--color-nuit);
+  border: none;
+  color: var(--color-sable);
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  transition: background 0.2s;
 }
-
 .retour:hover {
-  background: #1a3a5c;
-  color: white;
+  background: #16385A;
 }
 
-.titre {
-  color: #1a3a5c;
-  margin: 0.5rem 0;
-}
-
-.categorie {
-  background: #ea7d2b;
-  color: white;
-  padding: 0.2rem 0.6rem;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  text-transform: uppercase;
+/* --- Le billet --- */
+.ticket {
+  position: relative;
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(15, 41, 66, 0.14);
 }
 
 .image {
   width: 100%;
-  border-radius: 8px;
-  margin: 1rem 0;
+  max-height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+.corps {
+  padding: 1.6rem 1.8rem 1.2rem;
+}
+
+.categorie {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-terre);
+  background: rgba(193, 80, 46, 0.1);
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  margin-bottom: 0.7rem;
+}
+
+.titre {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-nuit);
+  margin: 0 0 1.1rem 0;
+  font-size: 1.75rem;
+  line-height: 1.2;
 }
 
 .infos {
   display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 0.5rem 1rem;
+  grid-template-columns: 130px 1fr;
+  gap: 0.55rem 1rem;
 }
-
 .infos dt {
   font-weight: 600;
-  color: #555;
+  color: var(--color-encre);
+  opacity: 0.6;
+  font-size: 0.92rem;
 }
-
 .infos dd {
   margin: 0;
+  color: var(--color-encre);
+}
+
+/* --- Perforation --- */
+.perforation {
+  position: relative;
+  margin: 0.5rem 1.8rem 0;
+  border-top: 2px dashed rgba(22, 35, 46, 0.22);
+}
+.perforation::before,
+.perforation::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background: var(--color-sable);
+  border-radius: 50%;
+}
+.perforation::before { left: -1.8rem; margin-left: -12px; }
+.perforation::after { right: -1.8rem; margin-right: -12px; }
+
+.stub {
+  padding: 1.2rem 1.8rem 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.stubLabel {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-encre);
+  opacity: 0.55;
+  margin-bottom: 0.15rem;
 }
 
 .prix {
-  color: #ea7d2b;
-  font-weight: bold;
+  margin: 0;
+  color: var(--color-terre);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
 }
+
 .supprimer {
-  background-color: #c0392b;
+  background-color: #B33A2E;
   color: #fff;
   border: none;
   padding: 0.7rem 1.4rem;
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
-  margin-top: 1rem;
-  margin-left: 0.5rem;
+  margin-top: 1.2rem;
+  font-family: var(--font-body);
 }
-
 .supprimer:hover {
-  background-color: #96281b;
+  background-color: #96281B;
 }

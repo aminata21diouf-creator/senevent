@@ -96,7 +96,7 @@ const NouvelEvenement = ({ onAjoutReussi }: { onAjoutReussi: () => void }) => {
 
   return (
     <form className={styles.form} onSubmit={soumettre}>
-      <h2>Ajouter un evenement</h2>
+      <h2 className={styles.titre}>Ajouter un evenement</h2>
 
       <label className={styles.champ}>
         Titre

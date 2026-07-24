@@ -1,49 +1,78 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.1rem;
   max-width: 500px;
-  margin: 1rem auto;
+  margin: 2rem auto;
+  padding: 1.8rem 2rem 2.2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(15, 41, 66, 0.1);
+}
+
+.titre {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-nuit);
+  margin: 0 0 0.4rem 0;
+  font-size: 1.5rem;
 }
 
 .champ {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  font-weight: 600;
+  gap: 0.35rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--color-encre);
+  font-size: 0.92rem;
 }
 
 .champ input,
 .champ select {
-  padding: 0.5rem;
+  padding: 0.55rem 0.7rem;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  font-family: var(--font-body);
+  border: 1px solid rgba(22, 35, 46, 0.2);
+  border-radius: 6px;
   font-weight: normal;
+  background: var(--color-sable);
+  color: var(--color-encre);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .champ input:focus,
 .champ select:focus {
   outline: none;
-  border-color: #1a3a5c;
+  border-color: var(--color-ambre);
+  box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.25);
 }
 
 .erreur {
-  color: #a01a1a;
+  color: var(--color-terre);
   font-size: 0.85rem;
   font-weight: normal;
 }
 
 .bouton {
-  padding: 0.6rem;
+  padding: 0.7rem;
   font-size: 1rem;
-  background: #1a3a5c;
-  color: white;
+  font-family: var(--font-body);
+  font-weight: 600;
+  background: var(--color-nuit);
+  color: var(--color-sable);
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
+  margin-top: 0.4rem;
+  transition: background 0.2s;
 }
 
-.bouton:hover {
-  background: #2a4d70;
+.bouton:hover:not(:disabled) {
+  background: #16385A;
+}
+
+.bouton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

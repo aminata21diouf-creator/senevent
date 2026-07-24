@@ -1,5 +1,5 @@
 .conteneur {
-  margin: 1rem 0;
+  margin: 1.2rem 0;
   width: 100%;
   display: block;
 }
@@ -7,15 +7,24 @@
 .input {
   display: block;
   width: 100%;
-  padding: 0.6rem 1rem;
+  padding: 0.75rem 1.1rem;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  font-family: var(--font-body);
+  color: var(--color-encre);
+  background: #fff;
+  border: 1px solid rgba(22, 35, 46, 0.15);
+  border-radius: 8px;
   box-sizing: border-box;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input::placeholder {
+  color: var(--color-encre);
+  opacity: 0.45;
 }
 
 .input:focus {
   outline: none;
-  border-color: #1a3a5c;
+  border-color: var(--color-ambre);
+  box-shadow: 0 0 0 3px rgba(232, 163, 61, 0.2);
 }

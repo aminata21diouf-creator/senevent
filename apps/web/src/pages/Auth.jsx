@@ -38,7 +38,7 @@ const Auth = () => {
 
   return (
     <form className={styles.form} onSubmit={soumettre}>
-      <h2>{mode === "signup" ? "Creer un compte" : "Se connecter"}</h2>
+      <h2 className={styles.titre}>{mode === "signup" ? "Creer un compte" : "Se connecter"}</h2>
       {mode === "signup" && (
         <label className={styles.champ}>
           Nom d'affichage

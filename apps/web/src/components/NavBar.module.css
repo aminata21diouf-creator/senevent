@@ -2,56 +2,52 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.8rem 2rem;
-  background: #1a3a5c;
-  color: white;
-  margin-bottom: 1rem;
+  padding: 0.9rem 2rem;
+  background: var(--color-nuit);
+  color: var(--color-sable);
+  margin-bottom: 1.5rem;
 }
-
 .logo {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #ea7d2b;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: var(--color-ambre);
+  letter-spacing: 0.02em;
 }
-
 .liens {
   display: flex;
   gap: 1.5rem;
   align-items: center;
 }
-
 .lien {
-  color: white;
+  color: var(--color-sable);
   text-decoration: none;
   padding: 0.3rem 0;
   border-bottom: 2px solid transparent;
   transition: border-color 0.2s;
 }
-
 .lien:hover {
-  border-bottom-color: #ea7d2b;
+  border-bottom-color: var(--color-ambre);
 }
-
 .lienActif {
-  border-bottom-color: #ea7d2b;
-  font-weight: bold;
+  border-bottom-color: var(--color-ambre);
+  font-weight: 600;
 }
-
 .email {
-  color: #a8c5e0;
+  color: #A9B8C4;
   font-size: 0.9rem;
 }
-
 .deconnexion {
   background: transparent;
-  border: 1px solid #ea7d2b;
-  color: #ea7d2b;
-  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--color-ambre);
+  color: var(--color-ambre);
+  padding: 0.35rem 0.9rem;
   border-radius: 4px;
   cursor: pointer;
+  font-family: var(--font-body);
+  transition: background 0.2s, color 0.2s;
 }
-
 .deconnexion:hover {
-  background: #ea7d2b;
-  color: white;
+  background: var(--color-ambre);
+  color: var(--color-nuit);
 }
