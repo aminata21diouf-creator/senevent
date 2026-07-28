@@ -5,8 +5,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.titre}>SenEvent Mobile</Text>
-      <Text style={styles.sousTitre}>Evenements a Dakar</Text>
-      <Text style={styles.auteur}>Realise par Aminta Diouf</Text>
+      <Text style={styles.sousTitre}>Événements à Dakar</Text>
+      <Text style={styles.auteur}>Réalisé par Aminata Diouf</Text>
       <StatusBar style="auto" />
     </View>
   );
