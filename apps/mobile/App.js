@@ -16,18 +16,32 @@ export default function App() {
   const [evenements, setEvenements] = useState([]);
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState(null);
+  const [rafraichissement, setRafraichissement] = useState(false);
+
+  const charger = async () => {
+    try {
+      const data = await getEvenements();
+      setEvenements(data);
+    } catch (e) {
+      setErreur(e.message);
+    } finally {
+      setChargement(false);
+    }
+  };
+
+  const rafraichir = async () => {
+    setRafraichissement(true);
+    try {
+      const data = await getEvenements();
+      setEvenements(data);
+    } catch (e) {
+      setErreur(e.message);
+    } finally {
+      setRafraichissement(false);
+    }
+  };
 
   useEffect(() => {
-    const charger = async () => {
-      try {
-        const data = await getEvenements();
-        setEvenements(data);
-      } catch (e) {
-        setErreur(e.message);
-      } finally {
-        setChargement(false);
-      }
-    };
     charger();
   }, []);
 
@@ -53,6 +67,8 @@ export default function App() {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <EvenementCarte evenement={item} />}
           contentContainerStyle={styles.liste}
+          refreshing={rafraichissement}
+          onRefresh={rafraichir}
         />
       )}
 
