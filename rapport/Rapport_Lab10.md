@@ -8,6 +8,8 @@
 |---|---|
 | **Auteure** | Aminata Diouf |
 | **Université** | Université Cheikh Anta Diop de Dakar (UCAD) |
+| **Faculté** | Faculté des Sciences et Techniques |
+| **Département** | Département de Mathématiques et Informatique |
 | **Formation** | Master 1 RETEL |
 | **Date** | 8 novembre 2026 |
 | **Dépôt** | `senevent` |
