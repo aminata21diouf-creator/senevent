@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { initSupabase } from "@senevent/shared";
+import { AuthProvider } from "../context/AuthContext";
 
 // Initialiser Supabase une fois, au demarrage de l'app
 initSupabase(
@@ -11,15 +12,18 @@ initSupabase(
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: "#1a3a5c" },
-          headerTintColor: "#fff",
-        }}
-      >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="evenement/[id]" options={{ title: "Detail" }} />
-      </Stack>
+      <AuthProvider>
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: "#1a3a5c" },
+            headerTintColor: "#fff",
+          }}
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="evenement/[id]" options={{ title: "Detail" }} />
+          <Stack.Screen name="nouveau" options={{ title: "Nouvel evenement" }} />
+        </Stack>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }
