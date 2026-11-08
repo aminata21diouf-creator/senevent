@@ -1,7 +1,12 @@
 // Composant SearchBar - realise par Bibou Diagne
 import styles from "./SearchBar.module.css";
 
-const SearchBar = ({ recherche, onRecherche }) => {
+type Props = {
+  recherche: string;
+  onRecherche: (valeur: string) => void;
+};
+
+const SearchBar = ({ recherche, onRecherche }: Props) => {
   return (
     <div className={styles.conteneur}>
       <input

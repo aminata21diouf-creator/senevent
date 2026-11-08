@@ -1,5 +1,5 @@
 import { getSupabase } from "./supabaseClient";
-import { Evenement, NouvelEvenementInput } from "./types";
+import type { Evenement, NouvelEvenementInput } from "./types";
 
 // Recupere tous les evenements, tries par date croissante.
 export async function getEvenements(): Promise<Evenement[]> {
