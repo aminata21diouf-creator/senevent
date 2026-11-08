@@ -1,9 +1,14 @@
 import { getSupabase } from "./supabaseClient";
 
-export async function sInscrire(email: string, motDePasse: string) {
+export async function sInscrire(
+  email: string,
+  motDePasse: string,
+  nom?: string
+) {
   const { data, error } = await getSupabase().auth.signUp({
     email,
     password: motDePasse,
+    ...(nom ? { options: { data: { nom } } } : {}),
   });
   if (error) throw error;
   return data;
