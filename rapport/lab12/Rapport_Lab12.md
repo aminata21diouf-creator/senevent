@@ -30,7 +30,7 @@ fonctionne sans ordinateur et sans Expo Go.
 
 Le travail couvre huit étapes :
 
-1. **Vérifier** l'application dans Expo Go et créer la branche `feature/lab12-eas`.
+1. **Vérifier** la configuration (`expo-doctor`) et créer la branche `feature/lab12-eas`.
 2. **Compte Expo et EAS CLI** : compte `babyamina`, projet `@babyamina/senevent`.
 3. **Identité de l'application** dans `app.json` : nom, version, `android.package`.
 4. **Profils de build** dans `eas.json`, avec un profil `preview` qui produit un APK.
@@ -111,9 +111,11 @@ git checkout -b feature/lab12-eas
 La branche part du commit `4307497` (rapport du Lab 11). Le code mobile est celui du Lab 10 :
 catalogue, détail, connexion, création et inscription.
 
-Avant de construire, l'application est parcourue dans Expo Go. Un bug présent à ce stade serait
-compilé dans l'APK, et chaque nouveau build consomme du quota. Aucun blocage fonctionnel n'a
-été relevé : les écrans du Lab 10 répondent.
+L'application mobile avait été validée dans Expo Go au Lab 10 : les écrans du catalogue, du
+détail, de la connexion et de la création répondaient. Aucun blocage fonctionnel n'était
+connu au départ de ce lab. Un bug présent à ce stade serait compilé dans l'APK, et chaque
+nouveau build consomme du quota : la vérification de configuration (section 4.2) précède donc
+le build.
 
 ---
 
@@ -517,7 +519,7 @@ binaire sans Android SDK et produit ce rapport.
 | 1 | Ouvrir l'application SénEvent | Liste des événements chargée | **Non testé** (pas d'Android) |
 | 2 | Toucher un événement | Fiche de détail | **Non testé** |
 | 3 | Profil, se connecter | Email affiché, bouton de déconnexion | **Non testé** |
-| 4 | Fermer complètement, rouvrir | Toujours connecté | **Non testé** (vérifié dans le code et dans Expo Go) |
+| 4 | Fermer complètement, rouvrir | Toujours connecté | **Non testé** (configuration vérifiée dans le code) |
 | 5 | Créer un événement avec « + » | Il apparaît dans la liste | **Non testé** |
 | 6 | Ouvrir le site Vercel ailleurs | L'événement y est | **Non testé** |
 | 7 | Créer un événement sur le site | Il apparaît dans l'app | **Non testé** |
@@ -618,7 +620,7 @@ Les contrôles d'hygiène restent verts : aucun fichier `.env` suivi, un seul
 | Le web n'a pas changé | build + connexion sur la prévisualisation Vercel | ✅ |
 | Build `preview` réussi sur expo.dev | `FINISHED` le 8/11/2026 à 15:33 | ✅ |
 | APK installé sur un Android, recette en 4G | Pas de téléphone Android disponible | ❌ non testé |
-| Session survit à la fermeture | Configurée ; vérifiée dans Expo Go, pas dans l'APK | ⚠️ partiel |
+| Session survit à la fermeture | Configurée dans le code ; non vérifiée à l'exécution | ⚠️ non testé |
 | README : lien APK et lancement local | `grep -n APK README.md` | ✅ |
 | Tag `v2.0` sur `main` | `git rev-parse v2.0^{commit}` | ✅ |
 
@@ -632,7 +634,7 @@ Les contrôles d'hygiène restent verts : aucun fichier `.env` suivi, un seul
 - Une identité propre : nom, icône, version, `sn.ucad.senevent.equipe1`.
 - Des profils de build reproductibles, avec les variables Supabase dans l'environnement
   `preview`.
-- Une session mobile persistante (AsyncStorage), sans régression du web.
+- Une session mobile configurée pour persister (AsyncStorage), sans régression du web.
 - Un README qui donne le lien de l'APK et la procédure de lancement local.
 - Un tag `v2.0` sur `main`.
 

@@ -127,7 +127,7 @@ un <strong>APK</strong> construit sur les serveurs d'<strong>EAS Build</strong>,
 fonctionne sans ordinateur et sans Expo Go.</p>
 <p>Le travail couvre huit étapes :</p>
 <ol>
-<li><strong>Vérifier</strong> l'application dans Expo Go et créer la branche <code>feature/lab12-eas</code>.</li>
+<li><strong>Vérifier</strong> la configuration (<code>expo-doctor</code>) et créer la branche <code>feature/lab12-eas</code>.</li>
 <li><strong>Compte Expo et EAS CLI</strong> : compte <code>babyamina</code>, projet <code>@babyamina/senevent</code>.</li>
 <li><strong>Identité de l'application</strong> dans <code>app.json</code> : nom, version, <code>android.package</code>.</li>
 <li><strong>Profils de build</strong> dans <code>eas.json</code>, avec un profil <code>preview</code> qui produit un APK.</li>
@@ -248,9 +248,11 @@ git checkout -b feature/lab12-eas
 <figure><img src="captures/01-branche.png" alt="Capture 01 — branche feature/lab12-eas et historique"><figcaption>Capture 01 — branche feature/lab12-eas et historique</figcaption></figure>
 <p>La branche part du commit <code>4307497</code> (rapport du Lab 11). Le code mobile est celui du Lab 10 :
 catalogue, détail, connexion, création et inscription.</p>
-<p>Avant de construire, l'application est parcourue dans Expo Go. Un bug présent à ce stade serait
-compilé dans l'APK, et chaque nouveau build consomme du quota. Aucun blocage fonctionnel n'a
-été relevé : les écrans du Lab 10 répondent.</p>
+<p>L'application mobile avait été validée dans Expo Go au Lab 10 : les écrans du catalogue, du
+détail, de la connexion et de la création répondaient. Aucun blocage fonctionnel n'était
+connu au départ de ce lab. Un bug présent à ce stade serait compilé dans l'APK, et chaque
+nouveau build consomme du quota : la vérification de configuration (section 4.2) précède donc
+le build.</p>
 <hr />
 <h2 id="3-etape-1-compte-expo-et-eas-cli">3. Étape 1 — Compte Expo et EAS CLI</h2>
 <h3 id="31-le-compte">3.1 Le compte</h3>
@@ -701,7 +703,7 @@ binaire sans Android SDK et produit ce rapport.</p>
 <td>4</td>
 <td>Fermer complètement, rouvrir</td>
 <td>Toujours connecté</td>
-<td><strong>Non testé</strong> (vérifié dans le code et dans Expo Go)</td>
+<td><strong>Non testé</strong> (configuration vérifiée dans le code)</td>
 </tr>
 <tr>
 <td>5</td>
@@ -884,8 +886,8 @@ identique. Le commit du présent rapport est ajouté ensuite sur <code>main</cod
 </tr>
 <tr>
 <td>Session survit à la fermeture</td>
-<td>Configurée ; vérifiée dans Expo Go, pas dans l'APK</td>
-<td>⚠️ partiel</td>
+<td>Configurée dans le code ; non vérifiée à l'exécution</td>
+<td>⚠️ non testé</td>
 </tr>
 <tr>
 <td>README : lien APK et lancement local</td>
@@ -907,7 +909,7 @@ identique. Le commit du présent rapport est ajouté ensuite sur <code>main</cod
 <li>Une identité propre : nom, icône, version, <code>sn.ucad.senevent.equipe1</code>.</li>
 <li>Des profils de build reproductibles, avec les variables Supabase dans l'environnement
   <code>preview</code>.</li>
-<li>Une session mobile persistante (AsyncStorage), sans régression du web.</li>
+<li>Une session mobile configurée pour persister (AsyncStorage), sans régression du web.</li>
 <li>Un README qui donne le lien de l'APK et la procédure de lancement local.</li>
 <li>Un tag <code>v2.0</code> sur <code>main</code>.</li>
 </ul>
