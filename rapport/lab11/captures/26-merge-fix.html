@@ -1,0 +1,104 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9eef4; }
+  .shot { padding: 28px; display: inline-block; }
+  .win {
+    width: 1040px; border-radius: 10px; overflow: hidden;
+    box-shadow: 0 12px 40px rgba(15,35,60,.28), 0 2px 6px rgba(15,35,60,.18);
+    background: #0c0c0c; border: 1px solid #1f2a36;
+  }
+  .bar {
+    height: 38px; background: #1b2430; display: flex; align-items: center;
+    padding: 0 14px; gap: 8px; border-bottom: 1px solid #101820;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .r { background: #ff5f57; } .y { background: #febc2e; } .g { background: #28c840; }
+  .title {
+    flex: 1; text-align: center; color: #9fb0c2; font: 12px "Segoe UI", Arial, sans-serif;
+    letter-spacing: .3px; margin-right: 44px;
+  }
+  .term {
+    background: #0c0c0c; padding: 18px 22px 22px;
+    font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+    font-size: 14.5px; line-height: 1.5; color: #d4d4d4;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .block { margin-bottom: 20px; }
+  .block:last-child { margin-bottom: 0; }
+  .prompt { color: #d4d4d4; }
+  .user { color: #23d18b; font-weight: 600; }
+  .msys { color: #d670d6; font-weight: 600; }
+  .path { color: #f5f543; }
+  .branch { color: #29b8db; }
+  .cmd { color: #ffffff; margin-top: 1px; }
+  .dollar { color: #23d18b; font-weight: 600; }
+  .out { margin-top: 2px; }
+  .err { color: #f14c4c; margin-top: 2px; }
+</style></head><body>
+<div class="shot">
+<div class="win">
+  <div class="bar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="title">MINGW64:/c/DAWM</span>
+  </div>
+  <div class="term">
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(fix/lab11-signup-confirmation)</span></div>
+    <div class="cmd"><span class="dollar">$</span> gh pr merge 10 --merge --delete-branch</div>
+    <div class="out">Updating f53b84a..592c1b3
+Fast-forward
+ apps/web/src/App.tsx               | 15 <span style="color:#23d18b">++++++++++++++</span><span style="color:#f14c4c">-</span>
+ apps/web/src/pages/Auth.module.css |  9 <span style="color:#23d18b">+++++++++</span>
+ apps/web/src/pages/Auth.tsx        | 20 <span style="color:#23d18b">+++++++++++++</span><span style="color:#f14c4c">-------</span>
+ packages/shared/src/auth.ts        |  7 <span style="color:#23d18b">++++++</span><span style="color:#f14c4c">-</span>
+ 4 files changed, 42 insertions(+), 9 deletions(-)
+From github.com:aminata21diouf-creator/senevent
+ * branch            main       -&gt; FETCH_HEAD
+   f53b84a..592c1b3  main       -&gt; origin/main</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(main)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git checkout main</div>
+    <div class="out">Already on 'main'</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(main)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git pull origin main</div>
+    <div class="out">Already up to date.
+From github.com:aminata21diouf-creator/senevent
+ * branch            main       -&gt; FETCH_HEAD</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(main)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git log --oneline -4</div>
+    <div class="out"><span style="color:#f5f543">592c1b3</span> Merge pull request #10 from aminata21diouf-creator/fix/lab11-signup-confirmation
+<span style="color:#f5f543">5d7c6df</span> auth : cree le profil apres confirmation d'email
+<span style="color:#f5f543">f53b84a</span> Merge pull request #9 from aminata21diouf-creator/docs/lab11-readme
+<span style="color:#f5f543">6160370</span> docs : README racine avec la section En ligne</div>
+    
+  </div></div>
+</div>
+</div>
+</body></html>

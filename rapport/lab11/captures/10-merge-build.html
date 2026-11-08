@@ -1,0 +1,105 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9eef4; }
+  .shot { padding: 28px; display: inline-block; }
+  .win {
+    width: 1040px; border-radius: 10px; overflow: hidden;
+    box-shadow: 0 12px 40px rgba(15,35,60,.28), 0 2px 6px rgba(15,35,60,.18);
+    background: #0c0c0c; border: 1px solid #1f2a36;
+  }
+  .bar {
+    height: 38px; background: #1b2430; display: flex; align-items: center;
+    padding: 0 14px; gap: 8px; border-bottom: 1px solid #101820;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .r { background: #ff5f57; } .y { background: #febc2e; } .g { background: #28c840; }
+  .title {
+    flex: 1; text-align: center; color: #9fb0c2; font: 12px "Segoe UI", Arial, sans-serif;
+    letter-spacing: .3px; margin-right: 44px;
+  }
+  .term {
+    background: #0c0c0c; padding: 18px 22px 22px;
+    font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+    font-size: 14.5px; line-height: 1.5; color: #d4d4d4;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .block { margin-bottom: 20px; }
+  .block:last-child { margin-bottom: 0; }
+  .prompt { color: #d4d4d4; }
+  .user { color: #23d18b; font-weight: 600; }
+  .msys { color: #d670d6; font-weight: 600; }
+  .path { color: #f5f543; }
+  .branch { color: #29b8db; }
+  .cmd { color: #ffffff; margin-top: 1px; }
+  .dollar { color: #23d18b; font-weight: 600; }
+  .out { margin-top: 2px; }
+  .err { color: #f14c4c; margin-top: 2px; }
+</style></head><body>
+<div class="shot">
+<div class="win">
+  <div class="bar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="title">MINGW64:/c/DAWM</span>
+  </div>
+  <div class="term">
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(feature/lab11-vercel)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git checkout main</div>
+    <div class="out">Switched to branch 'main'</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(main)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git merge --no-ff 900577f -m "build de production : types TSX et lock unique"</div>
+    <div class="out">Merge made by the 'ort' strategy.
+ apps/web/package-lock.json                         | 2949 <span style="color:#f14c4c">--------------------</span>
+ .../{EvenementCarte.jsx =&gt; EvenementCarte.tsx}     |    8 <span style="color:#23d18b">+</span><span style="color:#f14c4c">-</span>
+ .../components/{SearchBar.jsx =&gt; SearchBar.tsx}    |    7 <span style="color:#23d18b">+</span><span style="color:#f14c4c">-</span>
+ apps/web/src/pages/{Auth.jsx =&gt; Auth.tsx}          |   11 <span style="color:#23d18b">+</span><span style="color:#f14c4c">-</span>
+ package-lock.json                                  |    8 <span style="color:#23d18b">+</span><span style="color:#f14c4c">-</span>
+ packages/shared/src/evenements.ts                  |    2 <span style="color:#23d18b">+</span><span style="color:#f14c4c">-</span>
+ packages/shared/src/supabaseClient.ts              |    5 <span style="color:#23d18b">+</span><span style="color:#f14c4c">-</span>
+ 7 files changed, 27 insertions(+), 2963 deletions(-)
+ delete mode 100644 apps/web/package-lock.json
+ rename apps/web/src/components/{EvenementCarte.jsx =&gt; EvenementCarte.tsx} (81%)
+ rename apps/web/src/components/{SearchBar.jsx =&gt; SearchBar.tsx} (73%)
+ rename apps/web/src/pages/{Auth.jsx =&gt; Auth.tsx} (88%)</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(main)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git push origin main</div>
+    <div class="out">To github.com:aminata21diouf-creator/senevent.git
+   2479479..ef8df24  main -&gt; main</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(main)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git log --oneline -3</div>
+    <div class="out"><span style="color:#f5f543">ef8df24</span> build de production : types TSX et lock unique
+<span style="color:#f5f543">900577f</span> un seul package-lock a la racine du monorepo
+<span style="color:#f5f543">35174e0</span> web : composants JSX convertis en TSX pour le build de production</div>
+    
+  </div></div>
+</div>
+</div>
+</body></html>

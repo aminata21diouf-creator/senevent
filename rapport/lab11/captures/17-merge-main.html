@@ -1,0 +1,120 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9eef4; }
+  .shot { padding: 28px; display: inline-block; }
+  .win {
+    width: 1040px; border-radius: 10px; overflow: hidden;
+    box-shadow: 0 12px 40px rgba(15,35,60,.28), 0 2px 6px rgba(15,35,60,.18);
+    background: #0c0c0c; border: 1px solid #1f2a36;
+  }
+  .bar {
+    height: 38px; background: #1b2430; display: flex; align-items: center;
+    padding: 0 14px; gap: 8px; border-bottom: 1px solid #101820;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .r { background: #ff5f57; } .y { background: #febc2e; } .g { background: #28c840; }
+  .title {
+    flex: 1; text-align: center; color: #9fb0c2; font: 12px "Segoe UI", Arial, sans-serif;
+    letter-spacing: .3px; margin-right: 44px;
+  }
+  .term {
+    background: #0c0c0c; padding: 18px 22px 22px;
+    font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+    font-size: 14.5px; line-height: 1.5; color: #d4d4d4;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .block { margin-bottom: 20px; }
+  .block:last-child { margin-bottom: 0; }
+  .prompt { color: #d4d4d4; }
+  .user { color: #23d18b; font-weight: 600; }
+  .msys { color: #d670d6; font-weight: 600; }
+  .path { color: #f5f543; }
+  .branch { color: #29b8db; }
+  .cmd { color: #ffffff; margin-top: 1px; }
+  .dollar { color: #23d18b; font-weight: 600; }
+  .out { margin-top: 2px; }
+  .err { color: #f14c4c; margin-top: 2px; }
+</style></head><body>
+<div class="shot">
+<div class="win">
+  <div class="bar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="title">MINGW64:/c/DAWM</span>
+  </div>
+  <div class="term">
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(feature/lab11-vercel)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git checkout main</div>
+    <div class="out">Switched to branch 'main'</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(main)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git pull origin main</div>
+    <div class="out">Already up to date.
+From github.com:aminata21diouf-creator/senevent
+ * branch            main       -&gt; FETCH_HEAD</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(main)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git merge --no-ff feature/lab11-vercel -m "Lab 11 : deploiement web sur Vercel"</div>
+    <div class="out">Merge made by the 'ort' strategy.
+ .github/workflows/build-web.yml |  17 <span style="color:#23d18b">++</span>
+ .gitignore                      |   2 <span style="color:#23d18b">+</span>
+ apps/web/index.html             |   4 <span style="color:#23d18b">+</span><span style="color:#f14c4c">-</span>
+ apps/web/package.json           |   4 <span style="color:#23d18b">+</span><span style="color:#f14c4c">-</span>
+ apps/web/vercel.json            |   5 <span style="color:#23d18b">+</span>
+ package-lock.json               |   4 <span style="color:#23d18b">+</span><span style="color:#f14c4c">-</span>
+ supabase/config.toml            | 418 <span style="color:#23d18b">++++++++++++++++++++++++++++++++++++++++</span>
+ 7 files changed, 448 insertions(+), 6 deletions(-)
+ create mode 100644 .github/workflows/build-web.yml
+ create mode 100644 apps/web/vercel.json
+ create mode 100644 supabase/config.toml</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(main)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git push origin main</div>
+    <div class="out">To github.com:aminata21diouf-creator/senevent.git
+   ef8df24..416bf91  main -&gt; main</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(main)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git log --oneline -6</div>
+    <div class="out"><span style="color:#f5f543">416bf91</span> Lab 11 : deploiement web sur Vercel
+<span style="color:#f5f543">7500e8d</span> web : titre SenEvent et config auth Supabase (site_url, redirects, confirmation)
+<span style="color:#f5f543">ef8df24</span> build de production : types TSX et lock unique
+<span style="color:#f5f543">88f105a</span> vercel : ignore .vercel et les fichiers .env
+<span style="color:#f5f543">6c01a3f</span> web : aligne react sur la version du monorepo (npm ci)
+<span style="color:#f5f543">467639d</span> bonus : workflow GitHub Actions pour le build web</div>
+    
+  </div></div>
+</div>
+</div>
+</body></html>

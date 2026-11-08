@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Rapport Lab 11 - Aminata Diouf</title>
+<style>
+@page { size: A4; margin: 16mm 15mm; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 10.5pt; line-height: 1.55; color: #222; margin: 0;
+}
+h1 { font-size: 25pt; color: #1a3a5c; margin: 0 0 4px; line-height: 1.15; }
+h2 { font-size: 15pt; color: #1a3a5c; margin: 22px 0 8px;
+     border-bottom: 2px solid #ea7d2b; padding-bottom: 4px;
+     page-break-after: avoid; }
+h3 { font-size: 12pt; color: #1a3a5c; margin: 16px 0 6px; page-break-after: avoid; }
+p { margin: 6px 0; text-align: justify; }
+ul, ol { margin: 6px 0 6px 20px; }
+li { margin: 3px 0; }
+code { font-family: Consolas, "Courier New", monospace; font-size: 9.2pt;
+       background: #eef2f6; padding: 1px 4px; border-radius: 3px; }
+pre { background: #f4f6f9; border: 1px solid #dde4ec; border-left: 4px solid #1a3a5c;
+      border-radius: 5px; padding: 9px 12px; margin: 8px 0; overflow: hidden;
+      page-break-inside: avoid; }
+pre code { background: transparent; padding: 0; font-size: 8.6pt; line-height: 1.45; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0 12px;
+        font-size: 9.5pt; page-break-inside: avoid; }
+th { background: #1a3a5c; color: #fff; text-align: left; padding: 6px 8px; }
+td { border: 1px solid #d8e0e8; padding: 5px 8px; vertical-align: top; }
+tr:nth-child(even) td { background: #f7f9fb; }
+figure { margin: 12px 0; text-align: center; page-break-inside: avoid; }
+img { max-width: 100%; max-height: 160mm; border: 1px solid #d8e0e8;
+      border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+/* Les captures terminal sont decoupees pour rester lisibles : on leur laisse
+   toute la hauteur utile de la page. */
+img[src*="captures/"] { max-height: 250mm; }
+figcaption { font-size: 8.8pt; color: #5b6b7c; font-style: italic; margin-top: 5px; }
+blockquote { border-left: 4px solid #ea7d2b; background: #fdf6ef; margin: 10px 0;
+             padding: 8px 12px; color: #5a4a3a; }
+blockquote p { margin: 0; }
+hr { border: none; border-top: 1px solid #d8e0e8; margin: 18px 0; }
+a { color: #1a3a5c; }
+strong { color: #12283d; }
+
+/* Page de garde */
+.cover {
+  height: 258mm; display: flex; flex-direction: column;
+  justify-content: space-between; text-align: center;
+  page-break-after: always; break-after: page;
+}
+.cover-top { padding-top: 4mm; }
+.cover .badge {
+  width: 27mm; height: 27mm; border: 2.5px solid #1a3a5c; border-radius: 50%;
+  margin: 0 auto 7mm; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 12pt; letter-spacing: 0.5px; color: #1a3a5c;
+}
+.cover .univ { font-size: 15pt; font-weight: 600; color: #1a3a5c; line-height: 1.3; }
+.cover .fac { font-size: 12pt; color: #2c4a68; margin-top: 4mm; }
+.cover .dept { font-size: 10.5pt; color: #5b6b7c; margin-top: 1.5mm; }
+.cover .master {
+  font-size: 11pt; color: #5b6b7c; margin-top: 3mm;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+.cover .module {
+  font-size: 10pt; color: #5b6b7c; text-transform: uppercase; letter-spacing: 1.4px;
+}
+.cover .rule { width: 42mm; height: 3px; background: #ea7d2b; margin: 8mm auto; }
+.cover h1.cover-title {
+  font-size: 31pt; margin: 0; color: #1a3a5c; line-height: 1.1;
+}
+.cover .cover-sub { font-size: 15.5pt; color: #2c4a68; margin-top: 5mm; font-weight: 500; }
+.cover .cover-tag { font-size: 9.5pt; color: #6b7a8c; margin-top: 6mm; }
+.cover .label {
+  font-size: 8.5pt; text-transform: uppercase; letter-spacing: 2px; color: #8a97a5;
+}
+.cover .name { font-size: 21pt; font-weight: 700; color: #1a3a5c; margin: 2mm 0 1.5mm; }
+.cover .role { font-size: 11pt; color: #5b6b7c; }
+.cover-meta {
+  width: 80%; margin: 9mm auto 0; font-size: 9.5pt;
+  border-top: 1px solid #e3e9ef; border-bottom: 1px solid #e3e9ef;
+}
+.cover-meta td {
+  border: none; border-bottom: 1px solid #eef2f6;
+  padding: 2.4mm 2mm; text-align: left; background: transparent;
+}
+.cover-meta tr:last-child td { border-bottom: none; }
+.cover-meta td:first-child { width: 38%; color: #6b7a8c; }
+.cover-meta tr:nth-child(even) td { background: transparent; }
+.cover-foot {
+  font-size: 9pt; color: #8a97a5; border-top: 1px solid #e3e9ef; padding-top: 4mm;
+}
+</style></head>
+<body>
+<section class="cover">
+  <div class="cover-top">
+    <div class="badge">UCAD</div>
+    <div class="univ">Université Cheikh Anta Diop de Dakar</div>
+    <div class="fac">Faculté des Sciences et Techniques</div>
+    <div class="dept">Département de Mathématiques et Informatique</div>
+    <div class="master">Master 1 RETEL</div>
+  </div>
+  <div class="cover-middle">
+    <div class="module">DAWM — Développement d'Applications Web &amp; Mobile</div>
+    <div class="rule"></div>
+    <h1 class="cover-title">Rapport — Lab 11</h1>
+    <div class="cover-sub">Déploiement web sur Vercel</div>
+    <div class="cover-tag">React / Vite · Vercel · Supabase</div>
+  </div>
+  <div class="cover-author">
+    <div class="label">Présenté par</div>
+    <div class="name">Aminata Diouf</div>
+    <div class="role">Étudiante en Master 1 RETEL — UCAD</div>
+  </div>
+  <table class="cover-meta"><tr><td>Date</td><td>8 novembre 2026</td></tr>
+<tr><td>Dépôt</td><td>senevent</td></tr>
+<tr><td>Branche du lab</td><td>feature/lab11-vercel</td></tr>
+<tr><td>Tag de sortie</td><td>v1.0-web</td></tr>
+<tr><td>Application</td><td>apps/web (React + Vite)</td></tr>
+<tr><td>URL de production</td><td><https://senevent-equipe-1.vercel.app></td></tr></table>
+  <div class="cover-foot">Année universitaire 2025-2026</div>
+</section>
+<h2 id="resume">Résumé</h2>
+<p>Ce lab est le dernier bloc du projet <strong>SenEvent</strong> : il ne reste plus à ajouter de
+fonctionnalité, il faut <strong>mettre l'application web en ligne</strong>. Le client web existait depuis
+les labs précédents et fonctionnait en local, mais il n'avait jamais été construit pour la
+production ni déployé.</p>
+<p>Le travail réalisé couvre six points :</p>
+<ol>
+<li><strong>Build de production</strong> : réparer puis vérifier <code>tsc -b &amp;&amp; vite build</code> en local.</li>
+<li><strong>Projet Vercel</strong> : relier le dépôt GitHub au projet <code>senevent-equipe-1</code>, avec le bon
+   <em>Root Directory</em> (<code>apps/web</code>) et les variables d'environnement Supabase.</li>
+<li><strong>Réécriture SPA</strong> : faire en sorte qu'une route profonde comme <code>/evenement/13</code> renvoie
+   <code>index.html</code> au lieu d'une 404.</li>
+<li><strong>Supabase Auth en production</strong> : Site URL, URL de redirection autorisées et confirmation
+   d'email réactivée.</li>
+<li><strong>Recette de production</strong> : dérouler les dix points du lab sur l'URL publique, en mobile
+   émulé (390 × 844).</li>
+<li><strong>Documentation et version</strong> : README racine avec la section « En ligne », déploiement
+   continu et tag <code>v1.0-web</code>.</li>
+</ol>
+<p>Le résultat est une application accessible publiquement, mise à jour automatiquement à chaque
+merge sur <code>main</code>, avec une prévisualisation par Pull Request.</p>
+<table>
+<thead>
+<tr>
+<th>Indicateur</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>URL de production</td>
+<td><a href="https://senevent-equipe-1.vercel.app">https://senevent-equipe-1.vercel.app</a></td>
+</tr>
+<tr>
+<td>Racine</td>
+<td>HTTP 200</td>
+</tr>
+<tr>
+<td>Route profonde <code>/evenement/13</code></td>
+<td>HTTP 200 après réécriture SPA</td>
+</tr>
+<tr>
+<td>Déploiement continu</td>
+<td>Actif (<code>source: git</code>, branche <code>main</code>)</td>
+</tr>
+<tr>
+<td>Prévisualisation par PR</td>
+<td>Actif (URL <code>*-git-&lt;branche&gt;-*.vercel.app</code>)</td>
+</tr>
+<tr>
+<td>Recette</td>
+<td>9 points validés, 1 non testable sans téléphone</td>
+</tr>
+<tr>
+<td>Tag</td>
+<td><code>v1.0-web</code> sur <code>main</code> (<code>a08840a</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-contexte-et-objectif">1. Contexte et objectif</h2>
+<p>Le dépôt est un monorepo :</p>
+<pre><code class="language-text">senevent/
+  apps/
+    web/          React + Vite + TypeScript  -&gt; deploiement Vercel
+    mobile/       Expo / React Native
+  packages/
+    shared/       types, client Supabase, fonctions metier
+  supabase/
+    migrations/   schema SQL et politiques RLS
+    config.toml   configuration Auth
+  .github/workflows/build-web.yml
+</code></pre>
+<p>Le client web et le client mobile partagent la même base Supabase et la même logique métier
+(<code>@senevent/shared</code>). Le Lab 11 ne modifie donc pas le comportement fonctionnel : il ajoute
+la <strong>chaîne de livraison</strong> et vérifie que tout tient debout en production.</p>
+<p>Les contraintes du lab sont les suivantes :</p>
+<ul>
+<li>un build reproductible (<code>npm ci</code>) à partir d'un seul <code>package-lock.json</code> ;</li>
+<li>aucune variable secrète dans le dépôt ;</li>
+<li>une URL publique stable ;</li>
+<li>le rechargement direct d'une route profonde doit fonctionner ;</li>
+<li>la confirmation d'email doit être active ;</li>
+<li>une recette explicite, avec des preuves.</li>
+</ul>
+<hr />
+<h2 id="2-etape-0-preparer-la-branche-de-travail">2. Étape 0 — Préparer la branche de travail</h2>
+<p>Le lab se fait sur une branche dédiée, créée depuis <code>main</code> à jour. Cette branche sera poussée
+et mergée par Pull Request, ce qui permet à Vercel de produire une prévisualisation avant la
+mise en production.</p>
+<figure><img src="captures/split/01-etape0-branche-1.png" alt="Capture 01 — création de la branche feature/lab11-vercel (partie 1/2)"><figcaption>Capture 01 — création de la branche feature/lab11-vercel (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/01-etape0-branche-2.png" alt="Capture 01 — création de la branche feature/lab11-vercel (partie 2/2)"><figcaption>Capture 01 — création de la branche feature/lab11-vercel (partie 2/2)</figcaption></figure>
+<p>La branche <code>feature/lab11-vercel</code> part du commit <code>2479479</code>, qui contient le rapport du Lab 10.
+La branche reste isolée jusqu'à la validation de la prévisualisation.</p>
+<hr />
+<h2 id="3-etape-1-verifier-le-build-local">3. Étape 1 — Vérifier le build local</h2>
+<h3 id="31-le-build-de-production">3.1 Le build de production</h3>
+<p>Le script de build du web enchaîne la compilation TypeScript et le bundler Vite :</p>
+<pre><code class="language-bash">cd apps/web
+npm run build     # tsc -b &amp;&amp; vite build
+</code></pre>
+<figure><img src="captures/split/02-etape1-build-1.png" alt="Capture 02 — build de production local (partie 1/2)"><figcaption>Capture 02 — build de production local (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/02-etape1-build-2.png" alt="Capture 02 — build de production local (partie 2/2)"><figcaption>Capture 02 — build de production local (partie 2/2)</figcaption></figure>
+<p>Le build produit <code>dist/index.html</code> et deux fichiers hachés (<code>index-*.css</code>, <code>index-*.js</code>).
+<code>dist/</code> est ignoré par Git (<code>apps/web/.gitignore</code>), ce qui est le comportement attendu : le
+dossier est un artefact, pas du code source.</p>
+<h3 id="32-previsualiser-le-build">3.2 Prévisualiser le build</h3>
+<p>Avant de déployer, on sert le build local avec <code>vite preview</code> :</p>
+<pre><code class="language-bash">npm run preview
+curl -sI http://localhost:4173/ | head -n 1
+curl -sI http://localhost:4173/evenement/13 | head -n 1
+</code></pre>
+<figure><img src="captures/03-etape1-preview.png" alt="Capture 03 — prévisualisation locale du build"><figcaption>Capture 03 — prévisualisation locale du build</figcaption></figure>
+<p>Les deux routes répondent <strong>200</strong> en local. C'est le serveur de prévisualisation de Vite qui
+gère le repli SPA ; en production, ce rôle sera tenu par la réécriture Vercel.</p>
+<figure><img src="captures/04-etape1-preview-app.png" alt="Capture 04 — application locale servie par vite preview"><figcaption>Capture 04 — application locale servie par vite preview</figcaption></figure>
+<h3 id="33-un-seul-package-lockjson">3.3 Un seul <code>package-lock.json</code></h3>
+<p><code>npm ci</code> exige un lock unique et cohérent avec le <code>package.json</code> de la racine. Le contrôle
+révèle deux locks :</p>
+<pre><code class="language-bash">git ls-files | grep package-lock.json
+# apps/web/package-lock.json
+# package-lock.json
+</code></pre>
+<figure><img src="captures/split/05-etape1-lock-unique-1.png" alt="Capture 05 — suppression du lock dupliqué (partie 1/2)"><figcaption>Capture 05 — suppression du lock dupliqué (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/05-etape1-lock-unique-2.png" alt="Capture 05 — suppression du lock dupliqué (partie 2/2)"><figcaption>Capture 05 — suppression du lock dupliqué (partie 2/2)</figcaption></figure>
+<p>Le lock de <code>apps/web</code> est supprimé, puis <code>npm install</code> régénère le lock racine. Le commit
+<code>900577f</code> ne laisse qu'un seul lock pour tout le monorepo. C'est ce qui permet à Vercel et à
+la CI d'utiliser <code>npm ci</code> de façon reproductible.</p>
+<h3 id="34-reparer-le-build-avant-de-deployer">3.4 Réparer le build avant de déployer</h3>
+<p>Le premier build de production échouait pour deux raisons cumulées :</p>
+<ul>
+<li>des composants encore en <code>.jsx</code> alors que <code>tsc -b</code> attend des modules TypeScript ;</li>
+<li>des imports de types non explicites, refusés par <code>verbatimModuleSyntax</code>.</li>
+</ul>
+<p>La correction convertit <code>EvenementCarte.jsx</code>, <code>SearchBar.jsx</code> et <code>Auth.jsx</code> en <code>.tsx</code>, et
+ajoute les imports <code>import type</code>. Le commit <code>35174e0</code> rend le build vert.</p>
+<p>Un second problème apparaît avec <code>npm ci</code> : <code>apps/web</code> demandait une version de React
+différente de celle du monorepo. La version est alignée sur <code>19.1.0</code>, puis vérifiée :</p>
+<figure><img src="captures/split/09-fix-npm-ci-1.png" alt="Capture 09 — alignement de React et vérification de npm ci (partie 1/2)"><figcaption>Capture 09 — alignement de React et vérification de npm ci (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/09-fix-npm-ci-2.png" alt="Capture 09 — alignement de React et vérification de npm ci (partie 2/2)"><figcaption>Capture 09 — alignement de React et vérification de npm ci (partie 2/2)</figcaption></figure>
+<p>Le correctif de build est mergé directement sur <code>main</code> (commit <code>ef8df24</code>) pour que la branche
+de production puisse construire l'application :</p>
+<figure><img src="captures/split/10-merge-build-1.png" alt="Capture 10 — merge du correctif de build sur main (partie 1/2)"><figcaption>Capture 10 — merge du correctif de build sur main (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/10-merge-build-2.png" alt="Capture 10 — merge du correctif de build sur main (partie 2/2)"><figcaption>Capture 10 — merge du correctif de build sur main (partie 2/2)</figcaption></figure>
+<p>À ce stade, <code>main</code> construit, mais l'application n'est pas encore déployée.</p>
+<h3 id="35-bonus-integration-continue">3.5 Bonus — intégration continue</h3>
+<p>En plus du déploiement Vercel, un workflow GitHub Actions vérifie le build à chaque Pull
+Request vers <code>main</code> :</p>
+<figure><img src="captures/split/07-bonus-ci-1.png" alt="Capture 07 — workflow GitHub Actions de build du web (partie 1/2)"><figcaption>Capture 07 — workflow GitHub Actions de build du web (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/07-bonus-ci-2.png" alt="Capture 07 — workflow GitHub Actions de build du web (partie 2/2)"><figcaption>Capture 07 — workflow GitHub Actions de build du web (partie 2/2)</figcaption></figure>
+<p>Le workflow installe les dépendances avec <code>npm ci</code> puis lance <code>npm run build</code>. Il sert de
+garde-fou : une PR qui casse le build est signalée avant le merge, indépendamment de Vercel.</p>
+<hr />
+<h2 id="4-etape-2-creer-et-configurer-le-projet-vercel">4. Étape 2 — Créer et configurer le projet Vercel</h2>
+<p>Le projet Vercel s'appelle <strong><code>senevent-equipe-1</code></strong>. Il est relié au dépôt GitHub
+<code>aminata21diouf-creator/senevent</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Réglage Vercel</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Root Directory</td>
+<td><code>apps/web</code></td>
+</tr>
+<tr>
+<td>Framework Preset</td>
+<td>Vite</td>
+</tr>
+<tr>
+<td>Build Command</td>
+<td><code>npm run build</code></td>
+</tr>
+<tr>
+<td>Output Directory</td>
+<td><code>dist</code></td>
+</tr>
+<tr>
+<td>Install Command</td>
+<td><code>npm ci</code> (défaut)</td>
+</tr>
+<tr>
+<td>Variables</td>
+<td><code>VITE_SUPABASE_URL</code>, <code>VITE_SUPABASE_ANON_KEY</code></td>
+</tr>
+<tr>
+<td>Environnements des variables</td>
+<td>Production + Preview</td>
+</tr>
+<tr>
+<td>Protection de déploiement</td>
+<td>désactivée (URL publique accessible)</td>
+</tr>
+</tbody>
+</table>
+<p>Deux fichiers locaux sont volontairement ignorés par Git :</p>
+<ul>
+<li><code>.vercel/</code> (identifiants du projet lié) ;</li>
+<li><code>.env*</code> (variables locales, dont la clé publique Supabase).</li>
+</ul>
+<p>Le commit <code>88f105a</code> ajoute ces règles au <code>.gitignore</code>. Aucun secret n'est versionné.</p>
+<p>Les variables sont saisies dans le tableau de bord Vercel, pas dans le dépôt. La clé
+<code>VITE_SUPABASE_ANON_KEY</code> est <strong>publique par conception</strong> : elle est visible dans le bundle,
+mais les politiques RLS de Supabase limitent ce qu'elle peut faire. La clé <code>service_role</code>, qui
+contourne RLS, n'est jamais exposée au client (vérifié au point 10 de la recette).</p>
+<hr />
+<h2 id="5-etape-3-reecriture-spa-et-premier-deploiement">5. Étape 3 — Réécriture SPA et premier déploiement</h2>
+<h3 id="51-le-probleme-des-routes-profondes">5.1 Le problème des routes profondes</h3>
+<p>Une application React Router n'a qu'un seul fichier HTML. Quand l'utilisateur ouvre
+directement <code>/evenement/13</code>, le navigateur demande cette URL au serveur. Sans configuration,
+Vercel cherche un fichier <code>evenement/13</code> qui n'existe pas et renvoie <strong>404</strong>.</p>
+<p>La solution est une réécriture : toute URL inconnue est servie par <code>index.html</code>, puis React
+Router affiche la bonne page.</p>
+<pre><code class="language-json">{
+  &quot;rewrites&quot;: [
+    { &quot;source&quot;: &quot;/(.*)&quot;, &quot;destination&quot;: &quot;/index.html&quot; }
+  ]
+}
+</code></pre>
+<figure><img src="captures/split/06-etape3-vercel-json-1.png" alt="Capture 06 — ajout de apps/web/vercel.json (partie 1/2)"><figcaption>Capture 06 — ajout de apps/web/vercel.json (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/06-etape3-vercel-json-2.png" alt="Capture 06 — ajout de apps/web/vercel.json (partie 2/2)"><figcaption>Capture 06 — ajout de apps/web/vercel.json (partie 2/2)</figcaption></figure>
+<p>Le fichier est ajouté dans <code>apps/web/</code>, donc à la racine du projet Vercel (Root Directory).
+C'est un point important : placé à la racine du monorepo, il serait ignoré.</p>
+<h3 id="52-le-premier-deploiement-volontairement-incomplet">5.2 Le premier déploiement, volontairement incomplet</h3>
+<p>Pour comprendre l'utilité de la réécriture, le premier déploiement de production est fait
+<strong>sans</strong> <code>vercel.json</code>. La racine répond, mais la route profonde échoue :</p>
+<figure><img src="captures/11-etape3-404.png" alt="Capture 11 — 404 sur la route profonde en production"><figcaption>Capture 11 — 404 sur la route profonde en production</figcaption></figure>
+<figure><img src="captures/12-404-navigateur.png" alt="Capture 12 — la 404 dans le navigateur"><figcaption>Capture 12 — la 404 dans le navigateur</figcaption></figure>
+<p>Le catalogue, lui, s'affiche correctement :</p>
+<figure><img src="captures/13-production-catalogue.png" alt="Capture 13 — catalogue de production avant réécriture"><figcaption>Capture 13 — catalogue de production avant réécriture</figcaption></figure>
+<p>C'est le symptôme classique d'une SPA mal servie : l'accueil fonctionne, mais un lien partagé
+ou un rafraîchissement sur une fiche renvoie une 404.</p>
+<h3 id="53-la-previsualisation-de-la-branche-corrige-le-tir">5.3 La prévisualisation de la branche corrige le tir</h3>
+<p>La branche <code>feature/lab11-vercel</code> contient <code>vercel.json</code>. Elle est poussée et une Pull Request
+est ouverte ; c'est elle qui déclenche la prévisualisation :</p>
+<figure><img src="captures/split/08-etape3-pr-1.png" alt="Capture 08 — création de la PR #8 (partie 1/2)"><figcaption>Capture 08 — création de la PR #8 (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/08-etape3-pr-2.png" alt="Capture 08 — création de la PR #8 (partie 2/2)"><figcaption>Capture 08 — création de la PR #8 (partie 2/2)</figcaption></figure>
+<p>Vercel en produit une prévisualisation, et cette fois les deux routes répondent <strong>200</strong> :</p>
+<figure><img src="captures/14-preview-ok.png" alt="Capture 14 — prévisualisation de branche : racine et route profonde en 200"><figcaption>Capture 14 — prévisualisation de branche : racine et route profonde en 200</figcaption></figure>
+<figure><img src="captures/15-preview-route-profonde.png" alt="Capture 15 — la fiche s'affiche via l'URL de prévisualisation"><figcaption>Capture 15 — la fiche s'affiche via l'URL de prévisualisation</figcaption></figure>
+<p>La prévisualisation est commentée sur la Pull Request avec les deux codes HTTP. C'est la
+preuve que le correctif fonctionne <strong>avant</strong> de toucher à la production.</p>
+<h3 id="54-merge-et-production-corrigee">5.4 Merge et production corrigée</h3>
+<p>La PR #8 est mergée dans <code>main</code>, puis la production est redéployée :</p>
+<figure><img src="captures/split/17-merge-main-1.png" alt="Capture 17 — merge de la PR #8 dans main (partie 1/2)"><figcaption>Capture 17 — merge de la PR #8 dans main (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/17-merge-main-2.png" alt="Capture 17 — merge de la PR #8 dans main (partie 2/2)"><figcaption>Capture 17 — merge de la PR #8 dans main (partie 2/2)</figcaption></figure>
+<figure><img src="captures/18-production-fixee.png" alt="Capture 18 — production corrigée : 200 sur la route profonde et titre SenEvent"><figcaption>Capture 18 — production corrigée : 200 sur la route profonde et titre SenEvent</figcaption></figure>
+<figure><img src="captures/19-production-route-profonde.png" alt="Capture 19 — la fiche événement en production"><figcaption>Capture 19 — la fiche événement en production</figcaption></figure>
+<p>La production répond désormais <strong>200</strong> sur <code>/</code> et sur <code>/evenement/13</code>, et le titre de la page
+est <code>SenEvent</code>. La réécriture SPA est validée en conditions réelles.</p>
+<hr />
+<h2 id="6-etape-4-variables-denvironnement">6. Étape 4 — Variables d'environnement</h2>
+<p>Les variables sont configurées dans <strong>Vercel → Project → Settings → Environment Variables</strong>,
+pour les environnements <em>Production</em> et <em>Preview</em> :</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Rôle</th>
+<th>Portée</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VITE_SUPABASE_URL</code></td>
+<td>URL du projet Supabase</td>
+<td>Production + Preview</td>
+</tr>
+<tr>
+<td><code>VITE_SUPABASE_ANON_KEY</code></td>
+<td>Clé publique <code>anon</code> / <code>publishable</code></td>
+<td>Production + Preview</td>
+</tr>
+</tbody>
+</table>
+<p>Deux règles ont été appliquées :</p>
+<ol>
+<li><strong>Aucune variable dans Git.</strong> Le fichier local <code>apps/web/.env.local</code> est ignoré, et
+   <code>git ls-files | grep -c '\.env'</code> renvoie <strong>0</strong>.</li>
+<li><strong>Aucune clé privilégiée dans le client.</strong> Le frontend ne reçoit que la clé publique. La
+   clé <code>service_role</code> reste côté serveur / administration.</li>
+</ol>
+<p>En local, le même fichier <code>.env.local</code> permet de continuer à développer sans toucher à la
+production.</p>
+<hr />
+<h2 id="7-etape-5-supabase-auth-en-production">7. Étape 5 — Supabase Auth en production</h2>
+<h3 id="71-pourquoi-configurer-les-url">7.1 Pourquoi configurer les URL</h3>
+<p>Après une confirmation d'email ou une réinitialisation de mot de passe, Supabase redirige
+l'utilisateur vers une adresse autorisée. Par défaut, cette adresse est <code>http://localhost:3000</code>.
+En production, il faut déclarer l'adresse Vercel et les adresses de développement locales.</p>
+<p>Cette liste est une protection : Supabase refuse de rediriger vers une adresse inconnue, ce
+qui empêche un attaquant de détourner un lien d'authentification.</p>
+<h3 id="72-configuration-versionnee">7.2 Configuration versionnée</h3>
+<p>La configuration est décrite dans <code>supabase/config.toml</code> :</p>
+<pre><code class="language-toml">[auth]
+site_url = &quot;https://senevent-equipe-1.vercel.app&quot;
+additional_redirect_urls = [
+  &quot;https://senevent-equipe-1.vercel.app/**&quot;,
+  &quot;http://localhost:5173/**&quot;,
+  &quot;http://127.0.0.1:5173/**&quot;,
+]
+
+[auth.email]
+enable_confirmations = true
+</code></pre>
+<figure><img src="captures/split/16-supabase-auth-1.png" alt="Capture 16 — configuration Auth et synchronisation du projet Supabase (partie 1/2)"><figcaption>Capture 16 — configuration Auth et synchronisation du projet Supabase (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/16-supabase-auth-2.png" alt="Capture 16 — configuration Auth et synchronisation du projet Supabase (partie 2/2)"><figcaption>Capture 16 — configuration Auth et synchronisation du projet Supabase (partie 2/2)</figcaption></figure>
+<p>La capture montre les valeurs locales (<code>site_url</code>, <code>additional_redirect_urls</code>,
+<code>enable_confirmations = true</code>) puis <code>supabase config push --yes</code>. Le projet distant est
+synchronisé (<code>"auth": "up_to_date"</code>). La seconde occurrence de <code>enable_confirmations</code> à
+<code>false</code> concerne le bloc <code>[auth.sms]</code>, désactivé : elle ne remet pas en cause la confirmation
+d'email.</p>
+<h3 id="73-confirmation-demail">7.3 Confirmation d'email</h3>
+<p>Avec <code>enable_confirmations = true</code>, un compte créé depuis l'interface n'obtient <strong>pas</strong> de
+session immédiate : l'utilisateur doit cliquer sur le lien reçu par email. C'est le
+comportement attendu en production, et c'est aussi ce qui a révélé un bug corrigé plus loin
+(section 10.1).</p>
+<hr />
+<h2 id="8-etape-6-readme-deploiement-continu-et-tag">8. Étape 6 — README, déploiement continu et tag</h2>
+<h3 id="81-relier-git-et-vercel">8.1 Relier Git et Vercel</h3>
+<p>La connexion Git a demandé une action côté GitHub : installer l'<strong>application Vercel</strong> sur le
+dépôt <code>senevent</code>. Une fois l'application autorisée, la commande suivante a réussi :</p>
+<pre><code class="language-bash">npx vercel git connect https://github.com/aminata21diouf-creator/senevent
+# &gt; Connected
+</code></pre>
+<p>Le projet est alors lié à la branche <code>main</code> :</p>
+<table>
+<thead>
+<tr>
+<th>Propriété du lien</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>link.type</code></td>
+<td><code>github</code></td>
+</tr>
+<tr>
+<td><code>link.repo</code></td>
+<td><code>senevent</code></td>
+</tr>
+<tr>
+<td><code>link.productionBranch</code></td>
+<td><code>main</code></td>
+</tr>
+</tbody>
+</table>
+<p>À partir de ce moment, chaque push sur une branche crée une prévisualisation, et chaque merge
+sur <code>main</code> crée un déploiement de production <strong>sans commande manuelle</strong>.</p>
+<h3 id="82-readme-racine">8.2 README racine</h3>
+<p>Le README décrit l'application, l'URL publique, la structure du monorepo, le développement
+local, les réglages Vercel et les URL Supabase. Il est ajouté par la PR #9 :</p>
+<figure><img src="captures/split/20-readme-pr-1.png" alt="Capture 20 — création de la PR README (partie 1/2)"><figcaption>Capture 20 — création de la PR README (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/20-readme-pr-2.png" alt="Capture 20 — création de la PR README (partie 2/2)"><figcaption>Capture 20 — création de la PR README (partie 2/2)</figcaption></figure>
+<p>La PR déclenche automatiquement une prévisualisation (<code>source: git</code>, branche
+<code>docs/lab11-readme</code>) :</p>
+<figure><img src="captures/split/21-preview-auto-1.png" alt="Capture 21 — prévisualisation automatique de la PR README (partie 1/2)"><figcaption>Capture 21 — prévisualisation automatique de la PR README (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/21-preview-auto-2.png" alt="Capture 21 — prévisualisation automatique de la PR README (partie 2/2)"><figcaption>Capture 21 — prévisualisation automatique de la PR README (partie 2/2)</figcaption></figure>
+<p>La prévisualisation répond <strong>200</strong> sur la route profonde, puis la PR est mergée :</p>
+<figure><img src="captures/split/22-merge-readme-1.png" alt="Capture 22 — merge de la PR README (partie 1/2)"><figcaption>Capture 22 — merge de la PR README (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/22-merge-readme-2.png" alt="Capture 22 — merge de la PR README (partie 2/2)"><figcaption>Capture 22 — merge de la PR README (partie 2/2)</figcaption></figure>
+<h3 id="83-deploiement-automatique-de-production">8.3 Déploiement automatique de production</h3>
+<p>Après le merge, Vercel détecte le commit sur <code>main</code> et déploie en production avec
+<code>source: git</code>. La capture vérifie aussi les points de sécurité et d'hygiène du dépôt :</p>
+<figure><img src="captures/split/23-deploiement-auto-1.png" alt="Capture 23 — déploiement automatique et contrôles de validation (partie 1/3)"><figcaption>Capture 23 — déploiement automatique et contrôles de validation (partie 1/3)</figcaption></figure>
+<figure><img src="captures/split/23-deploiement-auto-2.png" alt="Capture 23 — déploiement automatique et contrôles de validation (partie 2/3)"><figcaption>Capture 23 — déploiement automatique et contrôles de validation (partie 2/3)</figcaption></figure>
+<figure><img src="captures/split/23-deploiement-auto-3.png" alt="Capture 23 — déploiement automatique et contrôles de validation (partie 3/3)"><figcaption>Capture 23 — déploiement automatique et contrôles de validation (partie 3/3)</figcaption></figure>
+<p>On y lit notamment :</p>
+<ul>
+<li>un déploiement <code>Production</code> <code>Ready</code> avec <code>source: git</code> sur <code>main</code> ;</li>
+<li><code>/evenement/13</code> → <strong>200</strong> et <code>/evenement/1</code> → <strong>200</strong> ;</li>
+<li>un seul <code>package-lock.json</code> suivi ;</li>
+<li>aucun fichier <code>.env</code> suivi ;</li>
+<li>la section <code>## En ligne</code> présente dans le README.</li>
+</ul>
+<h3 id="84-tag-v10-web">8.4 Tag <code>v1.0-web</code></h3>
+<p>Le tag est d'abord posé sur le commit de merge de la PR #8 :</p>
+<figure><img src="captures/split/24-tag-v1.0-web-1.png" alt="Capture 24 — premier tag v1.0-web (partie 1/2)"><figcaption>Capture 24 — premier tag v1.0-web (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/24-tag-v1.0-web-2.png" alt="Capture 24 — premier tag v1.0-web (partie 2/2)"><figcaption>Capture 24 — premier tag v1.0-web (partie 2/2)</figcaption></figure>
+<p>Après les deux correctifs issus de la recette (sections 10.1 et 10.2), le tag est déplacé sur
+le <code>main</code> final pour qu'il désigne exactement la version testée :</p>
+<figure><img src="captures/split/27-tag-final-1.png" alt="Capture 27 — tag v1.0-web aligné sur le main final (partie 1/2)"><figcaption>Capture 27 — tag v1.0-web aligné sur le main final (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/27-tag-final-2.png" alt="Capture 27 — tag v1.0-web aligné sur le main final (partie 2/2)"><figcaption>Capture 27 — tag v1.0-web aligné sur le main final (partie 2/2)</figcaption></figure>
+<p><code>git rev-parse HEAD</code> et <code>git rev-parse v1.0-web^{commit}</code> renvoient le même commit
+<code>a08840a</code>, et <code>git ls-remote</code> confirme que le tag distant est identique.</p>
+<p>Le tag désigne la <strong>version de code testée</strong>. Ce rapport est ajouté ensuite par un commit de
+documentation : il ne modifie ni l'application ni le déploiement, et le tag reste volontairement
+sur <code>a08840a</code>.</p>
+<hr />
+<h2 id="9-recette-de-production">9. Recette de production</h2>
+<h3 id="91-methode">9.1 Méthode</h3>
+<p>La recette est faite sur l'URL publique, dans un navigateur piloté, avec une fenêtre
+<strong>390 × 844</strong> (format iPhone 14) et un émulateur tactile. Ce n'est pas un vrai téléphone en
+4G : c'est un choix assumé, documenté dans les limites. L'objectif est de vérifier le
+comportement applicatif et le rendu mobile, pas la performance réseau.</p>
+<p>Les captures sont produites automatiquement par un script qui déroule les dix points et note
+chaque résultat. Deux comptes sont utilisés :</p>
+<table>
+<thead>
+<tr>
+<th>Compte</th>
+<th>Rôle dans la recette</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>recette.lab11@example.com</code> / <code>RecetteLab11!</code></td>
+<td>Création de compte, création d'événement, inscription</td>
+</tr>
+<tr>
+<td><code>temoin.lab11@senevent.sn</code> / <code>RecetteLab11!</code></td>
+<td>Compte témoin pour tester la suppression</td>
+</tr>
+</tbody>
+</table>
+<p>Le compte de test est confirmé via un lien <code>generateLink</code> généré côté serveur. Ce lien est
+l'équivalent exact du lien envoyé par email ; il permet de tester la redirection et la session
+sans dépendre d'une boîte mail.</p>
+<h3 id="92-resultats-des-dix-points">9.2 Résultats des dix points</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Point du lab</th>
+<th>Résultat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Ouvrir l'adresse de production</td>
+<td><strong>OK</strong> — catalogue affiché</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Ouvrir un événement puis F5</td>
+<td><strong>OK</strong> — la fiche reste affichée</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Coller l'URL d'une fiche dans un nouvel onglet</td>
+<td><strong>OK</strong> — la fiche s'affiche directement</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Créer un compte et confirmer l'email</td>
+<td><strong>OK avec limite</strong> — envoi email 429, confirmation vérifiée par lien serveur</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Se connecter et créer un événement</td>
+<td><strong>OK</strong> — événement #16</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Recharger la page</td>
+<td><strong>OK</strong> — l'événement est toujours là</td>
+</tr>
+<tr>
+<td>7</td>
+<td>S'inscrire à un événement</td>
+<td><strong>OK</strong> — le bouton passe à « Se désinscrire »</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Ouvrir l'application mobile (Expo Go)</td>
+<td><strong>NON TESTÉ</strong> — pas de téléphone disponible</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Autre compte : tentative de suppression</td>
+<td><strong>OK</strong> — bouton absent, suppression forcée = 0 ligne</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Chercher <code>service_role</code> dans le code de la page</td>
+<td><strong>OK</strong> — 0 occurrence</td>
+</tr>
+</tbody>
+</table>
+<h3 id="93-points-1-a-3-acces-et-routes-profondes">9.3 Points 1 à 3 — accès et routes profondes</h3>
+<figure><img src="recette/01-accueil-mobile.png" alt="Recette 01 — catalogue en 390 × 844"><figcaption>Recette 01 — catalogue en 390 × 844</figcaption></figure>
+<p>Le catalogue s'affiche en mobile, sans débordement horizontal. Les cartes restent lisibles et
+cliquables.</p>
+<figure><img src="recette/02-fiche-apres-f5.png" alt="Recette 02 — fiche après un rechargement (F5)"><figcaption>Recette 02 — fiche après un rechargement (F5)</figcaption></figure>
+<p>Après un rechargement complet, la fiche reste affichée : c'est la réécriture SPA qui renvoie
+<code>index.html</code>, puis React Router reconstruit la page à partir de l'URL.</p>
+<figure><img src="recette/03-url-directe.png" alt="Recette 03 — URL directe dans un nouvel onglet"><figcaption>Recette 03 — URL directe dans un nouvel onglet</figcaption></figure>
+<p>Une URL copiée-collée dans un onglet neuf fonctionne également. C'est le test qui distingue une
+vraie SPA déployée d'une application qui ne marche qu'en navigation interne.</p>
+<h3 id="94-point-4-creation-de-compte-et-confirmation-demail">9.4 Point 4 — création de compte et confirmation d'email</h3>
+<figure><img src="recette/04a-inscription.png" alt="Recette 04a — formulaire d'inscription"><figcaption>Recette 04a — formulaire d'inscription</figcaption></figure>
+<p>Le formulaire demande un nom d'affichage, un email et un mot de passe. Le nom est stocké dans
+les métadonnées du compte Supabase ; il servira à créer le profil.</p>
+<figure><img src="recette/04b-limite-email.png" alt="Recette 04b — limite d'envoi d'emails Supabase (HTTP 429)"><figcaption>Recette 04b — limite d'envoi d'emails Supabase (HTTP 429)</figcaption></figure>
+<p>L'inscription depuis l'interface renvoie <strong>HTTP 429</strong> <code>over_email_send_rate_limit</code>. Ce n'est
+pas un bug de l'application : le projet Supabase utilise le service d'email intégré, qui impose
+une limite d'envoi très basse. L'application affiche correctement l'erreur et ne crée pas de
+session.</p>
+<p>Pour ne pas bloquer la recette, le lien de confirmation est généré côté serveur avec
+<code>generateLink</code>, puis ouvert dans le navigateur :</p>
+<figure><img src="recette/04c-retour-production.png" alt="Recette 04c — retour sur la production après confirmation"><figcaption>Recette 04c — retour sur la production après confirmation</figcaption></figure>
+<p>La redirection revient bien sur <code>https://senevent-equipe-1.vercel.app</code>, la session est active
+(bouton « Se déconnecter » visible) et <code>email_confirmed_at</code> passe de <code>false</code> à <code>true</code>. Le
+profil « Awa Recette » est créé par l'application à la première session. C'est le correctif
+décrit en section 10.1.</p>
+<h3 id="95-points-5-a-7-creation-persistance-et-inscription">9.5 Points 5 à 7 — création, persistance et inscription</h3>
+<figure><img src="recette/05a-formulaire-evenement.png" alt="Recette 05a — formulaire de création d'événement"><figcaption>Recette 05a — formulaire de création d'événement</figcaption></figure>
+<p>Le formulaire de création reprend les champs du modèle : titre, catégorie, lieu, date, prix.
+Le lieu est saisi en texte libre, la date au format <code>datetime-local</code>.</p>
+<figure><img src="recette/05b-evenement-cree.png" alt="Recette 05b — événement créé et visible dans la liste"><figcaption>Recette 05b — événement créé et visible dans la liste</figcaption></figure>
+<p>L'événement <strong>#16 « Recette mobile Lab 11 »</strong> est créé par le compte de recette et apparaît
+dans le catalogue.</p>
+<figure><img src="recette/06-rechargement-persiste.png" alt="Recette 06 — l'événement survit au rechargement"><figcaption>Recette 06 — l'événement survit au rechargement</figcaption></figure>
+<p>Après rechargement de la fiche, l'événement est toujours présent : la donnée est bien en base,
+pas seulement dans l'état React.</p>
+<figure><img src="recette/07-inscription.png" alt="Recette 07 — inscription à l'événement"><figcaption>Recette 07 — inscription à l'événement</figcaption></figure>
+<p>L'inscription fonctionne : le bouton « S'inscrire » devient « Se désinscrire », ce qui prouve
+que la ligne <code>inscriptions</code> a été créée et que l'état est relu depuis Supabase.</p>
+<h3 id="96-point-8-application-mobile-expo-go">9.6 Point 8 — application mobile Expo Go</h3>
+<p>Ce point n'a pas pu être exécuté : l'environnement de travail ne dispose ni de téléphone ni
+d'Expo Go. Le code mobile n'a pas été modifié par ce lab et pointe vers la <strong>même base
+Supabase</strong> que le web ; les données créées pendant la recette (événement #16, profil, inscription)
+seraient donc visibles depuis l'application mobile.</p>
+<p>Le point est documenté comme <strong>non testé</strong>, et non comme validé.</p>
+<h3 id="97-point-9-suppression-par-un-autre-compte">9.7 Point 9 — suppression par un autre compte</h3>
+<figure><img src="recette/09-autre-compte-sans-suppression.png" alt="Recette 09 — aucun bouton de suppression pour le compte témoin"><figcaption>Recette 09 — aucun bouton de suppression pour le compte témoin</figcaption></figure>
+<p>Connecté avec le compte témoin <code>temoin.lab11@senevent.sn</code>, l'utilisateur ne voit pas le bouton
+« Supprimer cet événement » : l'interface masque l'action aux non-propriétaires.</p>
+<p>Le test ne s'arrête pas à l'interface. Une suppression est forcée directement via l'API REST
+avec le jeton du compte témoin :</p>
+<pre><code class="language-text">DELETE /rest/v1/evenements?id=eq.16
+HTTP 200
+lignes supprimees: []
+evenement encore present: true
+</code></pre>
+<p>La politique RLS <code>evenements_delete_owner</code> (<code>using (organisateur_id = auth.uid())</code>) empêche la
+suppression : zéro ligne n'est touchée et l'événement reste en base. La sécurité ne repose donc
+pas seulement sur l'interface.</p>
+<h3 id="98-point-10-absence-de-service_role-dans-le-client">9.8 Point 10 — absence de <code>service_role</code> dans le client</h3>
+<p>Le contrôle cherche la chaîne <code>service_role</code> dans le bundle JavaScript servi par la production
+et dans le code source :</p>
+<figure><img src="captures/30-service-role.png" alt="Capture 30 — contrôle service_role dans le bundle et le dépôt"><figcaption>Capture 30 — contrôle service_role dans le bundle et le dépôt</figcaption></figure>
+<p>Résultat :</p>
+<ul>
+<li><code>service_role</code> : <strong>0</strong> occurrence dans le bundle, <strong>0</strong> dans <code>apps/</code> et <code>packages/</code> ;</li>
+<li><code>sb_secret_</code> : <strong>1</strong> occurrence dans le bundle, <strong>0</strong> dans le code source.</li>
+</ul>
+<p>L'occurrence de <code>sb_secret_</code> n'est pas une clé : c'est un <strong>test de préfixe</strong> interne à la
+librairie <code>supabase-js</code> (<code>Sa = e =&gt; e.startsWith('sb_publishable_') || e.startsWith('sb_secret_')</code>),
+utilisé pour distinguer les clés publiques des clés secrètes. Aucune valeur secrète n'est
+présente dans le code livré.</p>
+<h3 id="99-recapitulatif-de-la-recette">9.9 Récapitulatif de la recette</h3>
+<figure><img src="captures/split/29-recette-resultats-1.png" alt="Capture 29 — résultats de la recette (partie 1/2)"><figcaption>Capture 29 — résultats de la recette (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/29-recette-resultats-2.png" alt="Capture 29 — résultats de la recette (partie 2/2)"><figcaption>Capture 29 — résultats de la recette (partie 2/2)</figcaption></figure>
+<p>Le fichier <code>recette/resultats.json</code> conserve les treize lignes de résultat (les points 4 et 9
+ont plusieurs vérifications). Neuf points sont validés, un point est non testable dans
+l'environnement, et la limite d'email est explicitement documentée.</p>
+<hr />
+<h2 id="10-bugs-trouves-pendant-la-recette-et-corriges">10. Bugs trouvés pendant la recette et corrigés</h2>
+<p>La recette n'a pas servi qu'à cocher des cases : elle a révélé deux vrais défauts de
+production. Les deux ont été corrigés par Pull Request, avec prévisualisation et merge.</p>
+<h3 id="101-inscription-avec-confirmation-demail-active">10.1 Inscription avec confirmation d'email active</h3>
+<p><strong>Symptôme.</strong> Avec <code>enable_confirmations = true</code>, <code>signUp</code> ne renvoie pas de session. Le code
+d'inscription tentait alors d'insérer le profil immédiatement :</p>
+<pre><code class="language-ts">const data = await sInscrire(email, motDePasse);
+if (data.user) {
+  await getSupabase().from(&quot;profiles&quot;).insert({ id: data.user.id, nom });
+}
+</code></pre>
+<p>Sans session, la requête est anonyme et la politique RLS <code>profiles_insert_self</code>
+(<code>with check (id = auth.uid())</code>) la refuse. Le compte était créé, mais sans ligne <code>profiles</code> ;
+la clé étrangère <code>evenements.organisateur_id</code> empêchait ensuite de créer un événement.</p>
+<p><strong>Correctif.</strong> Le nom est passé dans les métadonnées du compte (<code>options.data.nom</code>), et le
+profil est créé à la <strong>première session</strong>, dans <code>App.tsx</code> :</p>
+<pre><code class="language-ts">useEffect(() =&gt; {
+  if (!session?.user) return;
+  const nom =
+    session.user.user_metadata?.nom ||
+    session.user.email?.split(&quot;@&quot;)[0] ||
+    &quot;Utilisateur&quot;;
+  creerProfil(session.user.id, nom).catch(() =&gt; {
+    // Profil deja present : rien a faire.
+  });
+}, [session]);
+</code></pre>
+<p><code>Auth.tsx</code> affiche un message explicite (« Compte créé. Vérifiez votre email pour confirmer,
+puis connectez-vous. ») au lieu de naviguer vers l'accueil sans session.</p>
+<figure><img src="captures/split/25-fix-signup-pr-1.png" alt="Capture 25 — PR de correction de l'inscription (partie 1/3)"><figcaption>Capture 25 — PR de correction de l'inscription (partie 1/3)</figcaption></figure>
+<figure><img src="captures/split/25-fix-signup-pr-2.png" alt="Capture 25 — PR de correction de l'inscription (partie 2/3)"><figcaption>Capture 25 — PR de correction de l'inscription (partie 2/3)</figcaption></figure>
+<figure><img src="captures/split/25-fix-signup-pr-3.png" alt="Capture 25 — PR de correction de l'inscription (partie 3/3)"><figcaption>Capture 25 — PR de correction de l'inscription (partie 3/3)</figcaption></figure>
+<figure><img src="captures/split/26-merge-fix-1.png" alt="Capture 26 — merge du correctif d'inscription (partie 1/2)"><figcaption>Capture 26 — merge du correctif d'inscription (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/26-merge-fix-2.png" alt="Capture 26 — merge du correctif d'inscription (partie 2/2)"><figcaption>Capture 26 — merge du correctif d'inscription (partie 2/2)</figcaption></figure>
+<p>La vérification en production confirme : après confirmation, le profil « Awa Recette » existe
+et l'événement peut être créé.</p>
+<h3 id="102-navbar-inutilisable-en-mobile">10.2 Navbar inutilisable en mobile</h3>
+<p><strong>Symptôme.</strong> En 390 px de large, la barre de navigation débordait horizontalement et le bouton
+« Se déconnecter » n'était plus cliquable. La recette du point 9 ne pouvait pas continuer.</p>
+<p><strong>Correctif.</strong> Une media query sous 640 px fait passer la barre sur deux lignes et autorise le
+retour à la ligne des liens :</p>
+<pre><code class="language-css">@media (max-width: 640px) {
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.8rem 1rem;
+  }
+  .liens {
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    width: 100%;
+  }
+  .email {
+    width: 100%;
+    overflow-wrap: anywhere;
+    font-size: 0.82rem;
+  }
+}
+</code></pre>
+<figure><img src="captures/split/28-navbar-mobile-1.png" alt="Capture 28 — PR de correction de la navbar mobile (partie 1/3)"><figcaption>Capture 28 — PR de correction de la navbar mobile (partie 1/3)</figcaption></figure>
+<figure><img src="captures/split/28-navbar-mobile-2.png" alt="Capture 28 — PR de correction de la navbar mobile (partie 2/3)"><figcaption>Capture 28 — PR de correction de la navbar mobile (partie 2/3)</figcaption></figure>
+<figure><img src="captures/split/28-navbar-mobile-3.png" alt="Capture 28 — PR de correction de la navbar mobile (partie 3/3)"><figcaption>Capture 28 — PR de correction de la navbar mobile (partie 3/3)</figcaption></figure>
+<p>Après merge et redéploiement automatique, la recette complète repasse : le bouton de
+déconnexion est accessible et le point 9 peut être vérifié.</p>
+<hr />
+<h2 id="11-checklist-de-validation">11. Checklist de validation</h2>
+<table>
+<thead>
+<tr>
+<th>Critère du lab</th>
+<th>Vérification</th>
+<th>Preuve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Build de production vert</td>
+<td><code>tsc -b &amp;&amp; vite build</code></td>
+<td>Capture 02</td>
+</tr>
+<tr>
+<td>Un seul <code>package-lock.json</code></td>
+<td><code>git ls-files \| grep -c 'package-lock.json'</code> = 1</td>
+<td>Capture 23</td>
+</tr>
+<tr>
+<td>Aucun <code>.env</code> versionné</td>
+<td><code>git ls-files \| grep -c '\.env'</code> = 0</td>
+<td>Capture 23</td>
+</tr>
+<tr>
+<td>Projet Vercel relié à GitHub</td>
+<td><code>link.type = github</code>, <code>productionBranch = main</code></td>
+<td>Section 8.1</td>
+</tr>
+<tr>
+<td>Racine en production</td>
+<td>HTTP 200</td>
+<td>Captures 18, 23</td>
+</tr>
+<tr>
+<td>Route profonde en production</td>
+<td><code>/evenement/13</code> HTTP 200</td>
+<td>Captures 18, 19</td>
+</tr>
+<tr>
+<td>Réécriture SPA</td>
+<td><code>apps/web/vercel.json</code></td>
+<td>Capture 06</td>
+</tr>
+<tr>
+<td>Prévisualisation par PR</td>
+<td>URL <code>*-git-*</code> en 200</td>
+<td>Capture 21</td>
+</tr>
+<tr>
+<td>Déploiement continu</td>
+<td>déploiement <code>source: git</code> sur <code>main</code></td>
+<td>Capture 23</td>
+</tr>
+<tr>
+<td>Supabase Auth configuré</td>
+<td><code>site_url</code>, redirects, <code>enable_confirmations</code></td>
+<td>Capture 16</td>
+</tr>
+<tr>
+<td>Confirmation d'email</td>
+<td><code>email_confirmed_at</code> false → true</td>
+<td>Recette 04c</td>
+</tr>
+<tr>
+<td>Recette des 10 points</td>
+<td>9 OK, 1 non testé, 1 limite documentée</td>
+<td>Captures 29</td>
+</tr>
+<tr>
+<td>Pas de <code>service_role</code> côté client</td>
+<td>0 occurrence</td>
+<td>Capture 30</td>
+</tr>
+<tr>
+<td>README avec section « En ligne »</td>
+<td><code>## En ligne</code></td>
+<td>Capture 23</td>
+</tr>
+<tr>
+<td>Tag de sortie</td>
+<td><code>v1.0-web</code> = <code>HEAD</code> = <code>a08840a</code></td>
+<td>Capture 27</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="12-bilan-et-limites">12. Bilan et limites</h2>
+<h3 id="121-ce-qui-est-livre">12.1 Ce qui est livré</h3>
+<ul>
+<li>Une application web publique : <a href="https://senevent-equipe-1.vercel.app">https://senevent-equipe-1.vercel.app</a>.</li>
+<li>Un déploiement continu : merge sur <code>main</code> → production ; Pull Request → prévisualisation.</li>
+<li>Une réécriture SPA qui rend les URL profondes partageables et rechargeables.</li>
+<li>Une authentification Supabase configurée pour la production, confirmation d'email active.</li>
+<li>Un README qui documente l'URL, la structure et les réglages.</li>
+<li>Un tag <code>v1.0-web</code> sur la version testée.</li>
+</ul>
+<h3 id="122-limites-assumees">12.2 Limites assumées</h3>
+<table>
+<thead>
+<tr>
+<th>Limite</th>
+<th>Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Envoi d'email 429</td>
+<td>Le service d'email intégré Supabase limite fortement les envois. La confirmation a été vérifiée avec un lien <code>generateLink</code>, équivalent du lien envoyé.</td>
+</tr>
+<tr>
+<td>Point 8 non testé</td>
+<td>Pas de téléphone ni d'Expo Go dans l'environnement. Le mobile n'a pas été modifié par ce lab.</td>
+</tr>
+<tr>
+<td>Recette en mobile émulé</td>
+<td>390 × 844 dans Chrome, pas un vrai téléphone en 4G. Le rendu et les parcours sont vérifiés, pas la performance réseau.</td>
+</tr>
+<tr>
+<td>Dépendances</td>
+<td><code>npm audit</code> signale des vulnérabilités dans l'arbre de développement ; elles ne concernent pas le code applicatif livré.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="123-ce-que-la-recette-a-apporte">12.3 Ce que la recette a apporté</h3>
+<p>La recette n'était pas une formalité : elle a mis au jour deux défauts qu'aucun test local
+n'aurait révélés dans ces conditions.</p>
+<ol>
+<li><strong>Un défaut de logique d'authentification</strong> : l'inscription supposait une session immédiate,
+   hypothèse fausse dès que la confirmation d'email est active — c'est-à-dire en production.</li>
+<li><strong>Un défaut de rendu mobile</strong> : la navbar n'avait jamais été testée à 390 px.</li>
+</ol>
+<p>Les deux ont été corrigés par PR, prévisualisés, mergés, puis revérifiés en production. C'est
+exactement le cycle que le lab cherche à installer : <strong>construire, déployer, observer, corriger,
+redéployer</strong>.</p>
+<hr />
+<h2 id="annexes">Annexes</h2>
+<h3 id="a-fichiers-ajoutes-ou-modifies-pour-le-lab-11">A. Fichiers ajoutés ou modifiés pour le Lab 11</h3>
+<pre><code class="language-text">apps/web/vercel.json                  reecriture SPA
+apps/web/index.html                   langue fr, titre SenEvent
+apps/web/package.json                 React aligne sur 19.1.0
+apps/web/src/App.tsx                  creation du profil a la session
+apps/web/src/pages/Auth.tsx           message de confirmation
+apps/web/src/pages/Auth.module.css    style du message d'information
+apps/web/src/components/NavBar.module.css   media query mobile
+packages/shared/src/auth.ts           nom dans les metadonnees du compte
+supabase/config.toml                  Site URL, redirects, confirmation
+supabase/.gitignore                   ignore les artefacts Supabase
+.github/workflows/build-web.yml       CI build sur Pull Request
+README.md                             section En ligne
+</code></pre>
+<h3 id="b-commandes-utiles">B. Commandes utiles</h3>
+<pre><code class="language-bash"># build et previsualisation locale
+cd apps/web
+npm run build
+npm run preview
+
+# deploiement manuel (secours)
+npx vercel --prod
+
+# etat des deploiements
+npx vercel ls senevent-equipe-1
+
+# configuration Supabase
+npx supabase link --project-ref &lt;ref&gt;
+npx supabase config push --yes
+
+# verification de la production
+curl -sI https://senevent-equipe-1.vercel.app/ | head -n 1
+curl -sI https://senevent-equipe-1.vercel.app/evenement/13 | head -n 1
+</code></pre>
+<h3 id="c-comptes-de-test">C. Comptes de test</h3>
+<table>
+<thead>
+<tr>
+<th>Compte</th>
+<th>Email</th>
+<th>Mot de passe</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recette</td>
+<td><code>recette.lab11@example.com</code></td>
+<td><code>RecetteLab11!</code></td>
+<td>Création de compte et d'événement</td>
+</tr>
+<tr>
+<td>Témoin</td>
+<td><code>temoin.lab11@senevent.sn</code></td>
+<td><code>RecetteLab11!</code></td>
+<td>Test de suppression refusée</td>
+</tr>
+<tr>
+<td>Démo Lab 10</td>
+<td><code>amina.lab10@senevent.sn</code></td>
+<td><code>Lab10Senevent!</code></td>
+<td>Événement #13</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d-liste-des-captures">D. Liste des captures</h3>
+<p><strong>Terminal</strong> (<code>captures/</code>, 30 fichiers) : 01 branche, 02 build, 03 preview locale, 04 preview
+navigateur, 05 lock unique, 06 vercel.json, 07 CI, 08 PR #8, 09 npm ci, 10 merge build,
+11 404 production, 12 404 navigateur, 13 catalogue production, 14 preview 200, 15 preview route
+profonde, 16 Supabase Auth, 17 merge PR #8, 18 production corrigée, 19 production route
+profonde, 20 PR README, 21 preview automatique, 22 merge README, 23 déploiement automatique,
+24 tag initial, 25 PR correctif inscription, 26 merge correctif, 27 tag final, 28 PR navbar,
+29 résultats de recette, 30 service_role.</p>
+<p><strong>Recette</strong> (<code>recette/</code>, 11 captures) : 01 accueil mobile, 02 fiche après F5, 03 URL directe,
+04a inscription, 04b limite email, 04c retour production, 05a formulaire événement,
+05b événement créé, 06 rechargement, 07 inscription, 09 autre compte sans suppression.</p>
+<p><strong>Tag final :</strong> <code>v1.0-web</code> — commit <code>a08840a</code>.</p></body></html>

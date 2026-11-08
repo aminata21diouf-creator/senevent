@@ -1,0 +1,91 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9eef4; }
+  .shot { padding: 28px; display: inline-block; }
+  .win {
+    width: 1040px; border-radius: 10px; overflow: hidden;
+    box-shadow: 0 12px 40px rgba(15,35,60,.28), 0 2px 6px rgba(15,35,60,.18);
+    background: #0c0c0c; border: 1px solid #1f2a36;
+  }
+  .bar {
+    height: 38px; background: #1b2430; display: flex; align-items: center;
+    padding: 0 14px; gap: 8px; border-bottom: 1px solid #101820;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .r { background: #ff5f57; } .y { background: #febc2e; } .g { background: #28c840; }
+  .title {
+    flex: 1; text-align: center; color: #9fb0c2; font: 12px "Segoe UI", Arial, sans-serif;
+    letter-spacing: .3px; margin-right: 44px;
+  }
+  .term {
+    background: #0c0c0c; padding: 18px 22px 22px;
+    font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+    font-size: 14.5px; line-height: 1.5; color: #d4d4d4;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .block { margin-bottom: 20px; }
+  .block:last-child { margin-bottom: 0; }
+  .prompt { color: #d4d4d4; }
+  .user { color: #23d18b; font-weight: 600; }
+  .msys { color: #d670d6; font-weight: 600; }
+  .path { color: #f5f543; }
+  .branch { color: #29b8db; }
+  .cmd { color: #ffffff; margin-top: 1px; }
+  .dollar { color: #23d18b; font-weight: 600; }
+  .out { margin-top: 2px; }
+  .err { color: #f14c4c; margin-top: 2px; }
+</style></head><body>
+<div class="shot">
+<div class="win">
+  <div class="bar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="title">MINGW64:/c/DAWM</span>
+  </div>
+  <div class="term">
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(feature/lab11-vercel)</span></div>
+    <div class="cmd"><span class="dollar">$</span> cd apps/web &amp;&amp; npm run build</div>
+    <div class="out">
+&gt; web@0.0.0 build
+&gt; tsc -b &amp;&amp; vite build
+
+<span style="color:#29b8db">vite v8.2.1 </span><span style="color:#23d18b">building client environment for production...</span>
+[2Ktransforming...<span style="color:#23d18b">✓</span> 91 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/<span style="color:#23d18b">index.html                 </span><span style="font-weight:600">  0.45 kB</span> │ gzip:   0.29 kB
+dist/assets/<span style="color:#d670d6">index-SQR2y4f3.css  </span><span style="font-weight:600"> 10.34 kB</span> │ gzip:   2.32 kB
+dist/assets/<span style="color:#29b8db">index-Z4I05I3T.js   </span><span style="font-weight:600">442.67 kB</span> │ gzip: 128.46 kB
+
+<span style="color:#23d18b">✓ built in 370ms</span></div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(feature/lab11-vercel)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git check-ignore -v apps/web/dist</div>
+    <div class="out">apps/web/.gitignore:11:dist	apps/web/dist</div>
+    
+  </div>
+
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(feature/lab11-vercel)</span></div>
+    <div class="cmd"><span class="dollar">$</span> git status --short</div>
+    <div class="out"><span style="color:#f14c4c">??</span> rapport/lab11/</div>
+    
+  </div></div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,67 @@
+[
+  {
+    "point": 1,
+    "action": "Ouvrir l'adresse de production",
+    "resultat": "OK — catalogue affiche"
+  },
+  {
+    "point": 2,
+    "action": "Ouvrir un evenement puis F5",
+    "resultat": "OK — la fiche reste affichee"
+  },
+  {
+    "point": 3,
+    "action": "Coller l'URL d'une fiche dans un nouvel onglet",
+    "resultat": "OK — la fiche s'affiche directement"
+  },
+  {
+    "point": 4,
+    "action": "Creer un compte depuis la production",
+    "resultat": "LIMITE SUPABASE 429 (envoi d'email) — l'application affiche l'erreur, aucune session"
+  },
+  {
+    "point": 4,
+    "action": "Confirmer l'email",
+    "resultat": "OK — retour sur https://senevent-equipe-1.vercel.app ; confirme avant: false, apres: true"
+  },
+  {
+    "point": 4,
+    "action": "Profil cree apres confirmation",
+    "resultat": "OK — Awa Recette"
+  },
+  {
+    "point": 5,
+    "action": "Se connecter et creer un evenement",
+    "resultat": "OK — evenement #16 dans la liste"
+  },
+  {
+    "point": 6,
+    "action": "Recharger la page",
+    "resultat": "OK — l'evenement est toujours la"
+  },
+  {
+    "point": 7,
+    "action": "S'inscrire a un evenement",
+    "resultat": "OK — le bouton passe a Se desinscrire"
+  },
+  {
+    "point": 8,
+    "action": "Ouvrir l'app mobile (Expo Go)",
+    "resultat": "NON TESTE — pas de telephone ni d'Expo Go dans l'environnement ; meme base Supabase"
+  },
+  {
+    "point": 9,
+    "action": "Autre compte : bouton de suppression",
+    "resultat": "OK — bouton absent"
+  },
+  {
+    "point": 9,
+    "action": "Suppression forcee par l'API (compte B)",
+    "resultat": "HTTP 200, lignes supprimees: [], evenement encore present: true"
+  },
+  {
+    "point": 10,
+    "action": "Chercher service_role dans le code de la page",
+    "resultat": "OK — 0 occurrence de service_role dans 1 bundle(s) JS (sb_secret_ vu 1 fois : test de prefixe de la librairie, pas une cle)"
+  }
+]
