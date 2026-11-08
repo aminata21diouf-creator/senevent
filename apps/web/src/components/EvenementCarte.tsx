@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
+import type { Evenement } from "@senevent/shared";
 import styles from "./EvenementCarte.module.css";
 
-const EvenementCarte = ({ ev, afficherDetails }) => {
+type Props = {
+  ev: Evenement;
+  afficherDetails?: boolean;
+};
+
+const EvenementCarte = ({ ev, afficherDetails }: Props) => {
   const prix = ev.prix === 0 ? "Gratuit" : `${ev.prix} FCFA`;
   return (
     <Link to={`/evenement/${ev.id}`} className={styles.lien}>

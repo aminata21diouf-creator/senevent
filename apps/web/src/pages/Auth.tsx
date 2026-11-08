@@ -1,18 +1,19 @@
 import { useState } from "react";
+import type { FormEvent } from "react";
 import { getSupabase, sInscrire, seConnecter } from "@senevent/shared";
 import { useNavigate } from "react-router-dom";
 import styles from "./Auth.module.css";
 
 const Auth = () => {
-  const [mode, setMode] = useState("login");
+  const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
   const [motDePasse, setMotDePasse] = useState("");
   const [nom, setNom] = useState("");
-  const [erreur, setErreur] = useState(null);
+  const [erreur, setErreur] = useState<string | null>(null);
   const [enCours, setEnCours] = useState(false);
   const navigate = useNavigate();
 
-  const soumettre = async (event) => {
+  const soumettre = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErreur(null);
     setEnCours(true);
@@ -30,7 +31,7 @@ const Auth = () => {
       }
       navigate("/");
     } catch (e) {
-      setErreur(e.message);
+      setErreur(e instanceof Error ? e.message : String(e));
     } finally {
       setEnCours(false);
     }
@@ -65,7 +66,7 @@ const Auth = () => {
           type="password"
           value={motDePasse}
           onChange={e => setMotDePasse(e.target.value)}
-          minLength="6"
+          minLength={6}
           required
         />
       </label>
