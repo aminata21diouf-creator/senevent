@@ -1,0 +1,75 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9eef4; }
+  .shot { padding: 28px; display: inline-block; }
+  .win {
+    width: 1040px; border-radius: 10px; overflow: hidden;
+    box-shadow: 0 12px 40px rgba(15,35,60,.28), 0 2px 6px rgba(15,35,60,.18);
+    background: #0c0c0c; border: 1px solid #1f2a36;
+  }
+  .bar {
+    height: 38px; background: #1b2430; display: flex; align-items: center;
+    padding: 0 14px; gap: 8px; border-bottom: 1px solid #101820;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .r { background: #ff5f57; } .y { background: #febc2e; } .g { background: #28c840; }
+  .title {
+    flex: 1; text-align: center; color: #9fb0c2; font: 12px "Segoe UI", Arial, sans-serif;
+    letter-spacing: .3px; margin-right: 44px;
+  }
+  .term {
+    background: #0c0c0c; padding: 18px 22px 22px;
+    font-family: "Cascadia Mono", Consolas, "Courier New", monospace;
+    font-size: 14.5px; line-height: 1.5; color: #d4d4d4;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .block { margin-bottom: 20px; }
+  .block:last-child { margin-bottom: 0; }
+  .prompt { color: #d4d4d4; }
+  .user { color: #23d18b; font-weight: 600; }
+  .msys { color: #d670d6; font-weight: 600; }
+  .path { color: #f5f543; }
+  .branch { color: #29b8db; }
+  .cmd { color: #ffffff; margin-top: 1px; }
+  .dollar { color: #23d18b; font-weight: 600; }
+  .out { margin-top: 2px; }
+  .err { color: #f14c4c; margin-top: 2px; }
+</style></head><body>
+<div class="shot">
+<div class="win">
+  <div class="bar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="title">MINGW64:/c/DAWM</span>
+  </div>
+  <div class="term">
+  <div class="block">
+    <div class="prompt">
+  <span class="user">amina@Baby_baby</span>
+  <span class="msys">MINGW64</span>
+  <span class="path">/c/DAWM</span>
+  <span class="branch">(feature/lab12-eas)</span></div>
+    <div class="cmd"><span class="dollar">$</span> cd apps/mobile &amp;&amp; npx eas-cli build:view c2892286-265c-4786-b54f-ea8f1bb1bd43</div>
+    <div class="out">- Fetching the build…
+✔ Found a matching build for the project @babyamina/senevent
+
+ID                       c2892286-265c-4786-b54f-ea8f1bb1bd43
+Platform                 Android
+Status                   finished
+Profile                  preview
+Distribution             internal
+SDK Version              54.0.0
+Version                  1.0.0
+Version code             1
+Commit                   5ec1174fc79c8fb97b64a72496cb093f7d7cc8fd
+Logs                     https://expo.dev/accounts/babyamina/projects/senevent/builds/c2892286-265c-4786-b54f-ea8f1bb1bd43
+Application Archive URL  https://expo.dev/artifacts/eas/Ly8BjPi67mwPURdqt3RKEG9gm5F_GmmOE5HDe_AOjNQ.apk
+Build Artifacts URL      null
+Fingerprint              788f8495b19716652624421f9f7db13d646b8b53
+Started at               08/11/2026 15:22:59
+Finished at              08/11/2026 15:33:09
+Started by               babyamina</div>
+    
+  </div></div>
+</div>
+</div>
+</body></html>

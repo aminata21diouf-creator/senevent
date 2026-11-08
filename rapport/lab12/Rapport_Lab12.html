@@ -1,0 +1,1026 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Rapport Lab 12 - Aminata Diouf</title>
+<style>
+@page { size: A4; margin: 16mm 15mm; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 10.5pt; line-height: 1.55; color: #222; margin: 0;
+}
+h1 { font-size: 25pt; color: #1a3a5c; margin: 0 0 4px; line-height: 1.15; }
+h2 { font-size: 15pt; color: #1a3a5c; margin: 22px 0 8px;
+     border-bottom: 2px solid #ea7d2b; padding-bottom: 4px;
+     page-break-after: avoid; }
+h3 { font-size: 12pt; color: #1a3a5c; margin: 16px 0 6px; page-break-after: avoid; }
+p { margin: 6px 0; text-align: justify; }
+ul, ol { margin: 6px 0 6px 20px; }
+li { margin: 3px 0; }
+code { font-family: Consolas, "Courier New", monospace; font-size: 9.2pt;
+       background: #eef2f6; padding: 1px 4px; border-radius: 3px; }
+pre { background: #f4f6f9; border: 1px solid #dde4ec; border-left: 4px solid #1a3a5c;
+      border-radius: 5px; padding: 9px 12px; margin: 8px 0; overflow: hidden;
+      page-break-inside: avoid; }
+pre code { background: transparent; padding: 0; font-size: 8.6pt; line-height: 1.45; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0 12px;
+        font-size: 9.5pt; page-break-inside: avoid; }
+th { background: #1a3a5c; color: #fff; text-align: left; padding: 6px 8px; }
+td { border: 1px solid #d8e0e8; padding: 5px 8px; vertical-align: top; }
+tr:nth-child(even) td { background: #f7f9fb; }
+figure { margin: 12px 0; text-align: center; page-break-inside: avoid; }
+img { max-width: 100%; max-height: 160mm; border: 1px solid #d8e0e8;
+      border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+/* Les captures terminal sont decoupees pour rester lisibles : on leur laisse
+   toute la hauteur utile de la page. */
+img[src*="captures/"] { max-height: 250mm; }
+figcaption { font-size: 8.8pt; color: #5b6b7c; font-style: italic; margin-top: 5px; }
+blockquote { border-left: 4px solid #ea7d2b; background: #fdf6ef; margin: 10px 0;
+             padding: 8px 12px; color: #5a4a3a; }
+blockquote p { margin: 0; }
+hr { border: none; border-top: 1px solid #d8e0e8; margin: 18px 0; }
+a { color: #1a3a5c; }
+strong { color: #12283d; }
+
+/* Page de garde */
+.cover {
+  height: 258mm; display: flex; flex-direction: column;
+  justify-content: space-between; text-align: center;
+  page-break-after: always; break-after: page;
+}
+.cover-top { padding-top: 4mm; }
+.cover .badge {
+  width: 27mm; height: 27mm; border: 2.5px solid #1a3a5c; border-radius: 50%;
+  margin: 0 auto 7mm; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 12pt; letter-spacing: 0.5px; color: #1a3a5c;
+}
+.cover .univ { font-size: 15pt; font-weight: 600; color: #1a3a5c; line-height: 1.3; }
+.cover .fac { font-size: 12pt; color: #2c4a68; margin-top: 4mm; }
+.cover .dept { font-size: 10.5pt; color: #5b6b7c; margin-top: 1.5mm; }
+.cover .master {
+  font-size: 11pt; color: #5b6b7c; margin-top: 3mm;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+.cover .module {
+  font-size: 10pt; color: #5b6b7c; text-transform: uppercase; letter-spacing: 1.4px;
+}
+.cover .rule { width: 42mm; height: 3px; background: #ea7d2b; margin: 8mm auto; }
+.cover h1.cover-title {
+  font-size: 31pt; margin: 0; color: #1a3a5c; line-height: 1.1;
+}
+.cover .cover-sub { font-size: 15.5pt; color: #2c4a68; margin-top: 5mm; font-weight: 500; }
+.cover .cover-tag { font-size: 9.5pt; color: #6b7a8c; margin-top: 6mm; }
+.cover .label {
+  font-size: 8.5pt; text-transform: uppercase; letter-spacing: 2px; color: #8a97a5;
+}
+.cover .name { font-size: 21pt; font-weight: 700; color: #1a3a5c; margin: 2mm 0 1.5mm; }
+.cover .role { font-size: 11pt; color: #5b6b7c; }
+.cover-meta {
+  width: 80%; margin: 9mm auto 0; font-size: 9.5pt;
+  border-top: 1px solid #e3e9ef; border-bottom: 1px solid #e3e9ef;
+}
+.cover-meta td {
+  border: none; border-bottom: 1px solid #eef2f6;
+  padding: 2.4mm 2mm; text-align: left; background: transparent;
+}
+.cover-meta tr:last-child td { border-bottom: none; }
+.cover-meta td:first-child { width: 38%; color: #6b7a8c; }
+.cover-meta tr:nth-child(even) td { background: transparent; }
+.cover-foot {
+  font-size: 9pt; color: #8a97a5; border-top: 1px solid #e3e9ef; padding-top: 4mm;
+}
+</style></head>
+<body>
+<section class="cover">
+  <div class="cover-top">
+    <div class="badge">UCAD</div>
+    <div class="univ">Université Cheikh Anta Diop de Dakar</div>
+    <div class="fac">Faculté des Sciences et Techniques</div>
+    <div class="dept">Département de Mathématiques et Informatique</div>
+    <div class="master">Master 1 RETEL</div>
+  </div>
+  <div class="cover-middle">
+    <div class="module">DAWM — Développement d'Applications Web &amp; Mobile</div>
+    <div class="rule"></div>
+    <h1 class="cover-title">Rapport — Lab 12</h1>
+    <div class="cover-sub">Build mobile avec EAS — l'APK Android</div>
+    <div class="cover-tag">Expo / React Native · EAS Build · Supabase</div>
+  </div>
+  <div class="cover-author">
+    <div class="label">Présenté par</div>
+    <div class="name">Aminata Diouf</div>
+    <div class="role">Étudiante en Master 1 RETEL — UCAD</div>
+  </div>
+  <table class="cover-meta"><tr><td>Date</td><td>8 novembre 2026</td></tr>
+<tr><td>Dépôt</td><td>senevent</td></tr>
+<tr><td>Branche du lab</td><td>feature/lab12-eas</td></tr>
+<tr><td>Tag de sortie</td><td>v2.0</td></tr>
+<tr><td>Application</td><td>apps/mobile (Expo / React Native)</td></tr>
+<tr><td>APK Android</td><td>expo.dev — build c2892286 (profil preview)</td></tr></table>
+  <div class="cover-foot">Année universitaire 2025-2026</div>
+</section>
+<h2 id="resume">Résumé</h2>
+<p>Ce dernier lab transforme l'application mobile en <strong>vraie application Android installable</strong>.
+Jusqu'ici, SenEvent mobile tournait dans Expo Go : un QR code, un serveur de développement sur
+l'ordinateur, et l'application disparaissait dès que l'ordinateur s'éteignait. Le lab produit
+un <strong>APK</strong> construit sur les serveurs d'<strong>EAS Build</strong>, installable sur un téléphone, qui
+fonctionne sans ordinateur et sans Expo Go.</p>
+<p>Le travail couvre huit étapes :</p>
+<ol>
+<li><strong>Vérifier</strong> l'application dans Expo Go et créer la branche <code>feature/lab12-eas</code>.</li>
+<li><strong>Compte Expo et EAS CLI</strong> : compte <code>babyamina</code>, projet <code>@babyamina/senevent</code>.</li>
+<li><strong>Identité de l'application</strong> dans <code>app.json</code> : nom, version, <code>android.package</code>.</li>
+<li><strong>Profils de build</strong> dans <code>eas.json</code>, avec un profil <code>preview</code> qui produit un APK.</li>
+<li><strong>Variables EAS</strong> <code>EXPO_PUBLIC_*</code> dans l'environnement <code>preview</code>.</li>
+<li><strong>Session persistante</strong> sur mobile avec AsyncStorage, sans changer le web.</li>
+<li><strong>Build EAS</strong> et <strong>recette</strong> de production.</li>
+<li><strong>README</strong>, Pull Request et tag final <code>v2.0</code>.</li>
+</ol>
+<p>Le résultat est une application Android signée, téléchargeable, qui partage la même base
+Supabase et le même package <code>@senevent/shared</code> que le site Vercel.</p>
+<table>
+<thead>
+<tr>
+<th>Indicateur</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Projet Expo</td>
+<td><code>@babyamina/senevent</code></td>
+</tr>
+<tr>
+<td>Identifiant EAS</td>
+<td><code>d5de33b6-e341-4e8d-a099-a55f63d284f1</code></td>
+</tr>
+<tr>
+<td>Identifiant Android</td>
+<td><code>sn.ucad.senevent.equipe1</code></td>
+</tr>
+<tr>
+<td>Version mobile</td>
+<td><code>1.0.0</code> (versionCode 1)</td>
+</tr>
+<tr>
+<td>Profil de build</td>
+<td><code>preview</code> — APK, distribution interne</td>
+</tr>
+<tr>
+<td>Build EAS</td>
+<td><code>FINISHED</code> — 10 min 9 s</td>
+</tr>
+<tr>
+<td>APK</td>
+<td>64,99 Mo — SHA-256 <code>eef7f0e2…ba2a</code></td>
+</tr>
+<tr>
+<td>Site web</td>
+<td><a href="https://senevent-equipe-1.vercel.app">https://senevent-equipe-1.vercel.app</a></td>
+</tr>
+<tr>
+<td>Tag final</td>
+<td><code>v2.0</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="1-contexte-et-objectif">1. Contexte et objectif</h2>
+<h3 id="11-expo-go-nest-pas-une-application">1.1 Expo Go n'est pas une application</h3>
+<p>Depuis le Lab 8, le mobile se lance avec <code>npx expo start</code> et s'ouvre dans <strong>Expo Go</strong>. C'est un
+excellent outil de développement : le code se recharge à chaque sauvegarde. Mais Expo Go est
+une application hôte : elle ne contient pas <em>votre</em> application, elle exécute le JavaScript
+envoyé par le serveur de développement.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Expo Go</th>
+<th>APK</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contenu</td>
+<td>Le moteur Expo, pas votre code</td>
+<td>Moteur React Native + modules natifs + votre JavaScript</td>
+</tr>
+<tr>
+<td>Démarrage</td>
+<td>QR code + serveur sur l'ordinateur</td>
+<td>Icône sur le téléphone, aucun ordinateur</td>
+</tr>
+<tr>
+<td>Partage</td>
+<td>Impossible hors de l'équipe</td>
+<td>Fichier installable, envoyé par WhatsApp</td>
+</tr>
+<tr>
+<td>Identité</td>
+<td>Celle d'Expo Go</td>
+<td>Nom, icône et identifiant propres</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-eas-build-compiler-sans-android-studio">1.2 EAS Build : compiler sans Android Studio</h3>
+<p>Produire un APK demande normalement Android Studio, le SDK Android, Java et Gradle. <strong>EAS
+Build</strong> fait cette compilation sur les serveurs d'Expo : la machine envoie le dépôt, EAS
+installe les dépendances du monorepo, injecte les variables de l'environnement choisi, assemble
+le JavaScript avec Metro, compile avec Gradle, puis renvoie un APK signé.</p>
+<pre><code class="language-text">machine                      serveurs EAS Build                résultat
+eas build --profile preview  →  npm install (monorepo)      →  APK signé
+envoie les fichiers Git         variables EXPO_PUBLIC_*          lien + QR code
+.env reste local                Metro + Gradle                   installable
+</code></pre>
+<h3 id="13-le-monorepo-sur-les-serveurs-eas">1.3 Le monorepo sur les serveurs EAS</h3>
+<p>La commande est lancée depuis <code>apps/mobile</code>, mais EAS envoie <strong>tout le dépôt</strong>, de la racine.
+C'est ce qui permet d'installer les workspaces npm et de lier <code>@senevent/shared</code>. Le fichier
+<code>package-lock.json</code> unique à la racine, vérifié au Lab 11, est donc aussi indispensable ici.</p>
+<hr />
+<h2 id="2-etape-0-verification-et-branche-du-lab">2. Étape 0 — Vérification et branche du lab</h2>
+<p>La branche part de <code>main</code>, qui contient le Lab 11 terminé : site Vercel en production et tag
+<code>v1.0-web</code>.</p>
+<pre><code class="language-bash">git checkout main
+git pull origin main
+git log --oneline -6
+git checkout -b feature/lab12-eas
+</code></pre>
+<figure><img src="captures/01-branche.png" alt="Capture 01 — branche feature/lab12-eas et historique"><figcaption>Capture 01 — branche feature/lab12-eas et historique</figcaption></figure>
+<p>La branche part du commit <code>4307497</code> (rapport du Lab 11). Le code mobile est celui du Lab 10 :
+catalogue, détail, connexion, création et inscription.</p>
+<p>Avant de construire, l'application est parcourue dans Expo Go. Un bug présent à ce stade serait
+compilé dans l'APK, et chaque nouveau build consomme du quota. Aucun blocage fonctionnel n'a
+été relevé : les écrans du Lab 10 répondent.</p>
+<hr />
+<h2 id="3-etape-1-compte-expo-et-eas-cli">3. Étape 1 — Compte Expo et EAS CLI</h2>
+<h3 id="31-le-compte">3.1 Le compte</h3>
+<p>Le compte Expo est <strong><code>babyamina</code></strong>. Il est propriétaire du projet et des builds. La connexion
+a été faite par la propriétaire du compte avec <code>eas login</code> ; aucun mot de passe ni jeton n'est
+stocké dans le dépôt.</p>
+<pre><code class="language-bash">npx eas-cli whoami
+# babyamina
+</code></pre>
+<p>Le compte expose deux espaces : <code>babyamina</code> (personnel) et <code>babyaminas-team</code> (organisation).
+Le projet est créé dans l'espace personnel, ce qui évite de dépendre d'une organisation pour
+un lab individuel.</p>
+<h3 id="32-loutil-en-ligne-de-commande">3.2 L'outil en ligne de commande</h3>
+<p>EAS CLI est utilisé via <code>npx eas-cli</code>, sans installation globale. La version est figée par
+<code>eas.json</code> (<code>"cli": { "version": "&gt;= 27.5.0" }</code>), donc tous les builds utilisent une CLI
+compatible.</p>
+<figure><img src="captures/04-projet-eas.png" alt="Capture 04 — compte Expo et projet EAS"><figcaption>Capture 04 — compte Expo et projet EAS</figcaption></figure>
+<p><code>eas whoami</code> confirme l'identité, <code>eas project:info</code> confirme le projet lié et son identifiant.</p>
+<hr />
+<h2 id="4-etape-2-preparer-appjson">4. Étape 2 — Préparer <code>app.json</code></h2>
+<p>Jusqu'ici, <code>app.json</code> ne servait qu'à Expo Go. Une application installable a besoin d'une
+identité propre.</p>
+<pre><code class="language-json">{
+  &quot;expo&quot;: {
+    &quot;name&quot;: &quot;SenEvent&quot;,
+    &quot;slug&quot;: &quot;senevent&quot;,
+    &quot;scheme&quot;: &quot;senevent&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;orientation&quot;: &quot;portrait&quot;,
+    &quot;icon&quot;: &quot;./assets/icon.png&quot;,
+    &quot;android&quot;: {
+      &quot;package&quot;: &quot;sn.ucad.senevent.equipe1&quot;,
+      &quot;adaptiveIcon&quot;: {
+        &quot;foregroundImage&quot;: &quot;./assets/adaptive-icon.png&quot;,
+        &quot;backgroundColor&quot;: &quot;#1a3a5c&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<figure><img src="captures/02-app-json.png" alt="Capture 02 — app.json après configuration"><figcaption>Capture 02 — app.json après configuration</figcaption></figure>
+<h3 id="41-les-trois-champs-qui-comptent">4.1 Les trois champs qui comptent</h3>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Rôle</th>
+<th>Valeur choisie</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Nom affiché sous l'icône</td>
+<td><code>SenEvent</code></td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>Version visible par l'utilisateur</td>
+<td><code>1.0.0</code></td>
+</tr>
+<tr>
+<td><code>android.package</code></td>
+<td>Identifiant unique sur Android, en nom de domaine inversé</td>
+<td><code>sn.ucad.senevent.equipe1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Le <code>package</code> est <strong>définitif</strong> : deux applications qui partagent le même identifiant se
+remplacent sur le téléphone. Il porte l'université (<code>sn.ucad</code>), le projet (<code>senevent</code>) et le
+numéro d'équipe (<code>equipe1</code>).</p>
+<p>Le <code>scheme</code> <code>senevent</code> permet les liens profonds, et la couleur adaptative reprend le bleu de
+la charte (<code>#1a3a5c</code>).</p>
+<h3 id="42-le-diagnostic-avant-le-build">4.2 Le diagnostic avant le build</h3>
+<p><code>expo-doctor</code> vérifie la cohérence des versions et de la configuration. Au premier passage,
+<strong>16 contrôles sur 18</strong> seulement passaient :</p>
+<figure><img src="captures/03-expo-doctor.png" alt="Capture 03 — expo-doctor : 18 contrôles sur 18 après correction"><figcaption>Capture 03 — expo-doctor : 18 contrôles sur 18 après correction</figcaption></figure>
+<p>Deux problèmes réels ont été corrigés avant de consommer un build :</p>
+<ol>
+<li><strong>Metro</strong> : <code>watchFolders</code> écrasait les dossiers surveillés par défaut d'Expo. La correction
+   ajoute la racine du monorepo <strong>sans</strong> supprimer les valeurs par défaut :</li>
+</ol>
+<p><code>js
+   config.watchFolders = Array.from(
+     new Set([...(config.watchFolders || []), monorepoRoot])
+   );</code></p>
+<ol start="2">
+<li><strong>Versions</strong> : <code>expo</code> et <code>expo-constants</code> avaient une version de patch en retard. Ils ont
+   été alignés sur le SDK 54 avec <code>npx expo install expo@~54.0.37 expo-constants@~18.0.14</code>.</li>
+</ol>
+<p>Après correction, <code>expo-doctor</code> affiche <strong>18/18, aucun problème</strong>. Un build EAS échoué après
+vingt minutes de file d'attente coûte cher : ce diagnostic est un investissement, pas une
+formalité.</p>
+<hr />
+<h2 id="5-etape-3-relier-le-projet-a-eas-et-ecrire-easjson">5. Étape 3 — Relier le projet à EAS et écrire <code>eas.json</code></h2>
+<h3 id="51-eas-init">5.1 <code>eas init</code></h3>
+<p>Depuis <code>apps/mobile</code>, <code>eas init</code> crée le projet sur expo.dev et ajoute dans <code>app.json</code>
+l'identifiant de projet et le propriétaire :</p>
+<pre><code class="language-json">&quot;extra&quot;: {
+  &quot;eas&quot;: { &quot;projectId&quot;: &quot;d5de33b6-e341-4e8d-a099-a55f63d284f1&quot; }
+},
+&quot;owner&quot;: &quot;babyamina&quot;
+</code></pre>
+<p>Ces deux champs sont versionnés : toute l'équipe pointe vers le même projet EAS.</p>
+<h3 id="52-les-profils-de-build">5.2 Les profils de build</h3>
+<p><code>eas build:configure --platform android</code> génère <code>eas.json</code>. Seul le profil <code>preview</code> a été
+modifié pour produire un APK :</p>
+<pre><code class="language-json">{
+  &quot;cli&quot;: {
+    &quot;version&quot;: &quot;&gt;= 27.5.0&quot;,
+    &quot;appVersionSource&quot;: &quot;remote&quot;
+  },
+  &quot;build&quot;: {
+    &quot;development&quot;: {
+      &quot;developmentClient&quot;: true,
+      &quot;distribution&quot;: &quot;internal&quot;
+    },
+    &quot;preview&quot;: {
+      &quot;distribution&quot;: &quot;internal&quot;,
+      &quot;environment&quot;: &quot;preview&quot;,
+      &quot;android&quot;: { &quot;buildType&quot;: &quot;apk&quot; }
+    },
+    &quot;production&quot;: {
+      &quot;environment&quot;: &quot;production&quot;,
+      &quot;autoIncrement&quot;: true
+    }
+  }
+}
+</code></pre>
+<figure><img src="captures/05-eas-json.png" alt="Capture 05 — eas.json et profil preview en APK"><figcaption>Capture 05 — eas.json et profil preview en APK</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Profil</th>
+<th>Sortie</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>development</code></td>
+<td>Client de développement</td>
+<td>Non utilisé dans ce cours</td>
+</tr>
+<tr>
+<td><code>preview</code></td>
+<td><strong>APK</strong> (<code>buildType: apk</code>), distribution interne</td>
+<td>Livrable du lab</td>
+</tr>
+<tr>
+<td><code>production</code></td>
+<td>AAB, incrément automatique</td>
+<td>Google Play, non installable directement</td>
+</tr>
+</tbody>
+</table>
+<p>La ligne <code>"buildType": "apk"</code> est essentielle : sans elle, EAS produit un <strong>AAB</strong>, le format du
+Play Store, qu'on ne peut pas installer sur un téléphone.</p>
+<hr />
+<h2 id="6-etape-4-les-variables-denvironnement-eas">6. Étape 4 — Les variables d'environnement EAS</h2>
+<h3 id="61-le-piege">6.1 Le piège</h3>
+<p>Les clés Supabase du mobile sont dans <code>apps/mobile/.env</code>, ignoré par Git. Or EAS n'envoie que
+les fichiers suivis par Git. Sur les serveurs EAS, <code>process.env.EXPO_PUBLIC_SUPABASE_URL</code>
+vaut <code>undefined</code> : l'APK s'installe, s'ouvre, puis s'arrête sur <code>supabaseUrl is required</code>.</p>
+<p>C'est exactement le problème du Lab 11 avec Vercel, et la solution est la même : déclarer les
+variables chez le service qui construit.</p>
+<h3 id="62-declaration-dans-lenvironnement-preview">6.2 Déclaration dans l'environnement <code>preview</code></h3>
+<pre><code class="language-bash">eas env:set --name EXPO_PUBLIC_SUPABASE_URL \
+  --value https://oymhcmowujakgyqpkpjc.supabase.co \
+  --environment preview --visibility plaintext
+
+eas env:set --name EXPO_PUBLIC_SUPABASE_ANON_KEY \
+  --value sb_publishable_... \
+  --environment preview --visibility plaintext
+
+eas env:list --environment preview
+</code></pre>
+<figure><img src="captures/06-env-eas.png" alt="Capture 06 — variables de l'environnement EAS preview"><figcaption>Capture 06 — variables de l'environnement EAS preview</figcaption></figure>
+<p>Le profil <code>preview</code> de <code>eas.json</code> déclare <code>"environment": "preview"</code> : chaque build de ce profil
+reçoit ces deux variables. Aucun fichier du dépôt n'est modifié ; les valeurs vivent sur
+expo.dev.</p>
+<p>La clé utilisée est une clé <strong>publishable</strong> (<code>sb_publishable_...</code>). Comme <code>VITE_</code> au Lab 11,
+une variable <code>EXPO_PUBLIC_</code> est écrite en clair dans le JavaScript : n'importe qui peut
+extraire un APK et la lire. C'est sans danger pour cette clé, protégée par les politiques RLS.
+La clé <code>service_role</code>, qui contourne RLS, n'apparaît jamais dans une application mobile.</p>
+<hr />
+<h2 id="7-etape-5-une-session-qui-survit-a-la-fermeture">7. Étape 5 — Une session qui survit à la fermeture</h2>
+<h3 id="71-le-defaut">7.1 Le défaut</h3>
+<p>Dans Expo Go, on se reconnectait sans y penser. Dans une vraie application, devoir saisir son
+mot de passe à chaque ouverture est inacceptable.</p>
+<p>Sur le web, le client Supabase range la session dans le <code>localStorage</code> : elle survit au
+rechargement. React Native n'a pas de <code>localStorage</code>. Sans indication, le client garde la
+session <strong>en mémoire</strong>, et elle disparaît avec l'application. L'équivalent mobile est
+<strong>AsyncStorage</strong>, un stockage clé-valeur persistant propre à l'application.</p>
+<h3 id="72-le-package-partage-accepte-des-options">7.2 Le package partagé accepte des options</h3>
+<p><code>initSupabase</code> reçoit un troisième paramètre optionnel. Le web, qui appelle toujours avec deux
+arguments, garde exactement son comportement d'avant.</p>
+<pre><code class="language-ts">export function initSupabase(
+  url: string,
+  anonKey: string,
+  options?: SupabaseClientOptions&lt;&quot;public&quot;&gt;
+): SupabaseClient&lt;Database&gt; {
+  if (!client) {
+    client = createClient&lt;Database&gt;(url, anonKey, options);
+  }
+  return client;
+}
+</code></pre>
+<figure><img src="captures/07-shared-diff.png" alt="Capture 07 — diff de initSupabase : troisième paramètre optionnel"><figcaption>Capture 07 — diff de initSupabase : troisième paramètre optionnel</figcaption></figure>
+<p>C'est le principe du Lab 7 : le package ne sait pas sur quelle plateforme il tourne, c'est
+chaque application qui lui fournit ce dont elle a besoin.</p>
+<h3 id="73-le-mobile-passe-asyncstorage">7.3 Le mobile passe AsyncStorage</h3>
+<pre><code class="language-bash">npx expo install @react-native-async-storage/async-storage
+</code></pre>
+<pre><code class="language-js">initSupabase(
+  process.env.EXPO_PUBLIC_SUPABASE_URL,
+  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
+  {
+    auth: {
+      storage: AsyncStorage,
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: false,
+    },
+  }
+);
+</code></pre>
+<figure><img src="captures/split/08-layout-asyncstorage-1.png" alt="Capture 08 — _layout.js et AsyncStorage (partie 1/2)"><figcaption>Capture 08 — _layout.js et AsyncStorage (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/08-layout-asyncstorage-2.png" alt="Capture 08 — _layout.js et AsyncStorage (partie 2/2)"><figcaption>Capture 08 — _layout.js et AsyncStorage (partie 2/2)</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Réglage</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>storage</code></td>
+<td>Où ranger la session : AsyncStorage</td>
+</tr>
+<tr>
+<td><code>persistSession</code></td>
+<td>La relire au démarrage</td>
+</tr>
+<tr>
+<td><code>autoRefreshToken</code></td>
+<td>Renouveler le jeton avant expiration</td>
+</tr>
+<tr>
+<td><code>detectSessionInUrl</code></td>
+<td>Désactivé : une application mobile ne reçoit pas la session dans une URL</td>
+</tr>
+</tbody>
+</table>
+<p>Le <code>AuthProvider</code> du Lab 10 n'a pas changé : au démarrage, <code>getSession()</code> lit maintenant la
+session dans AsyncStorage.</p>
+<h3 id="74-verifier-que-le-web-na-pas-bouge">7.4 Vérifier que le web n'a pas bougé</h3>
+<p>Le changement touche <code>packages/shared</code>, donc les deux clients. Deux vérifications ont été
+faites :</p>
+<ol>
+<li><strong>Build web</strong> : <code>tsc -b &amp;&amp; vite build</code> passe (91 modules, 443 kB de JavaScript).</li>
+<li><strong>Prévisualisation Vercel de la PR</strong> : connexion avec un compte réel, puis rechargement
+   complet de la page. La session est toujours active et se trouve dans le <code>localStorage</code>
+   (clé <code>sb-oymhcmowujakgyqpkpjc-auth-token</code>).</li>
+</ol>
+<figure><img src="captures/10-build-web.png" alt="Capture 10 — build web après modification du package partagé"><figcaption>Capture 10 — build web après modification du package partagé</figcaption></figure>
+<figure><img src="captures/16-web-login.png" alt="Capture 16 — connexion sur la prévisualisation Vercel de la PR"><figcaption>Capture 16 — connexion sur la prévisualisation Vercel de la PR</figcaption></figure>
+<figure><img src="captures/17-web-session.png" alt="Capture 17 — session web conservée après rechargement"><figcaption>Capture 17 — session web conservée après rechargement</figcaption></figure>
+<p>Le web n'a donc pas changé de comportement : il utilise toujours le <code>localStorage</code>, tandis que
+le mobile utilise AsyncStorage.</p>
+<hr />
+<h2 id="8-etape-6-lancer-le-build">8. Étape 6 — Lancer le build</h2>
+<h3 id="81-la-commande">8.1 La commande</h3>
+<p>Le build part du contenu de la branche, dont le code est identique à celui qui sera mergé :</p>
+<pre><code class="language-bash">git checkout main
+git pull origin main
+cd apps/mobile
+eas build --platform android --profile preview
+</code></pre>
+<p>À la première exécution, EAS crée le <strong>keystore</strong> Android, la clé qui signe l'application, et
+le conserve pour les builds suivants. La version initiale du <code>versionCode</code> est fixée à <strong>1</strong>.</p>
+<h3 id="82-ce-que-fait-eas">8.2 Ce que fait EAS</h3>
+<p>Le journal du build montre les étapes réelles, avec leur durée mesurée :</p>
+<table>
+<thead>
+<tr>
+<th>Phase EAS</th>
+<th>Durée</th>
+<th>Contenu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>INSTALL_DEPENDENCIES</code></td>
+<td>47,7 s</td>
+<td><code>npm ci --include=dev</code> sur le monorepo</td>
+</tr>
+<tr>
+<td><code>RUN_EXPO_DOCTOR</code></td>
+<td>4,2 s</td>
+<td>diagnostic de configuration</td>
+</tr>
+<tr>
+<td><code>PREBUILD</code></td>
+<td>9,3 s</td>
+<td>génération du projet Android natif</td>
+</tr>
+<tr>
+<td><code>EAGER_BUNDLE</code></td>
+<td>16,8 s</td>
+<td>Metro : 1 096 modules, bundle en 11,1 s</td>
+</tr>
+<tr>
+<td><code>RUN_GRADLEW</code></td>
+<td>514,3 s</td>
+<td><code>gradlew :app:assembleRelease</code>, 335 tâches</td>
+</tr>
+<tr>
+<td><code>UPLOAD_APPLICATION_ARCHIVE</code></td>
+<td>3,0 s</td>
+<td>envoi de l'APK de 65,0 Mo</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>lecture de l'environnement <code>preview</code> et des deux variables <code>EXPO_PUBLIC_*</code> ;</li>
+<li>initialisation du <code>versionCode</code> à 1 (versions distantes) ;</li>
+<li>création du keystore Android ;</li>
+<li>compression et envoi du dépôt (<strong>50,4 Mo</strong>, rapports compris) en 31 secondes ;</li>
+<li>calcul de l'empreinte du projet (fingerprint) ;</li>
+<li>mise en file d'attente, installation, bundle Metro, compilation Gradle ;</li>
+<li><code>BUILD SUCCESSFUL in 8m 33s</code>, puis publication de l'APK et de son QR code.</li>
+</ol>
+<figure><img src="captures/split/13-build-log-1.png" alt="Capture 13 — journal du build EAS (partie 1/4)"><figcaption>Capture 13 — journal du build EAS (partie 1/4)</figcaption></figure>
+<figure><img src="captures/split/13-build-log-2.png" alt="Capture 13 — journal du build EAS (partie 2/4)"><figcaption>Capture 13 — journal du build EAS (partie 2/4)</figcaption></figure>
+<figure><img src="captures/split/13-build-log-3.png" alt="Capture 13 — journal du build EAS (partie 3/4)"><figcaption>Capture 13 — journal du build EAS (partie 3/4)</figcaption></figure>
+<figure><img src="captures/split/13-build-log-4.png" alt="Capture 13 — journal du build EAS (partie 4/4)"><figcaption>Capture 13 — journal du build EAS (partie 4/4)</figcaption></figure>
+<p>Le build est visible sur expo.dev :</p>
+<p><a href="https://expo.dev/accounts/babyamina/projects/senevent/builds/c2892286-265c-4786-b54f-ea8f1bb1bd43">https://expo.dev/accounts/babyamina/projects/senevent/builds/c2892286-265c-4786-b54f-ea8f1bb1bd43</a></p>
+<h3 id="83-le-resultat">8.3 Le résultat</h3>
+<figure><img src="captures/14-build-view.png" alt="Capture 14 — état final du build"><figcaption>Capture 14 — état final du build</figcaption></figure>
+<figure><img src="captures/14b-page-build.png" alt="Capture 14b — page expo.dev du build terminé"><figcaption>Capture 14b — page expo.dev du build terminé</figcaption></figure>
+<table>
+<thead>
+<tr>
+<th>Propriété</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Statut</td>
+<td><code>FINISHED</code> (succès)</td>
+</tr>
+<tr>
+<td>Plateforme</td>
+<td>Android</td>
+</tr>
+<tr>
+<td>Profil</td>
+<td><code>preview</code> (distribution interne)</td>
+</tr>
+<tr>
+<td>SDK Expo</td>
+<td>54.0.0</td>
+</tr>
+<tr>
+<td>Version</td>
+<td><code>1.0.0</code>, versionCode 1</td>
+</tr>
+<tr>
+<td>Commit construit</td>
+<td><code>5ec1174</code></td>
+</tr>
+<tr>
+<td>Durée</td>
+<td>10 min 9 s (15:22:59 → 15:33:08)</td>
+</tr>
+<tr>
+<td>APK</td>
+<td>64,99 Mo (68 151 935 octets)</td>
+</tr>
+<tr>
+<td>SHA-256</td>
+<td><code>eef7f0e29e3591849ff546dfa471a66ebdcb45e94e44bf139dfdf1ca5db0ba2a</code></td>
+</tr>
+</tbody>
+</table>
+<p>L'APK est téléchargeable depuis la page du build. Il est signé par le keystore créé par EAS
+(bloc de signature v2/v3 présent), donc installable sur n'importe quel téléphone Android.</p>
+<hr />
+<h2 id="9-etape-7-installation-et-recette">9. Étape 7 — Installation et recette</h2>
+<h3 id="91-une-limite-materielle-assumee">9.1 Une limite matérielle assumée</h3>
+<p>La recette du lab se fait sur un <strong>téléphone Android</strong>, ordinateurs éteints, Wi-Fi coupé, en
+4G. L'environnement de travail ne dispose que d'un <strong>iPhone</strong> : un APK Android ne peut pas s'y
+installer, et une application iOS hors App Store exige un compte Apple Developer payant, hors
+périmètre du cours.</p>
+<p>La recette sur téléphone n'a donc <strong>pas été exécutée</strong>. Elle est documentée comme non testée,
+et non comme validée. Ce qui peut l'être sans téléphone a été vérifié : le contenu de l'APK.</p>
+<h3 id="92-verification-statique-de-lapk">9.2 Vérification statique de l'APK</h3>
+<p>L'APK a été téléchargé et analysé :</p>
+<pre><code class="language-text">package        sn.ucad.senevent.equipe1
+versionName    1.0.0
+versionCode    1
+taille         64,99 Mo (68 151 935 octets)
+SHA-256        eef7f0e29e3591849ff546dfa471a66ebdcb45e94e44bf139dfdf1ca5db0ba2a
+signature      bloc APK Sig Block v2/v3 present
+libelle        SenEvent
+</code></pre>
+<figure><img src="captures/split/15-apk-inspection-1.png" alt="Capture 15 — inspection de l'APK (partie 1/2)"><figcaption>Capture 15 — inspection de l'APK (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/15-apk-inspection-2.png" alt="Capture 15 — inspection de l'APK (partie 2/2)"><figcaption>Capture 15 — inspection de l'APK (partie 2/2)</figcaption></figure>
+<p>Le bundle JavaScript embarqué (2 237 676 octets) contient bien l'URL Supabase de production
+et la clé publishable : les variables <code>EXPO_PUBLIC_*</code> ont été injectées par EAS. La chaîne
+<code>service_role</code> est absente ; <code>sb_secret_</code> n'apparaît que comme test de préfixe interne à
+<code>supabase-js</code>, comme sur le web au Lab 11. Le script <code>outils/inspect-apk.py</code> lit le manifeste
+binaire sans Android SDK et produit ce rapport.</p>
+<h3 id="93-la-recette-des-dix-points">9.3 La recette des dix points</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Action</th>
+<th>Résultat attendu</th>
+<th>État</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Ouvrir l'application SénEvent</td>
+<td>Liste des événements chargée</td>
+<td><strong>Non testé</strong> (pas d'Android)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Toucher un événement</td>
+<td>Fiche de détail</td>
+<td><strong>Non testé</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Profil, se connecter</td>
+<td>Email affiché, bouton de déconnexion</td>
+<td><strong>Non testé</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Fermer complètement, rouvrir</td>
+<td>Toujours connecté</td>
+<td><strong>Non testé</strong> (vérifié dans le code et dans Expo Go)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Créer un événement avec « + »</td>
+<td>Il apparaît dans la liste</td>
+<td><strong>Non testé</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Ouvrir le site Vercel ailleurs</td>
+<td>L'événement y est</td>
+<td><strong>Non testé</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Créer un événement sur le site</td>
+<td>Il apparaît dans l'app</td>
+<td><strong>Non testé</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td>S'inscrire dans l'app</td>
+<td>Bouton « Se désinscrire »</td>
+<td><strong>Non testé</strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Se déconnecter, toucher un événement</td>
+<td>Invitation à se connecter</td>
+<td><strong>Non testé</strong></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Installer l'APK chez un autre membre</td>
+<td>Même comportement</td>
+<td><strong>Non testé</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Les points 6 et 7 sont la démonstration croisée du cours. Ils reposent sur la même base
+Supabase et le même package partagé que le web, déjà vérifiés aux Labs 10 et 11 : un événement
+créé sur le web est visible sur le mobile, et inversement. Mais sans téléphone Android, ce
+parcours n'a pas été rejoué dans l'APK.</p>
+<h3 id="94-ce-qui-reste-a-faire-pour-valider-la-recette">9.4 Ce qui reste à faire pour valider la recette</h3>
+<ol>
+<li>Installer l'APK sur un téléphone Android (lien de la page du build).</li>
+<li>Autoriser l'installation depuis cette source, puis accepter l'avertissement Play Protect.</li>
+<li>Dérouler les dix points, ordinateurs éteints et téléphone en 4G.</li>
+<li>Noter les résultats dans ce rapport et, si un défaut apparaît, suivre le chemin habituel :
+   branche, PR, merge, nouveau build.</li>
+</ol>
+<hr />
+<h2 id="10-etape-8-documenter-et-poser-le-tag">10. Étape 8 — Documenter et poser le tag</h2>
+<h3 id="101-readme">10.1 README</h3>
+<p>La section « En ligne » reçoit le lien de l'APK et la version mobile ; la section de
+développement local explique comment lancer le mobile et construire l'APK.</p>
+<figure><img src="captures/11-readme.png" alt="Capture 11 — README : lien APK et procédure mobile"><figcaption>Capture 11 — README : lien APK et procédure mobile</figcaption></figure>
+<h3 id="102-pull-request-et-previsualisation-vercel">10.2 Pull Request et prévisualisation Vercel</h3>
+<p>La branche est poussée et une Pull Request est ouverte. Elle touche <code>packages/shared</code> :
+Vercel construit donc une prévisualisation du web, qui confirme que le changement ne casse
+rien.</p>
+<figure><img src="captures/split/18-pr-vercel-1.png" alt="Capture 18 — Pull Request #12 et prévisualisation Vercel (partie 1/2)"><figcaption>Capture 18 — Pull Request #12 et prévisualisation Vercel (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/18-pr-vercel-2.png" alt="Capture 18 — Pull Request #12 et prévisualisation Vercel (partie 2/2)"><figcaption>Capture 18 — Pull Request #12 et prévisualisation Vercel (partie 2/2)</figcaption></figure>
+<p>La prévisualisation répond et la connexion y fonctionne (section 7.4). La PR est mergée dans
+<code>main</code> :</p>
+<figure><img src="captures/split/19-merge-1.png" alt="Capture 19 — merge de la PR #12 (partie 1/2)"><figcaption>Capture 19 — merge de la PR #12 (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/19-merge-2.png" alt="Capture 19 — merge de la PR #12 (partie 2/2)"><figcaption>Capture 19 — merge de la PR #12 (partie 2/2)</figcaption></figure>
+<h3 id="103-tag-v20">10.3 Tag <code>v2.0</code></h3>
+<p>Après le merge, le tag final du semestre est posé sur <code>main</code> :</p>
+<pre><code class="language-bash">git tag -a v2.0 -m &quot;Lab 12 termine : web sur Vercel et APK Android en production&quot;
+git push origin v2.0
+</code></pre>
+<figure><img src="captures/split/20-tag-v2-1.png" alt="Capture 20 — tag v2.0 sur main (partie 1/2)"><figcaption>Capture 20 — tag v2.0 sur main (partie 1/2)</figcaption></figure>
+<figure><img src="captures/split/20-tag-v2-2.png" alt="Capture 20 — tag v2.0 sur main (partie 2/2)"><figcaption>Capture 20 — tag v2.0 sur main (partie 2/2)</figcaption></figure>
+<p>Au moment du tag, <code>git rev-parse HEAD</code> et <code>git rev-parse v2.0^{commit}</code> renvoyaient le même
+commit (<code>9ed1aea</code>, le merge de la PR #12), et <code>git ls-remote</code> confirme que le tag distant est
+identique. Le commit du présent rapport est ajouté ensuite sur <code>main</code>, sans déplacer le tag.</p>
+<hr />
+<h2 id="11-ce-qui-a-change-dans-le-depot">11. Ce qui a changé dans le dépôt</h2>
+<table>
+<thead>
+<tr>
+<th>Fichier</th>
+<th>Changement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apps/mobile/app.json</code></td>
+<td>Nom, slug, scheme, version, <code>android.package</code>, projet EAS, propriétaire</td>
+</tr>
+<tr>
+<td><code>apps/mobile/eas.json</code></td>
+<td><strong>Nouveau</strong> — profils <code>development</code>, <code>preview</code> (APK), <code>production</code></td>
+</tr>
+<tr>
+<td><code>apps/mobile/app/_layout.js</code></td>
+<td><code>initSupabase</code> avec AsyncStorage</td>
+</tr>
+<tr>
+<td><code>apps/mobile/metro.config.js</code></td>
+<td><code>watchFolders</code> compatible avec les valeurs par défaut d'Expo</td>
+</tr>
+<tr>
+<td><code>apps/mobile/package.json</code></td>
+<td><code>@react-native-async-storage/async-storage</code>, versions Expo alignées</td>
+</tr>
+<tr>
+<td><code>packages/shared/src/supabaseClient.ts</code></td>
+<td><code>initSupabase(url, key, options?)</code></td>
+</tr>
+<tr>
+<td><code>package-lock.json</code></td>
+<td>Dépendances mises à jour, lock unique conservé</td>
+</tr>
+<tr>
+<td><code>README.md</code></td>
+<td>Lien APK, version mobile, procédure de lancement local</td>
+</tr>
+</tbody>
+</table>
+<figure><img src="captures/12-hygiene.png" alt="Capture 12 — hygiène du dépôt"><figcaption>Capture 12 — hygiène du dépôt</figcaption></figure>
+<p>Les contrôles d'hygiène restent verts : aucun fichier <code>.env</code> suivi, un seul
+<code>package-lock.json</code>, aucune occurrence de <code>service_role</code> dans <code>apps/</code> et <code>packages/</code>.</p>
+<hr />
+<h2 id="12-checklist-de-validation">12. Checklist de validation</h2>
+<table>
+<thead>
+<tr>
+<th>Critère du lab</th>
+<th>Vérification</th>
+<th>État</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>app.json</code> : nom, version, <code>android.package</code></td>
+<td><code>SenEvent</code>, <code>1.0.0</code>, <code>sn.ucad.senevent.equipe1</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Identifiant de projet EAS dans <code>app.json</code></td>
+<td><code>extra.eas.projectId</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>eas.json</code> : profil <code>preview</code> en APK</td>
+<td><code>buildType: apk</code>, <code>environment: preview</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Variables <code>EXPO_PUBLIC_*</code> dans EAS <code>preview</code></td>
+<td><code>eas env:list</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>initSupabase</code> accepte des options</td>
+<td>3e paramètre optionnel</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Le mobile passe AsyncStorage</td>
+<td><code>_layout.js</code>, <code>persistSession: true</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Le web n'a pas changé</td>
+<td>build + connexion sur la prévisualisation Vercel</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Build <code>preview</code> réussi sur expo.dev</td>
+<td><code>FINISHED</code> le 8/11/2026 à 15:33</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>APK installé sur un Android, recette en 4G</td>
+<td>Pas de téléphone Android disponible</td>
+<td>❌ non testé</td>
+</tr>
+<tr>
+<td>Session survit à la fermeture</td>
+<td>Configurée ; vérifiée dans Expo Go, pas dans l'APK</td>
+<td>⚠️ partiel</td>
+</tr>
+<tr>
+<td>README : lien APK et lancement local</td>
+<td><code>grep -n APK README.md</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Tag <code>v2.0</code> sur <code>main</code></td>
+<td><code>git rev-parse v2.0^{commit}</code></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="13-bilan-et-limites">13. Bilan et limites</h2>
+<h3 id="131-ce-qui-est-livre">13.1 Ce qui est livré</h3>
+<ul>
+<li>Une application Android <strong>SenEvent</strong> construite par EAS, signée, téléchargeable.</li>
+<li>Une identité propre : nom, icône, version, <code>sn.ucad.senevent.equipe1</code>.</li>
+<li>Des profils de build reproductibles, avec les variables Supabase dans l'environnement
+  <code>preview</code>.</li>
+<li>Une session mobile persistante (AsyncStorage), sans régression du web.</li>
+<li>Un README qui donne le lien de l'APK et la procédure de lancement local.</li>
+<li>Un tag <code>v2.0</code> sur <code>main</code>.</li>
+</ul>
+<h3 id="132-limites-assumees">13.2 Limites assumées</h3>
+<table>
+<thead>
+<tr>
+<th>Limite</th>
+<th>Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recette Android non exécutée</td>
+<td>L'environnement ne dispose que d'un iPhone ; un APK ne s'y installe pas. Les dix points sont documentés comme non testés.</td>
+</tr>
+<tr>
+<td>Vérification de l'APK statique</td>
+<td>Le contenu (package, version, variables injectées, absence de <code>service_role</code>) est vérifié, mais pas le comportement à l'exécution.</td>
+</tr>
+<tr>
+<td>Build lancé depuis la branche</td>
+<td>Le build <code>c2892286</code> construit le commit <code>5ec1174</code>, dont le code est identique à celui mergé dans <code>main</code> ; seul le README a été ajouté ensuite.</td>
+</tr>
+<tr>
+<td>Quota EAS</td>
+<td>Le plan gratuit limite le nombre de builds ; un seul build a été lancé.</td>
+</tr>
+<tr>
+<td>EAS Update non fait</td>
+<td>Le bonus « mettre à jour sans recompiler » n'a pas été traité.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="133-ce-que-le-lab-apporte">13.3 Ce que le lab apporte</h3>
+<p>Le lab ferme la boucle du semestre : le même package <code>@senevent/shared</code>, la même base
+Supabase, deux clients en production. Le web est sur Vercel depuis le Lab 11 ; le mobile est
+désormais un APK qui vit sans ordinateur. La démonstration croisée reste à rejouer sur un
+téléphone Android pour transformer cette livraison en recette complète.</p>
+<hr />
+<h2 id="annexes">Annexes</h2>
+<h3 id="a-fichiers-ajoutes-ou-modifies">A. Fichiers ajoutés ou modifiés</h3>
+<pre><code class="language-text">apps/mobile/app.json                       identite et projet EAS
+apps/mobile/eas.json                       profils de build (nouveau)
+apps/mobile/app/_layout.js                 initSupabase + AsyncStorage
+apps/mobile/metro.config.js                watchFolders du monorepo
+apps/mobile/package.json                   async-storage, versions Expo
+packages/shared/src/supabaseClient.ts      options du client Supabase
+package-lock.json                          lock unique mis a jour
+README.md                                  lien APK et lancement local
+</code></pre>
+<h3 id="b-commandes-utiles">B. Commandes utiles</h3>
+<pre><code class="language-bash"># diagnostic
+cd apps/mobile
+npx expo-doctor
+npx expo export --platform android
+
+# projet EAS
+eas init --account babyamina
+eas build:configure --platform android
+eas env:list --environment preview
+
+# build
+eas build --platform android --profile preview
+eas build:view &lt;build-id&gt;
+
+# verification du depot
+git ls-files | grep -c '\.env'
+git grep -n 'service_role' -- apps packages
+git rev-parse v2.0^{commit}
+</code></pre>
+<h3 id="c-comptes-et-identifiants">C. Comptes et identifiants</h3>
+<table>
+<thead>
+<tr>
+<th>Élément</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compte Expo</td>
+<td><code>babyamina</code></td>
+</tr>
+<tr>
+<td>Projet Expo</td>
+<td><code>@babyamina/senevent</code></td>
+</tr>
+<tr>
+<td>Identifiant projet EAS</td>
+<td><code>d5de33b6-e341-4e8d-a099-a55f63d284f1</code></td>
+</tr>
+<tr>
+<td>Identifiant Android</td>
+<td><code>sn.ucad.senevent.equipe1</code></td>
+</tr>
+<tr>
+<td>Build</td>
+<td><code>c2892286-265c-4786-b54f-ea8f1bb1bd43</code></td>
+</tr>
+<tr>
+<td>Site web</td>
+<td><a href="https://senevent-equipe-1.vercel.app">https://senevent-equipe-1.vercel.app</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="d-liste-des-captures">D. Liste des captures</h3>
+<p><strong>Terminal</strong> (<code>captures/</code>) : 01 branche, 02 app.json, 03 expo-doctor, 04 projet EAS, 05
+eas.json, 06 variables EAS, 07 diff initSupabase, 08 AsyncStorage, 09 export Android, 10 build
+web, 11 README, 12 hygiène, 13 journal du build, 14 état du build, 15 inspection de l'APK,
+18 PR et Vercel, 19 merge, 20 tag v2.0.</p>
+<p><strong>Navigateur</strong> (<code>captures/</code>) : 14b page expo.dev du build, 16 connexion web, 17 session web.</p>
+<p><strong>Outils de vérification</strong> (<code>outils/</code>) : <code>journal-build.py</code> (résumé du journal EAS),
+<code>journal-build.log</code> (journal brut téléchargé depuis expo.dev), <code>inspect-apk.py</code> (manifeste et
+bundle de l'APK sans Android SDK).</p>
+<p><strong>Tag final :</strong> <code>v2.0</code>.</p></body></html>
