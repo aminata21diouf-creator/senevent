@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { getSupabase, getEvenements } from "@senevent/shared";
+import { getSupabase, getEvenements, creerProfil } from "@senevent/shared";
 import Accueil from "./pages/Accueil";
 import NouvelEvenement from "./pages/NouvelEvenement";
 import Detail from "./pages/Detail";
@@ -28,6 +28,19 @@ const App = () => {
 
     return () => subscription.subscription.unsubscribe();
   }, []);
+
+  // Cree la ligne profiles attendue par la cle etrangere des evenements.
+  // Necessaire apres une confirmation d'email : signUp ne renvoie pas de session.
+  useEffect(() => {
+    if (!session?.user) return;
+    const nom =
+      session.user.user_metadata?.nom ||
+      session.user.email?.split("@")[0] ||
+      "Utilisateur";
+    creerProfil(session.user.id, nom).catch(() => {
+      // Profil deja present : rien a faire, on ne bloque pas l'application.
+    });
+  }, [session]);
 
   const charger = async () => {
     setChargement(true);

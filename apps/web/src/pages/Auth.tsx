@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import { getSupabase, sInscrire, seConnecter } from "@senevent/shared";
+import { sInscrire, seConnecter } from "@senevent/shared";
 import { useNavigate } from "react-router-dom";
 import styles from "./Auth.module.css";
 
@@ -10,21 +10,26 @@ const Auth = () => {
   const [motDePasse, setMotDePasse] = useState("");
   const [nom, setNom] = useState("");
   const [erreur, setErreur] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
   const [enCours, setEnCours] = useState(false);
   const navigate = useNavigate();
 
   const soumettre = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErreur(null);
+    setInfo(null);
     setEnCours(true);
     try {
       if (mode === "signup") {
-        const data = await sInscrire(email, motDePasse);
-        if (data.user) {
-          const { error: e2 } = await getSupabase()
-            .from("profiles")
-            .insert({ id: data.user.id, nom, role: "PUBLIC" });
-          if (e2) throw e2;
+        const data = await sInscrire(email, motDePasse, nom);
+        // Avec la confirmation d'email active, signUp ne renvoie pas de session.
+        // Le profil sera cree a la premiere connexion (voir App.tsx).
+        if (!data.session) {
+          setInfo(
+            "Compte cree. Verifiez votre email pour confirmer, puis connectez-vous."
+          );
+          setMode("login");
+          return;
         }
       } else {
         await seConnecter(email, motDePasse);
@@ -71,6 +76,7 @@ const Auth = () => {
         />
       </label>
       {erreur && <p className={styles.erreur}>{erreur}</p>}
+      {info && <p className={styles.info}>{info}</p>}
       <button type="submit" disabled={enCours} className={styles.bouton}>
         {enCours ? "..." : mode === "signup" ? "Creer le compte" : "Se connecter"}
       </button>
