@@ -27,3 +27,13 @@ export async function getSession() {
   const { data } = await getSupabase().auth.getSession();
   return data.session;
 }
+
+// Cree (ou met a jour) le profil public lie au compte auth.
+// Necessaire avant de creer un evenement : organisateur_id reference profiles(id).
+export async function creerProfil(id: string, nom: string) {
+  const { error } = await getSupabase()
+    .from("profiles")
+    .upsert({ id, nom }, { onConflict: "id", ignoreDuplicates: true });
+
+  if (error) throw error;
+}

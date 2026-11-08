@@ -30,3 +30,14 @@ export async function desinscrire(evenementId: number, utilisateurId: string) {
 
   if (error) throw error;
 }
+
+// Bonus Lab 10 : liste des evenements auxquels l'utilisateur est inscrit.
+export async function mesInscriptions(utilisateurId: string): Promise<any[]> {
+  const { data, error } = await getSupabase()
+    .from("inscriptions")
+    .select("evenement_id, evenements(titre, date_debut)")
+    .eq("utilisateur_id", utilisateurId);
+
+  if (error) throw error;
+  return data ?? [];
+}
