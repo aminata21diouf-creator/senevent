@@ -1,12 +1,23 @@
 import { Stack } from "expo-router";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initSupabase } from "@senevent/shared";
 import { AuthProvider } from "../context/AuthContext";
 
-// Initialiser Supabase une fois, au demarrage de l'app
+// Initialiser Supabase une fois, au demarrage de l'app.
+// Sur mobile, la session est stockee dans AsyncStorage : elle survit a la
+// fermeture de l'application. Le web, lui, garde le localStorage par defaut.
 initSupabase(
   process.env.EXPO_PUBLIC_SUPABASE_URL,
-  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY
+  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY,
+  {
+    auth: {
+      storage: AsyncStorage,
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: false,
+    },
+  }
 );
 
 export default function RootLayout() {

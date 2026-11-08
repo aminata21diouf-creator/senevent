@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
+    "name": "SenEvent",
+    "slug": "senevent",
+    "scheme": "senevent",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,15 +11,16 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1a3a5c"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
+      "package": "sn.ucad.senevent.equipe1",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1a3a5c"
       },
       "edgeToEdgeEnabled": true
     },
@@ -27,7 +29,6 @@
     },
     "plugins": [
       "expo-router"
-    ],
-    "scheme": "senevent"
+    ]
   }
 }
