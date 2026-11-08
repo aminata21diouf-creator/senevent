@@ -29,6 +29,13 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "d5de33b6-e341-4e8d-a099-a55f63d284f1"
+      }
+    },
+    "owner": "babyamina"
   }
 }
