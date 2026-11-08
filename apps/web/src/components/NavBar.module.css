@@ -51,3 +51,23 @@
   background: var(--color-ambre);
   color: var(--color-nuit);
 }
+
+/* Mobile : la barre passe sur deux lignes pour rester utilisable en 390 px. */
+@media (max-width: 640px) {
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.8rem 1rem;
+  }
+  .liens {
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    width: 100%;
+  }
+  .email {
+    width: 100%;
+    overflow-wrap: anywhere;
+    font-size: 0.82rem;
+  }
+}
