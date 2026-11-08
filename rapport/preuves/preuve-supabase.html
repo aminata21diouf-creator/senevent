@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Preuve Supabase - Lab 10</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; margin: 0;
+         background: #f0f4f8; color: #1a3a5c; }
+  .wrap { max-width: 980px; margin: 32px auto; background: #fff; border-radius: 12px;
+          box-shadow: 0 4px 24px rgba(0,0,0,.08); overflow: hidden; }
+  header { background: #1a3a5c; color: #fff; padding: 22px 28px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header p { margin: 6px 0 0; opacity: .8; font-size: 14px; }
+  main { padding: 24px 28px 32px; }
+  .badge { display: inline-block; background: #e6f4ea; color: #1f6b2c;
+           border: 1px solid #b7dfc2; border-radius: 999px; padding: 6px 14px;
+           font-weight: 600; font-size: 14px; margin-bottom: 18px; }
+  h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .06em;
+       color: #6b7a8c; margin: 22px 0 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; background: #eef3f8; color: #1a3a5c; padding: 10px; }
+  td { padding: 10px; border-top: 1px solid #e5ebf1; font-family: Consolas, monospace;
+       font-size: 12px; word-break: break-all; }
+  .k { color: #6b7a8c; font-family: inherit; }
+  .note { margin-top: 18px; font-size: 12px; color: #6b7a8c; }
+</style></head>
+<body><div class="wrap">
+  <header>
+    <h1>Preuve Supabase - Lab 10</h1>
+    <p>Lecture de la meme base que les applications web et mobile, via l'API REST Supabase.</p>
+  </header>
+  <main>
+    <div class="badge">1 inscription(s) trouvee(s) pour cet evenement</div>
+    <h2>Evenement cree depuis le mobile</h2>
+    <table>
+      <tr><th>id</th><th>titre</th><th>categorie</th><th>lieu_nom</th><th>prix</th></tr>
+      <tr><td>13</td><td>Concert test mobile Lab 10</td><td>concert</td>
+          <td>Grand Theatre National</td><td>5000</td></tr>
+    </table>
+    <h2>Table inscriptions</h2>
+    <table>
+      <tr><th>id</th><th>evenement_id</th><th>utilisateur_id</th><th>created_at</th></tr>
+      <tr><td>21</td><td>13</td>
+        <td>3571e1ac-0536-4a49-a869-cc09efe054cd</td><td>2026-11-08T13:12:06.415744+00:00</td></tr>
+    </table>
+    <p class="note">organisateur_id de l'evenement : 3571e1ac-0536-4a49-a869-cc09efe054cd</p>
+  </main>
+</div></body></html>

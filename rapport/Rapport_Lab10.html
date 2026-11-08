@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<title>Rapport Lab 10 - Aminata Diouf</title>
+<style>
+@page { size: A4; margin: 16mm 15mm; }
+* { box-sizing: border-box; }
+html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  font-size: 10.5pt; line-height: 1.55; color: #222; margin: 0;
+}
+h1 { font-size: 25pt; color: #1a3a5c; margin: 0 0 4px; line-height: 1.15; }
+h2 { font-size: 15pt; color: #1a3a5c; margin: 22px 0 8px;
+     border-bottom: 2px solid #ea7d2b; padding-bottom: 4px;
+     page-break-after: avoid; }
+h3 { font-size: 12pt; color: #1a3a5c; margin: 16px 0 6px; page-break-after: avoid; }
+p { margin: 6px 0; text-align: justify; }
+ul, ol { margin: 6px 0 6px 20px; }
+li { margin: 3px 0; }
+code { font-family: Consolas, "Courier New", monospace; font-size: 9.2pt;
+       background: #eef2f6; padding: 1px 4px; border-radius: 3px; }
+pre { background: #f4f6f9; border: 1px solid #dde4ec; border-left: 4px solid #1a3a5c;
+      border-radius: 5px; padding: 9px 12px; margin: 8px 0; overflow: hidden;
+      page-break-inside: avoid; }
+pre code { background: transparent; padding: 0; font-size: 8.6pt; line-height: 1.45; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0 12px;
+        font-size: 9.5pt; page-break-inside: avoid; }
+th { background: #1a3a5c; color: #fff; text-align: left; padding: 6px 8px; }
+td { border: 1px solid #d8e0e8; padding: 5px 8px; vertical-align: top; }
+tr:nth-child(even) td { background: #f7f9fb; }
+figure { margin: 12px 0; text-align: center; page-break-inside: avoid; }
+img { max-width: 100%; max-height: 160mm; border: 1px solid #d8e0e8;
+      border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+figcaption { font-size: 8.8pt; color: #5b6b7c; font-style: italic; margin-top: 5px; }
+blockquote { border-left: 4px solid #ea7d2b; background: #fdf6ef; margin: 10px 0;
+             padding: 8px 12px; color: #5a4a3a; }
+blockquote p { margin: 0; }
+hr { border: none; border-top: 1px solid #d8e0e8; margin: 18px 0; }
+a { color: #1a3a5c; }
+strong { color: #12283d; }
+</style></head>
+<body><h1 id="rapport-lab-10">Rapport — Lab 10</h1>
+<h2 id="auth-et-catalogue-complet-cote-mobile">Auth et catalogue complet côté mobile</h2>
+<p><strong>DAWM — Développement d'Applications Web &amp; Mobile</strong>
+<strong>Master 1 RETEL — 2025-2026</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Auteure</strong></td>
+<td>Aminata Diouf</td>
+</tr>
+<tr>
+<td><strong>Date</strong></td>
+<td>8 novembre 2026</td>
+</tr>
+<tr>
+<td><strong>Dépôt</strong></td>
+<td><code>senevent</code></td>
+</tr>
+<tr>
+<td><strong>Branche du lab</strong></td>
+<td><code>feature/lab10-mobile-crud</code></td>
+</tr>
+<tr>
+<td><strong>Tag de sortie</strong></td>
+<td><code>v0.10-mobile-crud</code></td>
+</tr>
+<tr>
+<td><strong>Application</strong></td>
+<td><code>apps/mobile</code> (Expo / React Native)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="resume">Résumé</h2>
+<p>Ce lab est le dernier volet mobile du projet <strong>SenEvent</strong>. L'application mobile savait
+naviguer et afficher les événements, mais elle était en lecture seule. Le Lab 10 lui ajoute
+les trois actions qui existaient déjà côté web :</p>
+<ol>
+<li><strong>S'authentifier</strong> (connexion, création de compte, déconnexion) depuis l'onglet Profil.</li>
+<li><strong>Créer un événement</strong> depuis un bouton « + » dans l'en-tête de la liste.</li>
+<li><strong>S'inscrire à un événement</strong> depuis l'écran de détail.</li>
+</ol>
+<p>Toute la logique métier passe par le package partagé <code>@senevent/shared</code>. Aucun appel
+Supabase direct n'a été ajouté dans <code>apps/mobile</code> : le mobile ne réécrit pas la logique,
+il construit une interface native au-dessus des mêmes fonctions que le web.</p>
+<hr />
+<h2 id="1-objectifs-du-lab">1. Objectifs du lab</h2>
+<table>
+<thead>
+<tr>
+<th>Objectif</th>
+<th>Mise en œuvre</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Comprendre le Contexte React</td>
+<td><code>context/AuthContext.js</code> : <code>createContext</code>, <code>AuthProvider</code>, <code>useAuth</code></td>
+</tr>
+<tr>
+<td>Exposer la session à tous les écrans</td>
+<td><code>AuthProvider</code> enveloppe le <code>Stack</code> dans <code>app/_layout.js</code></td>
+</tr>
+<tr>
+<td>Construire un formulaire mobile</td>
+<td><code>TextInput</code>, <code>KeyboardAvoidingView</code>, <code>secureTextEntry</code></td>
+</tr>
+<tr>
+<td>Connexion / inscription mobile</td>
+<td><code>seConnecter</code>, <code>sInscrire</code>, <code>seDeconnecter</code></td>
+</tr>
+<tr>
+<td>Créer un événement</td>
+<td><code>creerEvenement</code>, écran <code>app/nouveau.js</code>, bouton <code>headerRight</code></td>
+</tr>
+<tr>
+<td>Rafraîchir la liste au retour</td>
+<td><code>useFocusEffect</code> + <code>useCallback</code></td>
+</tr>
+<tr>
+<td>S'inscrire à un événement</td>
+<td><code>estInscrit</code>, <code>inscrire</code>, <code>desinscrire</code></td>
+</tr>
+<tr>
+<td>Prouver l'architecture partagée</td>
+<td>Démo croisée web/mobile sur la même base Supabase</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-architecture-du-projet">2. Architecture du projet</h2>
+<p>Le monorepo contient deux clients et une seule source de vérité métier.</p>
+<pre><code class="language-text">apps/web (React)                    apps/mobile (Expo / React Native)
+      \                                      /
+       \                                    /
+        packages/shared  →  @senevent/shared
+        seConnecter / sInscrire / seDeconnecter
+        getEvenements / creerEvenement
+        inscrire / desinscrire / estInscrit / mesInscriptions
+                         |
+                  Supabase (PostgreSQL + Auth + RLS)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Couche</th>
+<th>Rôle</th>
+<th>Fichiers principaux</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apps/web</code></td>
+<td>Client React complet depuis les Labs 5–6</td>
+<td><code>src/pages/*</code>, <code>src/components/*</code></td>
+</tr>
+<tr>
+<td><code>apps/mobile</code></td>
+<td>Client natif complété au Lab 10</td>
+<td><code>app/*</code>, <code>components/*</code>, <code>context/*</code></td>
+</tr>
+<tr>
+<td><code>packages/shared</code></td>
+<td>Logique métier et accès Supabase</td>
+<td><code>src/auth.ts</code>, <code>src/evenements.ts</code>, <code>src/inscriptions.ts</code></td>
+</tr>
+<tr>
+<td>Supabase</td>
+<td>Base unique, Auth et politiques RLS</td>
+<td><code>supabase/migrations/*.sql</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Conséquence :</strong> un événement créé sur le mobile est visible sur le web, et une inscription
+faite sur le mobile est visible sur le web. C'est la démonstration finale du monorepo.</p>
+<hr />
+<h2 id="3-etape-0-verification-et-branche-du-lab">3. Étape 0 — Vérification et branche du lab</h2>
+<p>La branche <code>main</code> locale était à jour avec <code>origin/main</code> (aucun commit d'écart). Le point de
+départ est le Lab 9 terminé, avec la navigation par onglets et l'écran de détail.</p>
+<pre><code class="language-bash">cd C:/DAWM
+git checkout main
+git fetch origin
+git log --oneline -5
+git checkout -b feature/lab10-mobile-crud
+</code></pre>
+<p>Sortie de <code>git log --oneline -5</code> avant le lab :</p>
+<pre><code class="language-text">bc24efe bonus : navigation par code avec useRouter (bouton retour a la liste)
+5956c79 ecran detail parametre + cartes cliquables (Link asChild)
+625064e navigation par onglets : liste + profil (+ fix doublon react via overrides)
+6b74050 installe expo-router : dependances, entry point, scheme
+88a80db bonus : pull-to-refresh sur la liste des evenements
+</code></pre>
+<p>L'application a été lancée avec Expo. Pour pouvoir prendre les captures dans un navigateur,
+le support web a été ajouté (<code>react-native-web</code>, <code>react-dom</code>, <code>@expo/metro-runtime</code>) :</p>
+<pre><code class="language-bash">cd apps/mobile
+npx expo start --web --port 8081
+</code></pre>
+<p>Le rendu navigateur utilise exactement les mêmes composants React Native que le mobile
+(<code>View</code>, <code>Text</code>, <code>TextInput</code>, <code>Pressable</code>, <code>FlatList</code>). Les captures sont prises en
+<strong>390 × 844</strong>, soit un format téléphone.</p>
+<hr />
+<h2 id="4-etape-1-le-contexte-dauthentification">4. Étape 1 — Le contexte d'authentification</h2>
+<h3 id="41-pourquoi-un-contexte">4.1 Pourquoi un contexte ?</h3>
+<p>Sur le web, la session était détenue par <code>App.jsx</code> puis passée en prop aux composants
+(<code>prop drilling</code>). Avec Expo Router, les écrans sont rendus par le routeur : l'onglet Profil
+et l'écran de détail n'ont pas de parent commun qui pourrait leur passer la session.</p>
+<p>Le <strong>Contexte React</strong> résout ce problème : <code>AuthProvider</code> place la session dans une valeur
+accessible à toute la sous-arborescence, et chaque écran la lit avec <code>useAuth()</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Pièce</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createContext</code></td>
+<td>Crée le contexte et sa valeur par défaut</td>
+</tr>
+<tr>
+<td><code>&lt;Context.Provider&gt;</code></td>
+<td>Fournit la valeur courante à toute la sous-arborescence</td>
+</tr>
+<tr>
+<td><code>useContext</code></td>
+<td>Lit la valeur depuis n'importe quel composant descendant</td>
+</tr>
+<tr>
+<td><code>useAuth()</code></td>
+<td>Hook pratique qui encapsule <code>useContext</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-appsmobilecontextauthcontextjs">4.2 <code>apps/mobile/context/AuthContext.js</code></h3>
+<pre><code class="language-javascript">import {
+  createContext, useContext, useState, useEffect,
+} from &quot;react&quot;;
+import { getSupabase } from &quot;@senevent/shared&quot;;
+
+const AuthContext = createContext({ session: null, chargement: true });
+
+export function AuthProvider({ children }) {
+  const [session, setSession] = useState(null);
+  const [chargement, setChargement] = useState(true);
+
+  useEffect(() =&gt; {
+    // Recuperer la session au demarrage
+    getSupabase().auth.getSession().then(({ data }) =&gt; {
+      setSession(data.session);
+      setChargement(false);
+    });
+
+    // Ecouter les changements (login, logout, refresh du token)
+    const { data: sub } = getSupabase().auth.onAuthStateChange(
+      (_event, nouvelleSession) =&gt; setSession(nouvelleSession)
+    );
+
+    return () =&gt; sub.subscription.unsubscribe();
+  }, []);
+
+  return (
+    &lt;AuthContext.Provider value={{ session, chargement }}&gt;
+      {children}
+    &lt;/AuthContext.Provider&gt;
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
+</code></pre>
+<p>La logique est identique à celle du Lab 5 (<code>getSession</code> + <code>onAuthStateChange</code> +
+désabonnement), mais rangée dans un contexte au lieu d'être dans <code>App.jsx</code>.</p>
+<h3 id="43-envelopper-lapplication">4.3 Envelopper l'application</h3>
+<p><code>apps/mobile/app/_layout.js</code> initialise Supabase une seule fois puis enveloppe le <code>Stack</code>
+dans <code>AuthProvider</code>. L'écran <code>nouveau</code> est déclaré ici ; il sera créé à l'étape 3.</p>
+<pre><code class="language-javascript">import { Stack } from &quot;expo-router&quot;;
+import { SafeAreaProvider } from &quot;react-native-safe-area-context&quot;;
+import { initSupabase } from &quot;@senevent/shared&quot;;
+import { AuthProvider } from &quot;../context/AuthContext&quot;;
+
+initSupabase(
+  process.env.EXPO_PUBLIC_SUPABASE_URL,
+  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY
+);
+
+export default function RootLayout() {
+  return (
+    &lt;SafeAreaProvider&gt;
+      &lt;AuthProvider&gt;
+        &lt;Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: &quot;#1a3a5c&quot; },
+            headerTintColor: &quot;#fff&quot;,
+          }}
+        &gt;
+          &lt;Stack.Screen name=&quot;(tabs)&quot; options={{ headerShown: false }} /&gt;
+          &lt;Stack.Screen name=&quot;evenement/[id]&quot; options={{ title: &quot;Detail&quot; }} /&gt;
+          &lt;Stack.Screen name=&quot;nouveau&quot; options={{ title: &quot;Nouvel evenement&quot; }} /&gt;
+        &lt;/Stack&gt;
+      &lt;/AuthProvider&gt;
+    &lt;/SafeAreaProvider&gt;
+  );
+}
+</code></pre>
+<p><strong>Vérification :</strong> après connexion, l'onglet Profil affiche l'email de la session sans
+rechargement manuel. C'est la preuve que <code>onAuthStateChange</code> met bien à jour le contexte.</p>
+<hr />
+<h2 id="5-etape-2-lecran-profil-connexion-et-inscription">5. Étape 2 — L'écran Profil : connexion et inscription</h2>
+<p>L'onglet Profil du Lab 9 était un simple texte d'attente. Il devient un écran à deux états :</p>
+<ul>
+<li><strong>sans session</strong> → formulaire de connexion / inscription ;</li>
+<li><strong>avec session</strong> → email, liste des inscriptions (bonus) et bouton de déconnexion.</li>
+</ul>
+<h3 id="51-rendu-conditionnel">5.1 Rendu conditionnel</h3>
+<pre><code class="language-javascript">export default function Profil() {
+  const { session, chargement } = useAuth();
+
+  if (chargement) {
+    return &lt;ActivityIndicator size=&quot;large&quot; color=&quot;#1a3a5c&quot; style={styles.centre} /&gt;;
+  }
+
+  if (session) {
+    return ( /* email + mes inscriptions + deconnexion */ );
+  }
+
+  return &lt;FormulaireAuth /&gt;;
+}
+</code></pre>
+<h3 id="52-le-formulaire">5.2 Le formulaire</h3>
+<pre><code class="language-javascript">const soumettre = async () =&gt; {
+  setErreur(null);
+  setEnCours(true);
+  try {
+    if (mode === &quot;signup&quot;) {
+      const data = await sInscrire(email, motDePasse);
+      // Cree la ligne profiles attendue par la cle etrangere des evenements.
+      if (data.user &amp;&amp; data.session) {
+        await creerProfil(data.user.id, email.split(&quot;@&quot;)[0]);
+      }
+    } else {
+      await seConnecter(email, motDePasse);
+    }
+    // La session se met a jour toute seule via onAuthStateChange
+  } catch (e) {
+    setErreur(e.message);
+  } finally {
+    setEnCours(false);
+  }
+};
+</code></pre>
+<p>Le formulaire utilise les briques natives vues en cours :</p>
+<table>
+<thead>
+<tr>
+<th>Élément</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TextInput</code> + <code>value</code> / <code>onChangeText</code></td>
+<td>Champ contrôlé (équivalent de <code>value</code> / <code>onChange</code> du web)</td>
+</tr>
+<tr>
+<td><code>secureTextEntry</code></td>
+<td>Masque le mot de passe</td>
+</tr>
+<tr>
+<td><code>autoCapitalize="none"</code>, <code>keyboardType="email-address"</code></td>
+<td>Adapte le clavier à l'email</td>
+</tr>
+<tr>
+<td><code>KeyboardAvoidingView</code></td>
+<td>Empêche le clavier de recouvrir le champ actif</td>
+</tr>
+<tr>
+<td><code>behavior={Platform.OS === "ios" ? "padding" : "height"}</code></td>
+<td>Comportement adapté à la plateforme</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Attention aux deux « inscriptions » :</strong> <code>sInscrire</code> crée un <strong>compte</strong>, alors que
+<code>inscrire</code> inscrit à un <strong>événement</strong>. Ce sont deux fonctions différentes du package
+partagé. L'écran Profil utilise <code>sInscrire</code> ; l'écran de détail utilise <code>inscrire</code>.</p>
+</blockquote>
+<h3 id="53-complement-necessaire-la-ligne-profiles">5.3 Complément nécessaire : la ligne <code>profiles</code></h3>
+<p>La table <code>evenements</code> possède une clé étrangère <code>organisateur_id → profiles(id)</code>. Le code du
+lab ne crée pas cette ligne lors d'une inscription mobile. Pour que la création d'événement
+fonctionne pour un nouveau compte, une fonction partagée a été ajoutée :</p>
+<pre><code class="language-typescript">// packages/shared/src/auth.ts
+export async function creerProfil(id: string, nom: string) {
+  const { error } = await getSupabase()
+    .from(&quot;profiles&quot;)
+    .upsert({ id, nom }, { onConflict: &quot;id&quot;, ignoreDuplicates: true });
+
+  if (error) throw error;
+}
+</code></pre>
+<p>Elle est appelée depuis le mobile, mais elle reste dans <code>@senevent/shared</code> : le mobile
+n'accède toujours pas directement à Supabase.</p>
+<h3 id="54-captures">5.4 Captures</h3>
+<p><strong>Capture 1 — Onglet Profil déconnecté : formulaire de connexion.</strong></p>
+<figure><img src="captures/01-profil-connexion.png" alt="Onglet Profil, formulaire de connexion"><figcaption>Onglet Profil, formulaire de connexion</figcaption></figure>
+<p><strong>Capture 2 — Bascule vers la création de compte.</strong></p>
+<figure><img src="captures/02-profil-inscription.png" alt="Formulaire de création de compte"><figcaption>Formulaire de création de compte</figcaption></figure>
+<p><strong>Capture 3 — Session active : email et bouton de déconnexion.</strong></p>
+<figure><img src="captures/03-profil-connecte.png" alt="Profil connecté"><figcaption>Profil connecté</figcaption></figure>
+<p>Le compte de démonstration créé depuis le mobile est <code>amina.lab10@senevent.sn</code>.
+La session apparaît immédiatement après l'inscription, sans rechargement.</p>
+<hr />
+<h2 id="6-etape-3-creer-un-evenement-depuis-le-mobile">6. Étape 3 — Créer un événement depuis le mobile</h2>
+<h3 id="61-le-bouton-dans-len-tete">6.1 Le bouton « + » dans l'en-tête</h3>
+<p>Le bouton n'est rendu que si <code>session</code> existe. Il utilise <code>useRouter</code> pour ouvrir <code>/nouveau</code>.</p>
+<pre><code class="language-javascript">function BoutonAjouter() {
+  const { session } = useAuth();
+  const router = useRouter();
+
+  if (!session) return null;
+
+  return (
+    &lt;Pressable
+      onPress={() =&gt; router.push(&quot;/nouveau&quot;)}
+      style={{ marginRight: 16 }}
+    &gt;
+      &lt;Ionicons name=&quot;add-circle&quot; size={28} color=&quot;#fff&quot; /&gt;
+    &lt;/Pressable&gt;
+  );
+}
+</code></pre>
+<p>Dans les options de l'onglet Événements :</p>
+<pre><code class="language-javascript">&lt;Tabs.Screen
+  name=&quot;index&quot;
+  options={{
+    title: &quot;Evenements&quot;,
+    headerRight: () =&gt; &lt;BoutonAjouter /&gt;,
+    tabBarIcon: ({ color, size }) =&gt; (
+      &lt;Ionicons name=&quot;calendar&quot; size={size} color={color} /&gt;
+    ),
+  }}
+/&gt;
+</code></pre>
+<p><strong>Capture 4 — Le bouton « + » est visible dans l'en-tête lorsque l'utilisateur est connecté.</strong></p>
+<figure><img src="captures/04-liste-bouton-plus.png" alt="Liste avec le bouton +"><figcaption>Liste avec le bouton +</figcaption></figure>
+<h3 id="62-lecran-de-creation-appsmobileappnouveaujs">6.2 L'écran de création <code>apps/mobile/app/nouveau.js</code></h3>
+<p>Le formulaire contient un titre, un sélecteur de catégorie en « chips », un lieu et un prix.
+La catégorie est choisie parmi les cinq valeurs autorisées par la contrainte SQL.</p>
+<pre><code class="language-javascript">const CATEGORIES = [&quot;concert&quot;, &quot;expo&quot;, &quot;conference&quot;, &quot;atelier&quot;, &quot;soutenance&quot;];
+
+const soumettre = async () =&gt; {
+  setErreur(null);
+
+  if (titre.trim().length &lt; 3) {
+    setErreur(&quot;Le titre doit faire au moins 3 caracteres.&quot;);
+    return;
+  }
+  if (!session) {
+    setErreur(&quot;Vous devez etre connecte.&quot;);
+    return;
+  }
+
+  setEnCours(true);
+  try {
+    await creerEvenement({
+      titre: titre.trim(),
+      categorie,
+      lieu_nom: lieu.trim(),
+      date_debut: new Date().toISOString(),
+      prix: Number(prix) || 0,
+      organisateur_id: session.user.id,
+    });
+    router.back(); // retour a la liste
+  } catch (e) {
+    setErreur(e.message);
+  } finally {
+    setEnCours(false);
+  }
+};
+</code></pre>
+<p>Le sélecteur de catégorie utilise des <code>Pressable</code> et un style conditionnel :</p>
+<pre><code class="language-javascript">&lt;Pressable
+  key={c}
+  style={[styles.chip, categorie === c &amp;&amp; styles.chipActif]}
+  onPress={() =&gt; setCategorie(c)}
+&gt;
+  &lt;Text style={categorie === c ? styles.chipTexteActif : styles.chipTexte}&gt;
+    {c}
+  &lt;/Text&gt;
+&lt;/Pressable&gt;
+</code></pre>
+<p>C'est l'équivalent React Native d'une classe CSS conditionnelle :
+<code>[style1, condition &amp;&amp; style2]</code>.</p>
+<p><strong>Capture 5 — Écran de création vide.</strong></p>
+<figure><img src="captures/05-nouvel-evenement-vide.png" alt="Écran Nouvel événement vide"><figcaption>Écran Nouvel événement vide</figcaption></figure>
+<p><strong>Capture 6 — Formulaire rempli, catégorie « concert » sélectionnée.</strong></p>
+<figure><img src="captures/06-nouvel-evenement-rempli.png" alt="Formulaire de création rempli"><figcaption>Formulaire de création rempli</figcaption></figure>
+<h3 id="63-rafraichir-la-liste-au-retour-usefocuseffect">6.3 Rafraîchir la liste au retour : <code>useFocusEffect</code></h3>
+<p><code>useEffect(fn, [])</code> ne s'exécute qu'au montage. Sur mobile, un écran n'est pas démonté quand
+on le quitte : il reste en mémoire. Au retour depuis l'écran de création, <code>useEffect</code> ne
+relance donc pas le chargement. <code>useFocusEffect</code> exécute le code à chaque fois que l'écran
+redevient visible.</p>
+<pre><code class="language-javascript">import { useState, useCallback } from &quot;react&quot;;
+import { useFocusEffect } from &quot;expo-router&quot;;
+
+useFocusEffect(
+  useCallback(() =&gt; {
+    const charger = async () =&gt; {
+      try {
+        const data = await getEvenements();
+        setEvenements(data);
+      } catch (e) {
+        setErreur(e.message);
+      } finally {
+        setChargement(false);
+      }
+    };
+    charger();
+  }, [])
+);
+</code></pre>
+<p>La fonction est enveloppée dans <code>useCallback</code> pour ne pas être recréée à chaque rendu.</p>
+<p><strong>Capture 7 — Retour à la liste : l'événement créé sur le mobile est présent.</strong></p>
+<figure><img src="captures/07-liste-rafraichie.png" alt="Liste rafraîchie avec le nouvel événement"><figcaption>Liste rafraîchie avec le nouvel événement</figcaption></figure>
+<p>L'événement créé s'intitule <strong>« Concert test mobile Lab 10 »</strong>, catégorie <code>concert</code>,
+lieu « Grand Theatre National », prix 5 000 FCFA. Il est enregistré dans la table
+<code>evenements</code> de Supabase et apparaît aussi côté web (voir §9).</p>
+<hr />
+<h2 id="7-etape-4-sinscrire-a-un-evenement">7. Étape 4 — S'inscrire à un événement</h2>
+<h3 id="71-le-composant-boutoninscription">7.1 Le composant <code>BoutonInscription</code></h3>
+<p>Le composant vérifie d'abord si l'utilisateur est déjà inscrit, puis bascule entre
+<code>inscrire</code> et <code>desinscrire</code>. Sans session, il invite à se connecter.</p>
+<pre><code class="language-javascript">export default function BoutonInscription({ evenementId }) {
+  const { session } = useAuth();
+  const [inscrit, setInscrit] = useState(false);
+  const [chargement, setChargement] = useState(true);
+
+  useEffect(() =&gt; {
+    const verifier = async () =&gt; {
+      if (!session) {
+        setChargement(false);
+        return;
+      }
+      const resultat = await estInscrit(evenementId, session.user.id);
+      setInscrit(resultat);
+      setChargement(false);
+    };
+    verifier();
+  }, [evenementId, session]);
+
+  if (!session) {
+    return (
+      &lt;Text style={styles.info}&gt;
+        Connectez-vous (onglet Profil) pour vous inscrire.
+      &lt;/Text&gt;
+    );
+  }
+
+  if (chargement) {
+    return &lt;ActivityIndicator color=&quot;#1a3a5c&quot; style={styles.marge} /&gt;;
+  }
+
+  const basculer = async () =&gt; {
+    if (inscrit) {
+      await desinscrire(evenementId, session.user.id);
+      setInscrit(false);
+    } else {
+      await inscrire(evenementId, session.user.id);
+      setInscrit(true);
+    }
+  };
+
+  return (
+    &lt;Pressable
+      style={[styles.bouton, inscrit ? styles.desinscrire : styles.inscrire]}
+      onPress={basculer}
+    &gt;
+      &lt;Text style={styles.texte}&gt;
+        {inscrit ? &quot;Se desinscrire&quot; : &quot;S'inscrire a cet evenement&quot;}
+      &lt;/Text&gt;
+    &lt;/Pressable&gt;
+  );
+}
+</code></pre>
+<h3 id="72-integration-dans-lecran-de-detail">7.2 Intégration dans l'écran de détail</h3>
+<pre><code class="language-javascript">import BoutonInscription from &quot;../../components/BoutonInscription&quot;;
+
+// ... apres le bloc Prix :
+&lt;BoutonInscription evenementId={evenement.id} /&gt;
+</code></pre>
+<p><strong>Capture 8 — Détail de l'événement avant inscription.</strong></p>
+<figure><img src="captures/08-detail-avant-inscription.png" alt="Détail avant inscription"><figcaption>Détail avant inscription</figcaption></figure>
+<p><strong>Capture 9 — Après l'inscription : le bouton devient « Se désinscrire ».</strong></p>
+<figure><img src="captures/09-detail-inscrit.png" alt="Détail après inscription"><figcaption>Détail après inscription</figcaption></figure>
+<p>Côté base, une ligne a été insérée dans <code>inscriptions</code> :</p>
+<pre><code class="language-json">[
+  {
+    &quot;id&quot;: 21,
+    &quot;evenement_id&quot;: 13,
+    &quot;utilisateur_id&quot;: &quot;3571e1ac-0536-4a49-a869-cc09efe054cd&quot;,
+    &quot;created_at&quot;: &quot;2026-11-08T13:12:06.415744+00:00&quot;
+  }
+]
+</code></pre>
+<hr />
+<h2 id="8-bonus-mes-inscriptions-dans-le-profil">8. Bonus — « Mes inscriptions » dans le profil</h2>
+<p>Le bonus du lab consiste à afficher, dans le profil connecté, la liste des événements
+auxquels l'utilisateur s'est inscrit.</p>
+<h3 id="81-fonction-partagee">8.1 Fonction partagée</h3>
+<pre><code class="language-typescript">// packages/shared/src/inscriptions.ts
+export async function mesInscriptions(utilisateurId: string): Promise&lt;any[]&gt; {
+  const { data, error } = await getSupabase()
+    .from(&quot;inscriptions&quot;)
+    .select(&quot;evenement_id, evenements(titre, date_debut)&quot;)
+    .eq(&quot;utilisateur_id&quot;, utilisateurId);
+
+  if (error) throw error;
+  return data ?? [];
+}
+</code></pre>
+<p>La fonction est automatiquement disponible pour le web grâce au <code>export * from
+"./inscriptions"</code> de <code>index.ts</code>. Une fonction, deux clients.</p>
+<h3 id="82-affichage-dans-le-profil">8.2 Affichage dans le profil</h3>
+<p>Le chargement est fait dans un <code>useFocusEffect</code> pour rafraîchir la liste quand on revient
+sur l'onglet après une inscription :</p>
+<pre><code class="language-javascript">useFocusEffect(
+  useCallback(() =&gt; {
+    if (!session) {
+      setInscriptions([]);
+      return;
+    }
+    mesInscriptions(session.user.id)
+      .then(setInscriptions)
+      .catch(() =&gt; setInscriptions([]));
+  }, [session])
+);
+</code></pre>
+<p><strong>Capture 10 — Le profil connecté affiche « Mes inscriptions » avec l'événement rejoint.</strong></p>
+<figure><img src="captures/10-profil-mes-inscriptions.png" alt="Profil avec mes inscriptions"><figcaption>Profil avec mes inscriptions</figcaption></figure>
+<hr />
+<h2 id="9-preuve-de-larchitecture-deux-clients-une-seule-base">9. Preuve de l'architecture : deux clients, une seule base</h2>
+<h3 id="91-preuve-cote-supabase">9.1 Preuve côté Supabase</h3>
+<p>La capture suivante est produite à partir de l'API REST Supabase, avec la clé publique du
+projet. Elle montre l'événement créé sur le mobile (id 13) et la ligne d'inscription
+correspondante (id 21), dans les tables <code>evenements</code> et <code>inscriptions</code>.</p>
+<p><strong>Capture 11 — Événement et inscription lus dans la même base Supabase.</strong></p>
+<figure><img src="captures/11-preuve-supabase.png" alt="Preuve Supabase"><figcaption>Preuve Supabase</figcaption></figure>
+<h3 id="92-demo-croisee-le-web-voit-ce-que-le-mobile-a-cree">9.2 Démo croisée : le web voit ce que le mobile a créé</h3>
+<p>L'application web a été lancée sur <code>http://127.0.0.1:5173</code> et lit la même base. Sans même
+se reconnecter, la liste web affiche l'événement <strong>« Concert test mobile Lab 10 »</strong> créé
+depuis le mobile.</p>
+<p><strong>Capture 12 — L'application web affiche l'événement créé sur le mobile.</strong></p>
+<figure><img src="captures/12-web-voit-evenement-mobile.png" alt="Le web voit l'événement mobile"><figcaption>Le web voit l'événement mobile</figcaption></figure>
+<p>Après connexion sur le web avec le <strong>même compte</strong> (<code>amina.lab10@senevent.sn</code>), la page de
+détail affiche <strong>« Se désinscrire »</strong> : l'inscription faite sur le mobile est bien visible
+côté web.</p>
+<p><strong>Capture 13 — L'inscription faite sur le mobile est visible sur le web.</strong></p>
+<figure><img src="captures/13-web-inscription-visible.png" alt="Le web voit l'inscription mobile"><figcaption>Le web voit l'inscription mobile</figcaption></figure>
+<h3 id="93-verification-de-larchitecture">9.3 Vérification de l'architecture</h3>
+<p>Aucun appel Supabase direct n'a été ajouté dans <code>apps/mobile</code> :</p>
+<pre><code class="language-bash">$ grep -rc &quot;supabase\.from\|createClient&quot; apps/mobile
+0
+</code></pre>
+<p>Tous les appels passent par <code>@senevent/shared</code> :</p>
+<pre><code class="language-bash">$ grep -rl &quot;creerEvenement\|inscrire\|seConnecter&quot; apps/mobile
+apps/mobile/app/(tabs)/profil.js
+apps/mobile/app/nouveau.js
+apps/mobile/components/BoutonInscription.js
+</code></pre>
+<p>C'est exactement la promesse du monorepo : <strong>le mobile n'a réécrit aucune logique métier</strong>,
+il a importé les mêmes fonctions et construit une interface native par-dessus.</p>
+<hr />
+<h2 id="10-verifications-et-checklist">10. Vérifications et checklist</h2>
+<table>
+<thead>
+<tr>
+<th>Point de la checklist</th>
+<th>État</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>context/AuthContext.js</code> expose <code>AuthProvider</code> et <code>useAuth</code></td>
+<td>✓</td>
+</tr>
+<tr>
+<td><code>app/_layout.js</code> enveloppe le <code>Stack</code> dans <code>AuthProvider</code></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>L'onglet Profil montre le formulaire (déconnecté) ou l'email + déconnexion (connecté)</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Le formulaire utilise <code>TextInput</code> et <code>KeyboardAvoidingView</code></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>La connexion / inscription passe par <code>seConnecter</code> / <code>sInscrire</code></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Un bouton « + » apparaît dans l'en-tête, seulement si connecté</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>L'écran <code>nouveau.js</code> crée un événement via <code>creerEvenement</code></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>La liste se rafraîchit au retour grâce à <code>useFocusEffect</code></td>
+<td>✓</td>
+</tr>
+<tr>
+<td>L'écran de détail a un <code>BoutonInscription</code> (<code>inscrire</code> / <code>desinscrire</code>)</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>Aucun appel Supabase direct dans <code>apps/mobile</code></td>
+<td>✓ (0)</td>
+</tr>
+<tr>
+<td>Au moins trois commits dans l'historique du lab</td>
+<td>✓ (5 commits Lab 10)</td>
+</tr>
+<tr>
+<td>Le tag <code>v0.10-mobile-crud</code> est posé sur <code>main</code></td>
+<td>✓</td>
+</tr>
+</tbody>
+</table>
+<p>Commandes de vérification côté enseignant :</p>
+<pre><code class="language-bash">$ git shortlog -sne v0.9-router..v0.10-mobile-crud
+     6  Aminata Diouf &lt;aminata21diouf@gmail.com&gt;
+
+$ git log v0.9-router..v0.10-mobile-crud --oneline
+c0f07bb bouton d'inscription a un evenement sur mobile
+c261742 creation d'evenement mobile + bouton header + refresh au focus
+515b6d1 ecran Profil : connexion, inscription, deconnexion mobile (+ bonus mes inscriptions)
+63378fc contexte d'authentification (AuthProvider + useAuth)
+9222d6c chore: ajoute le support web pour tester l'app dans le navigateur
+bc24efe bonus : navigation par code avec useRouter (bouton retour a la liste)
+
+$ test -f apps/mobile/context/AuthContext.js &amp;&amp; echo OK || echo MANQUE
+OK
+</code></pre>
+<p>L'intervalle <code>v0.9-router..v0.10-mobile-crud</code> contient 6 commits : les 5 commits du Lab 10,
+plus <code>bc24efe</code> (bonus de navigation du Lab 9, posé après le tag <code>v0.9-router</code>).</p>
+<hr />
+<h2 id="11-git-et-tag-de-fin-de-lab">11. Git et tag de fin de lab</h2>
+<h3 id="111-commits">11.1 Commits</h3>
+<table>
+<thead>
+<tr>
+<th>Commit</th>
+<th>Message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>9222d6c</code></td>
+<td><code>chore: ajoute le support web pour tester l'app dans le navigateur</code></td>
+</tr>
+<tr>
+<td><code>63378fc</code></td>
+<td><code>contexte d'authentification (AuthProvider + useAuth)</code></td>
+</tr>
+<tr>
+<td><code>515b6d1</code></td>
+<td><code>ecran Profil : connexion, inscription, deconnexion mobile (+ bonus mes inscriptions)</code></td>
+</tr>
+<tr>
+<td><code>c261742</code></td>
+<td><code>creation d'evenement mobile + bouton header + refresh au focus</code></td>
+</tr>
+<tr>
+<td><code>c0f07bb</code></td>
+<td><code>bouton d'inscription a un evenement sur mobile</code></td>
+</tr>
+<tr>
+<td><code>e334088</code></td>
+<td><code>Merge Lab 10 : auth et CRUD complet mobile</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="112-tag">11.2 Tag</h3>
+<pre><code class="language-bash">git checkout main
+git merge --no-ff feature/lab10-mobile-crud
+git tag -a v0.10-mobile-crud -m &quot;Lab 10 termine : auth et CRUD complet mobile&quot;
+</code></pre>
+<p>Le tag <code>v0.10-mobile-crud</code> est posé sur <code>main</code> au commit de merge <code>e334088</code>.</p>
+<h3 id="113-publication">11.3 Publication</h3>
+<pre><code class="language-bash">git push origin main
+git push origin v0.10-mobile-crud
+</code></pre>
+<hr />
+<h2 id="12-conclusion">12. Conclusion</h2>
+<p>Le Lab 10 complète la partie mobile du projet SenEvent. L'application sait désormais :</p>
+<ul>
+<li>se connecter et créer un compte depuis l'onglet Profil ;</li>
+<li>créer un événement depuis le bouton « + » de l'en-tête ;</li>
+<li>s'inscrire et se désinscrire d'un événement depuis l'écran de détail ;</li>
+<li>afficher « Mes inscriptions » dans le profil (bonus).</li>
+</ul>
+<p>Toutes ces actions passent par <code>@senevent/shared</code>, sans aucun appel Supabase direct dans
+<code>apps/mobile</code>. La démonstration croisée le confirme : un événement créé sur le mobile est
+visible sur le web, et une inscription faite sur le mobile est visible sur le web. Les deux
+clients font la même chose, sur la même base, avec une seule logique métier.</p>
+<p><strong>Tag posé :</strong> <code>v0.10-mobile-crud</code>.</p>
+<hr />
+<h2 id="annexes">Annexes</h2>
+<h3 id="a-structure-finale-de-appsmobile">A. Structure finale de <code>apps/mobile</code></h3>
+<pre><code class="language-text">apps/mobile/
+├── app/
+│   ├── _layout.js              # Stack + AuthProvider + initSupabase
+│   ├── nouveau.js              # ecran de creation d'evenement
+│   ├── (tabs)/
+│   │   ├── _layout.js          # Tabs + bouton &quot;+&quot; (headerRight)
+│   │   ├── index.js            # liste (useFocusEffect)
+│   │   └── profil.js           # connexion / inscription / deconnexion + bonus
+│   └── evenement/
+│       └── [id].js             # detail + BoutonInscription
+├── components/
+│   ├── EvenementCarte.js       # carte cliquable
+│   └── BoutonInscription.js    # inscription a un evenement
+├── context/
+│   └── AuthContext.js          # AuthProvider + useAuth
+├── metro.config.js
+├── app.json
+└── package.json
+</code></pre>
+<h3 id="b-lancer-le-projet">B. Lancer le projet</h3>
+<pre><code class="language-bash"># Mobile (Expo Go ou navigateur)
+cd apps/mobile
+npx expo start
+# ou, pour le rendu navigateur :
+npx expo start --web --port 8081
+
+# Web (Vite)
+cd apps/web
+npm run dev
+</code></pre>
+<h3 id="c-compte-de-demonstration">C. Compte de démonstration</h3>
+<table>
+<thead>
+<tr>
+<th>Champ</th>
+<th>Valeur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Email</td>
+<td><code>amina.lab10@senevent.sn</code></td>
+</tr>
+<tr>
+<td>Mot de passe</td>
+<td><code>Lab10Senevent!</code></td>
+</tr>
+<tr>
+<td>Événement créé</td>
+<td>« Concert test mobile Lab 10 » (id 13)</td>
+</tr>
+<tr>
+<td>Inscription</td>
+<td>id 21, sur l'événement 13</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d-remarques">D. Remarques</h3>
+<ul>
+<li>Le support web (<code>react-native-web</code>, <code>react-dom</code>, <code>@expo/metro-runtime</code>) a été ajouté
+  uniquement pour exécuter l'application dans un navigateur et produire les captures. Le
+  code applicatif reste du React Native standard.</li>
+<li>La fonction <code>creerProfil</code> a été ajoutée au package partagé pour créer la ligne <code>profiles</code>
+  attendue par la clé étrangère <code>evenements.organisateur_id</code>. Sans elle, un compte créé
+  depuis le mobile ne pourrait pas créer d'événement.</li>
+<li>Le bonus « Mes inscriptions » est implémenté dans <code>profil.js</code> avec <code>mesInscriptions</code>,
+  ajouté au package partagé et donc également disponible pour le web.</li>
+</ul></body></html>
