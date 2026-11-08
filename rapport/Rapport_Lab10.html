@@ -38,46 +38,79 @@ blockquote p { margin: 0; }
 hr { border: none; border-top: 1px solid #d8e0e8; margin: 18px 0; }
 a { color: #1a3a5c; }
 strong { color: #12283d; }
+
+/* Page de garde */
+.cover {
+  height: 258mm; display: flex; flex-direction: column;
+  justify-content: space-between; text-align: center;
+  page-break-after: always; break-after: page;
+}
+.cover-top { padding-top: 4mm; }
+.cover .badge {
+  width: 27mm; height: 27mm; border: 2.5px solid #1a3a5c; border-radius: 50%;
+  margin: 0 auto 7mm; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 12pt; letter-spacing: 0.5px; color: #1a3a5c;
+}
+.cover .univ { font-size: 15pt; font-weight: 600; color: #1a3a5c; line-height: 1.3; }
+.cover .master {
+  font-size: 11pt; color: #5b6b7c; margin-top: 3mm;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+.cover .module {
+  font-size: 10pt; color: #5b6b7c; text-transform: uppercase; letter-spacing: 1.4px;
+}
+.cover .rule { width: 42mm; height: 3px; background: #ea7d2b; margin: 8mm auto; }
+.cover h1.cover-title {
+  font-size: 31pt; margin: 0; color: #1a3a5c; line-height: 1.1;
+}
+.cover .cover-sub { font-size: 15.5pt; color: #2c4a68; margin-top: 5mm; font-weight: 500; }
+.cover .cover-tag { font-size: 9.5pt; color: #6b7a8c; margin-top: 6mm; }
+.cover .label {
+  font-size: 8.5pt; text-transform: uppercase; letter-spacing: 2px; color: #8a97a5;
+}
+.cover .name { font-size: 21pt; font-weight: 700; color: #1a3a5c; margin: 2mm 0 1.5mm; }
+.cover .role { font-size: 11pt; color: #5b6b7c; }
+.cover-meta {
+  width: 80%; margin: 9mm auto 0; font-size: 9.5pt;
+  border-top: 1px solid #e3e9ef; border-bottom: 1px solid #e3e9ef;
+}
+.cover-meta td {
+  border: none; border-bottom: 1px solid #eef2f6;
+  padding: 2.4mm 2mm; text-align: left; background: transparent;
+}
+.cover-meta tr:last-child td { border-bottom: none; }
+.cover-meta td:first-child { width: 38%; color: #6b7a8c; }
+.cover-meta tr:nth-child(even) td { background: transparent; }
+.cover-foot {
+  font-size: 9pt; color: #8a97a5; border-top: 1px solid #e3e9ef; padding-top: 4mm;
+}
 </style></head>
-<body><h1 id="rapport-lab-10">Rapport — Lab 10</h1>
-<h2 id="auth-et-catalogue-complet-cote-mobile">Auth et catalogue complet côté mobile</h2>
-<p><strong>DAWM — Développement d'Applications Web &amp; Mobile</strong>
-<strong>Master 1 RETEL — 2025-2026</strong></p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Auteure</strong></td>
-<td>Aminata Diouf</td>
-</tr>
-<tr>
-<td><strong>Date</strong></td>
-<td>8 novembre 2026</td>
-</tr>
-<tr>
-<td><strong>Dépôt</strong></td>
-<td><code>senevent</code></td>
-</tr>
-<tr>
-<td><strong>Branche du lab</strong></td>
-<td><code>feature/lab10-mobile-crud</code></td>
-</tr>
-<tr>
-<td><strong>Tag de sortie</strong></td>
-<td><code>v0.10-mobile-crud</code></td>
-</tr>
-<tr>
-<td><strong>Application</strong></td>
-<td><code>apps/mobile</code> (Expo / React Native)</td>
-</tr>
-</tbody>
-</table>
-<hr />
+<body>
+<section class="cover">
+  <div class="cover-top">
+    <div class="badge">UCAD</div>
+    <div class="univ">Université Cheikh Anta Diop de Dakar</div>
+    <div class="master">Master 1 RETEL</div>
+  </div>
+  <div class="cover-middle">
+    <div class="module">DAWM — Développement d'Applications Web &amp; Mobile</div>
+    <div class="rule"></div>
+    <h1 class="cover-title">Rapport — Lab 10</h1>
+    <div class="cover-sub">Auth et catalogue complet côté mobile</div>
+    <div class="cover-tag">Expo / React Native · @senevent/shared · Supabase</div>
+  </div>
+  <div class="cover-author">
+    <div class="label">Présenté par</div>
+    <div class="name">Aminata Diouf</div>
+    <div class="role">Étudiante en Master 1 RETEL — UCAD</div>
+  </div>
+  <table class="cover-meta"><tr><td>Date</td><td>8 novembre 2026</td></tr>
+<tr><td>Dépôt</td><td>senevent</td></tr>
+<tr><td>Branche du lab</td><td>feature/lab10-mobile-crud</td></tr>
+<tr><td>Tag de sortie</td><td>v0.10-mobile-crud</td></tr>
+<tr><td>Application</td><td>apps/mobile (Expo / React Native)</td></tr></table>
+  <div class="cover-foot">Année universitaire 2025-2026</div>
+</section>
 <h2 id="resume">Résumé</h2>
 <p>Ce lab est le dernier volet mobile du projet <strong>SenEvent</strong>. L'application mobile savait
 naviguer et afficher les événements, mais elle était en lecture seule. Le Lab 10 lui ajoute

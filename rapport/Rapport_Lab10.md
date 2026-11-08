@@ -1,12 +1,14 @@
 # Rapport — Lab 10
 ## Auth et catalogue complet côté mobile
 
-**DAWM — Développement d'Applications Web & Mobile**
-**Master 1 RETEL — 2025-2026**
+**Aminata Diouf — Étudiante en Master 1 RETEL, UCAD**
+**DAWM — Développement d'Applications Web & Mobile — 2025-2026**
 
 | | |
 |---|---|
 | **Auteure** | Aminata Diouf |
+| **Université** | Université Cheikh Anta Diop de Dakar (UCAD) |
+| **Formation** | Master 1 RETEL |
 | **Date** | 8 novembre 2026 |
 | **Dépôt** | `senevent` |
 | **Branche du lab** | `feature/lab10-mobile-crud` |
