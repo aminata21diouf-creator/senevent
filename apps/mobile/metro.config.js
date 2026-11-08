@@ -7,8 +7,11 @@ const monorepoRoot = path.resolve(projectRoot, "../..");
 
 const config = getDefaultConfig(projectRoot);
 
-// 1. Surveiller tout le monorepo (pour voir packages/shared)
-config.watchFolders = [monorepoRoot];
+// 1. Surveiller tout le monorepo (pour voir packages/shared), sans ecraser
+//    les dossiers surveilles par defaut d'Expo.
+config.watchFolders = Array.from(
+  new Set([...(config.watchFolders || []), monorepoRoot])
+);
 
 // 2. Chercher les modules dans les deux node_modules
 config.resolver.nodeModulesPaths = [
